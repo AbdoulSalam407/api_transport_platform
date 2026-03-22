@@ -2,24 +2,24 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
-class Utilisateur(AbstractUser):
+class CustomUser(AbstractUser):
     """Modèle de base pour tous les utilisateurs"""
     
     # Attributs du diagramme
     nom = models.CharField(max_length=150)
-    p
+    prenom = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
-    mot_de_passe = models.CharField(max_length=128)  # Hérité de AbstractUser
     role = models.CharField(max_length=20, choices=[
         ('passager', 'Passager'),
         ('transporteur', 'Transporteur'),
         ('admin', 'Administrateur'),
     ])
+    is_verified = models.BooleanField(default=False)    
     
     # Informations supplémentaires
     telephone = models.CharField(max_length=15, blank=True)
     date_inscription = models.DateTimeField(auto_now_add=True)
-    est_actif = models.BooleanField(default=True)
+    is_actif = models.BooleanField(default=True)
     
     # Résolution des conflits avec auth.User
     groups = models.ManyToManyField(
@@ -38,7 +38,7 @@ class Utilisateur(AbstractUser):
     )
     
     def __str__(self):
-        return f"{self.nom} - {self.role}"
+        return f"{self.nom} {self.prenom} - {self.role}"
     
     def seConnecter(self):
         """Méthode de connexion"""
@@ -60,7 +60,7 @@ class Passager(models.Model):
     """Modèle pour les passagers"""
     
     utilisateur = models.OneToOneField(
-        Utilisateur, 
+        CustomUser , 
         on_delete=models.CASCADE, 
         primary_key=True,
         related_name='passager_profile'
@@ -123,7 +123,7 @@ class Administrateur(models.Model):
     """Modèle pour les administrateurs"""
     
     utilisateur = models.OneToOneField(
-        Utilisateur, 
+        CustomUser , 
         on_delete=models.CASCADE, 
         primary_key=True,
         related_name='admin_profile'
@@ -137,7 +137,7 @@ class Administrateur(models.Model):
     def gererUtilisateur(self, utilisateur_id, action, **kwargs):
         """Gérer un utilisateur (activer/désactiver/modifier)"""
         try:
-            user = Utilisateur.objects.get(id=utilisateur_id)
+            user = CustomUser.objects.get(id=utilisateur_id)
             if action == 'desactiver':
                 user.est_actif = False
             elif action == 'activer':
@@ -147,7 +147,7 @@ class Administrateur(models.Model):
                     setattr(user, key, value)
             user.save()
             return True
-        except Utilisateur.DoesNotExist:
+        except CustomUser.DoesNotExist:
             return False
     
     def validerTransporteur(self, transporteur_id):
@@ -185,28 +185,28 @@ class Administrateur(models.Model):
     
     def ajouterUtilisateur(self, user_data):
         """Ajouter un nouvel utilisateur"""
-        user = Utilisateur.objects.create_user(**user_data)
+        user = CustomUser.objects.create_user(**user_data)
         return user
     
     def supprimerUtilisateur(self, utilisateur_id):
         """Supprimer un utilisateur"""
         try:
-            Utilisateur.objects.get(id=utilisateur_id).delete()
+            CustomUser.objects.get(id=utilisateur_id).delete()
             return True
-        except Utilisateur.DoesNotExist:
+        except CustomUser.DoesNotExist:
             return False
     
     def verifierUtilisateur(self, utilisateur_id):
         """Vérifier les informations d'un utilisateur"""
         try:
-            user = Utilisateur.objects.get(id=utilisateur_id)
+            user = CustomUser.objects.get(id=utilisateur_id)
             return {
                 'existe': True,
                 'actif': user.est_actif,
                 'role': user.role,
                 'email_verifie': user.email.endswith('.com')  # Simplifié
             }
-        except Utilisateur.DoesNotExist:
+        except CustomUser.DoesNotExist:
             return {'existe': False}
 
 
@@ -214,7 +214,7 @@ class Transporteur(models.Model):
     """Modèle pour les transporteurs"""
     
     utilisateur = models.OneToOneField(
-        Utilisateur, 
+        CustomUser, 
         on_delete=models.CASCADE, 
         primary_key=True,
         related_name='transporteur_profile'
@@ -278,23 +278,6 @@ class Transporteur(models.Model):
             )
         return True
     
-    def activerGPS(self, trajet_id):
-        """Activer le suivi GPS pour un trajet"""
-        from gps.models import SuiviGPS
-        suivi = SuiviGPS.objects.create(
-            trajet_id=trajet_id,
-            actif=True
-        )
-        return suivi
-    
-    def superviserTrajet(self, trajet_id):
-        """Superviser un trajet en cours"""
-        from gps.models import SuiviGPS
-        try:
-            suivi = SuiviGPS.objects.get(trajet_id=trajet_id, actif=True)
-            return suivi.obtenirPosition()
-        except SuiviGPS.DoesNotExist:
-            return None
     def ajouterVehicule(self, vehicule_data):
         """Ajouter un nouveau véhicule"""
         from vehicules.models import Vehicule
@@ -302,10 +285,11 @@ class Transporteur(models.Model):
         vehicule = Vehicule.objects.create(**vehicule_data)
         return vehicule
     
+    
     def listerVehicules(self):
         """Lister tous les véhicules du transporteur"""
         return self.vehicules.all()
     
     def getVehiculeActif(self):
         """Obtenir le véhicule actuellement utilisé"""
-        return self.vehicules.filter(disponible=True, en_maintenance=False).first()    
+        return self.vehicules.filter(disponible=True, en_maintenance=False).first() 
