@@ -150,3 +150,31 @@ INFO 2026-03-23 23:57:52,569 log 10816 2812 "GET /static/admin/css/login.css HTT
 INFO 2026-03-23 23:57:52,570 log 10816 14120 "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
 INFO 2026-03-23 23:57:52,571 log 10816 22652 "GET /static/admin/js/theme.js HTTP/1.1" 304 0
 INFO 2026-03-23 23:57:52,578 log 10816 22652 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2026-03-24 01:50:17,621 autoreload 4644 22756 Watching for file changes with StatReloader
+WARNING 2026-03-24 01:51:08,940 log 4644 21708 Not Found: /
+WARNING 2026-03-24 01:51:08,943 log 4644 21708 "GET / HTTP/1.1" 404 2633
+INFO 2026-03-24 01:51:15,902 log 4644 21708 "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-03-24 01:51:15,976 log 4644 21708 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4082
+WARNING 2026-03-24 01:51:31,769 log 4644 21708 Forbidden: /api/v1/vehicules/
+WARNING 2026-03-24 01:51:31,770 log 4644 21708 "GET /api/v1/vehicules/ HTTP/1.1" 403 5052
+WARNING 2026-03-24 01:51:51,356 log 4644 21708 Forbidden: /api/v1/users/
+WARNING 2026-03-24 01:51:51,356 log 4644 21708 "GET /api/v1/users/ HTTP/1.1" 403 5034
+WARNING 2026-03-24 01:52:21,116 log 4644 21708 Forbidden: /api/v1/trajets/
+WARNING 2026-03-24 01:52:21,117 log 4644 21708 "GET /api/v1/trajets/ HTTP/1.1" 403 5040
+INFO 2026-03-24 01:59:23,632 autoreload 22184 19076 Watching for file changes with StatReloader
+INFO 2026-03-24 02:18:46,625 autoreload 7988 20980 Watching for file changes with StatReloader
+WARNING 2026-03-24 02:19:18,704 log 7988 22188 Not Found: /
+WARNING 2026-03-24 02:19:18,710 log 7988 22188 "GET / HTTP/1.1" 404 2633
+INFO 2026-03-24 02:19:27,923 log 7988 22188 "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-03-24 02:19:27,963 log 7988 22188 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4082
+INFO 2026-03-24 02:19:39,021 log 7988 22188 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 4270
+INFO 2026-03-24 02:20:05,638 log 7988 22188 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2026-03-24 02:20:05,707 log 7988 22188 "GET /admin/ HTTP/1.1" 200 17199
+INFO 2026-03-24 02:20:05,851 log 7988 22188 "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2026-03-24 02:20:05,886 log 7988 23112 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 978
+INFO 2026-03-24 02:20:05,887 log 7988 22188 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 593
+WARNING 2026-03-24 02:21:54,125 log 7988 22188 Not Found: /pasager/
+WARNING 2026-03-24 02:21:54,129 log 7988 22188 "GET /pasager/ HTTP/1.1" 404 2675
+INFO 2026-03-24 02:22:10,744 log 7988 22188 "GET /api/v1/users/ HTTP/1.1" 200 10570
+INFO 2026-03-24 02:22:10,832 log 7988 22188 "GET /static/rest_framework/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 200 18028
+INFO 2026-03-24 02:22:36,538 log 7988 22188 "GET /api/v1/trajets/ HTTP/1.1" 200 6126
