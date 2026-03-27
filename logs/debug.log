@@ -178,3 +178,528 @@ WARNING 2026-03-24 02:21:54,129 log 7988 22188 "GET /pasager/ HTTP/1.1" 404 2675
 INFO 2026-03-24 02:22:10,744 log 7988 22188 "GET /api/v1/users/ HTTP/1.1" 200 10570
 INFO 2026-03-24 02:22:10,832 log 7988 22188 "GET /static/rest_framework/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 200 18028
 INFO 2026-03-24 02:22:36,538 log 7988 22188 "GET /api/v1/trajets/ HTTP/1.1" 200 6126
+INFO 2026-03-25 09:33:58,790 autoreload 13396 1400 Watching for file changes with StatReloader
+INFO 2026-03-25 09:34:14,476 log 13396 20240 "GET /api/v1/trajets/ HTTP/1.1" 200 6126
+INFO 2026-03-25 09:34:15,565 log 13396 9384 "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2026-03-25 09:34:15,577 log 13396 5472 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2026-03-25 09:34:15,708 log 13396 9384 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2026-03-25 09:34:15,770 log 13396 5472 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2026-03-25 09:34:15,818 log 13396 17824 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2026-03-25 09:34:15,839 log 13396 5472 "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2026-03-25 09:34:15,886 log 13396 20240 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2026-03-25 09:34:15,888 log 13396 17824 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2026-03-25 09:34:15,975 log 13396 17824 "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2026-03-25 09:34:16,042 log 13396 21044 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2026-03-25 09:34:16,051 log 13396 9384 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2026-03-25 09:34:16,211 log 13396 14940 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+WARNING 2026-03-25 09:34:16,498 log 13396 14940 Not Found: /favicon.ico
+WARNING 2026-03-25 09:34:16,499 log 13396 14940 "GET /favicon.ico HTTP/1.1" 404 2684
+WARNING 2026-03-25 09:34:20,332 log 13396 14940 Not Found: /
+WARNING 2026-03-25 09:34:20,350 log 13396 14940 "GET / HTTP/1.1" 404 2633
+INFO 2026-03-25 09:34:26,657 log 13396 14940 "GET /admin/ HTTP/1.1" 200 17199
+INFO 2026-03-25 09:34:26,799 log 13396 21044 "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2026-03-25 09:34:26,820 log 13396 9384 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 3538
+INFO 2026-03-25 09:34:26,821 log 13396 20240 "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2026-03-25 09:34:26,832 log 13396 14940 "GET /static/admin/css/base.css HTTP/1.1" 200 23100
+INFO 2026-03-25 09:34:26,840 log 13396 17824 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2026-03-25 09:34:26,847 log 13396 5472 "GET /static/admin/css/responsive.css HTTP/1.1" 200 16273
+INFO 2026-03-25 09:34:26,904 log 13396 17824 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 978
+INFO 2026-03-25 09:34:26,914 log 13396 14940 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2026-03-25 09:34:26,927 log 13396 5472 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 593
+WARNING 2026-03-25 09:35:08,044 log 13396 5472 Not Found: /passager
+WARNING 2026-03-25 09:35:08,053 log 13396 5472 "GET /passager HTTP/1.1" 404 2675
+WARNING 2026-03-25 09:35:26,707 log 13396 5472 Not Found: /vehicules
+WARNING 2026-03-25 09:35:26,714 log 13396 5472 "GET /vehicules HTTP/1.1" 404 2678
+WARNING 2026-03-25 09:35:36,368 log 13396 5472 Not Found: /vehicules/
+WARNING 2026-03-25 09:35:36,370 log 13396 5472 "GET /vehicules/ HTTP/1.1" 404 2681
+WARNING 2026-03-25 09:35:46,569 log 13396 5472 Not Found: /reservations/
+WARNING 2026-03-25 09:35:46,578 log 13396 5472 "GET /reservations/ HTTP/1.1" 404 2690
+WARNING 2026-03-25 09:36:57,408 log 13396 5472 Not Found: /api/v1/passager
+WARNING 2026-03-25 09:36:57,410 log 13396 5472 "GET /api/v1/passager HTTP/1.1" 404 4298
+WARNING 2026-03-25 09:37:03,862 log 13396 5472 Not Found: /api/v1/passager
+WARNING 2026-03-25 09:37:03,863 log 13396 5472 "GET /api/v1/passager HTTP/1.1" 404 4298
+WARNING 2026-03-25 09:37:24,452 log 13396 5472 Not Found: /api-auth/
+WARNING 2026-03-25 09:37:24,456 log 13396 5472 "GET /api-auth/ HTTP/1.1" 404 3052
+INFO 2026-03-25 09:37:42,197 log 13396 5472 "GET /api/v1/vehicules HTTP/1.1" 301 0
+INFO 2026-03-25 09:37:42,248 log 13396 5472 "GET /api/v1/vehicules/ HTTP/1.1" 200 6320
+INFO 2026-03-25 09:37:54,079 log 13396 5472 "GET /api/v1/notifications/ HTTP/1.1" 200 6042
+INFO 2026-03-25 09:38:00,694 log 13396 5472 "OPTIONS /api/v1/notifications/ HTTP/1.1" 200 6257
+INFO 2026-03-25 09:38:48,576 log 13396 5472 "GET /api/v1/users/ HTTP/1.1" 200 10570
+INFO 2026-03-25 09:38:48,670 log 13396 5472 "GET /static/rest_framework/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 200 18028
+WARNING 2026-03-25 09:51:53,353 log 13396 21044 Not Found: /
+WARNING 2026-03-25 09:51:53,361 log 13396 21044 "POST / HTTP/1.1" 404 2634
+WARNING 2026-03-25 09:55:53,385 log 13396 21848 Not Found: /api/users/login/
+WARNING 2026-03-25 09:55:53,386 log 13396 21848 "POST /api/users/login/ HTTP/1.1" 404 2700
+INFO 2026-03-25 09:57:13,937 autoreload 9620 14580 Watching for file changes with StatReloader
+INFO 2026-03-25 09:57:23,212 log 9620 20452 "GET /api/v1/users/ HTTP/1.1" 200 10570
+INFO 2026-03-25 09:57:33,277 log 9620 20452 "GET /api/v1/users/ HTTP/1.1" 200 10570
+INFO 2026-03-25 09:57:34,864 log 9620 20452 "GET /api/v1/users/ HTTP/1.1" 200 10570
+WARNING 2026-03-25 09:58:09,780 log 9620 20420 Not Found: /api/users/login/
+WARNING 2026-03-25 09:58:09,781 log 9620 20420 "POST /api/users/login/ HTTP/1.1" 404 2700
+WARNING 2026-03-25 09:58:54,334 log 9620 20420 Not Found: /api/users/login/
+WARNING 2026-03-25 09:58:54,336 log 9620 20420 "POST /api/users/login/ HTTP/1.1" 404 2700
+WARNING 2026-03-25 09:59:20,045 log 9620 20420 Bad Request: /api/v1/users/login/
+WARNING 2026-03-25 09:59:20,046 log 9620 20420 "POST /api/v1/users/login/ HTTP/1.1" 400 91
+INFO 2026-03-25 09:59:54,662 log 9620 20452 "GET /api/v1/users/login HTTP/1.1" 301 0
+WARNING 2026-03-25 09:59:54,878 log 9620 20452 Method Not Allowed: /api/v1/users/login/
+WARNING 2026-03-25 09:59:54,879 log 9620 20452 "GET /api/v1/users/login/ HTTP/1.1" 405 6370
+WARNING 2026-03-25 10:02:34,515 log 9620 17836 Bad Request: /api/v1/users/login/
+WARNING 2026-03-25 10:02:34,516 log 9620 17836 "POST /api/v1/users/login/ HTTP/1.1" 400 55
+WARNING 2026-03-25 10:02:53,162 log 9620 17836 Unauthorized: /api/v1/users/login/
+WARNING 2026-03-25 10:02:53,164 log 9620 17836 "POST /api/v1/users/login/ HTTP/1.1" 401 43
+WARNING 2026-03-25 10:03:22,293 log 9620 17836 Unauthorized: /api/v1/users/login/
+WARNING 2026-03-25 10:03:22,296 log 9620 17836 "POST /api/v1/users/login/ HTTP/1.1" 401 43
+INFO 2026-03-25 10:28:47,569 autoreload 5472 19016 Watching for file changes with StatReloader
+WARNING 2026-03-25 10:28:59,270 log 5472 4828 Method Not Allowed: /api/v1/users/login/
+WARNING 2026-03-25 10:28:59,272 log 5472 4828 "GET /api/v1/users/login/ HTTP/1.1" 405 5820
+WARNING 2026-03-25 10:29:00,463 log 5472 4828 Method Not Allowed: /api/v1/users/login/
+WARNING 2026-03-25 10:29:00,466 log 5472 4828 "GET /api/v1/users/login/ HTTP/1.1" 405 5820
+WARNING 2026-03-25 10:29:16,016 log 5472 16800 Unauthorized: /api/v1/users/login/
+WARNING 2026-03-25 10:29:16,017 log 5472 16800 "POST /api/v1/users/login/ HTTP/1.1" 401 43
+WARNING 2026-03-25 10:29:42,381 log 5472 16800 Unauthorized: /api/v1/users/login/
+WARNING 2026-03-25 10:29:42,384 log 5472 16800 "POST /api/v1/users/login/ HTTP/1.1" 401 43
+INFO 2026-03-25 10:40:39,805 autoreload 16416 21456 Watching for file changes with StatReloader
+WARNING 2026-03-25 10:42:34,255 log 16416 15924 Not Found: /api/users/login/
+WARNING 2026-03-25 10:42:34,257 log 16416 15924 "POST /api/users/login/ HTTP/1.1" 404 2700
+WARNING 2026-03-25 10:46:39,654 log 16416 14756 Unauthorized: /api/v1/users/login/
+WARNING 2026-03-25 10:46:39,656 log 16416 14756 "POST /api/v1/users/login/ HTTP/1.1" 401 43
+INFO 2026-03-25 10:54:25,674 autoreload 20948 18224 Watching for file changes with StatReloader
+WARNING 2026-03-25 10:54:49,418 log 20948 20608 Method Not Allowed: /api/v1/users/login/
+WARNING 2026-03-25 10:54:49,419 log 20948 20608 "GET /api/v1/users/login/ HTTP/1.1" 405 5820
+WARNING 2026-03-25 10:55:02,671 log 20948 2276 Unauthorized: /api/v1/users/login/
+WARNING 2026-03-25 10:55:02,673 log 20948 2276 "POST /api/v1/users/login/ HTTP/1.1" 401 43
+INFO 2026-03-25 10:58:22,585 autoreload 18224 20948 Watching for file changes with StatReloader
+WARNING 2026-03-25 10:58:46,846 log 18224 18060 Unauthorized: /api/v1/users/login/
+WARNING 2026-03-25 10:58:46,847 log 18224 18060 "POST /api/v1/users/login/ HTTP/1.1" 401 43
+WARNING 2026-03-25 11:01:55,564 log 18224 9712 Method Not Allowed: /api/v1/users/login/
+WARNING 2026-03-25 11:01:55,566 log 18224 9712 "GET /api/v1/users/login/ HTTP/1.1" 405 5820
+WARNING 2026-03-25 11:02:27,298 log 18224 9712 Forbidden: /api/v1/users/
+WARNING 2026-03-25 11:02:27,299 log 18224 9712 "GET /api/v1/users/ HTTP/1.1" 403 5034
+WARNING 2026-03-25 11:02:33,888 log 18224 9712 Method Not Allowed: /api/v1/users/login/
+WARNING 2026-03-25 11:02:33,889 log 18224 9712 "GET /api/v1/users/login/ HTTP/1.1" 405 5820
+WARNING 2026-03-25 11:04:04,046 log 18224 17440 Unauthorized: /api/v1/users/login/
+WARNING 2026-03-25 11:04:04,047 log 18224 17440 "POST /api/v1/users/login/ HTTP/1.1" 401 43
+INFO 2026-03-25 11:08:12,946 autoreload 8504 17360 Watching for file changes with StatReloader
+WARNING 2026-03-25 11:08:37,508 log 8504 7776 Forbidden: /api/v1/users/
+WARNING 2026-03-25 11:08:37,509 log 8504 7776 "GET /api/v1/users/ HTTP/1.1" 403 5034
+WARNING 2026-03-25 11:08:42,490 log 8504 7776 Method Not Allowed: /api/v1/users/login/
+WARNING 2026-03-25 11:08:42,491 log 8504 7776 "GET /api/v1/users/login/ HTTP/1.1" 405 5820
+WARNING 2026-03-25 11:09:17,334 log 8504 8136 Unauthorized: /api/v1/users/login/
+WARNING 2026-03-25 11:09:17,335 log 8504 8136 "POST /api/v1/users/login/ HTTP/1.1" 401 43
+WARNING 2026-03-25 13:17:48,411 log 8504 20488 Unauthorized: /api/v1/users/login/
+WARNING 2026-03-25 13:17:48,415 log 8504 20488 "POST /api/v1/users/login/ HTTP/1.1" 401 43
+WARNING 2026-03-25 13:18:25,143 log 8504 8040 Forbidden: /api/v1/users/
+WARNING 2026-03-25 13:18:25,144 log 8504 8040 "GET /api/v1/users/ HTTP/1.1" 403 5034
+WARNING 2026-03-25 13:18:40,939 log 8504 8040 Not Found: /api/v1/login/
+WARNING 2026-03-25 13:18:40,940 log 8504 8040 "GET /api/v1/login/ HTTP/1.1" 404 4292
+WARNING 2026-03-25 13:19:06,652 log 8504 8040 Method Not Allowed: /api-token-auth/
+WARNING 2026-03-25 13:19:06,652 log 8504 8040 "GET /api-token-auth/ HTTP/1.1" 405 58
+WARNING 2026-03-25 13:19:26,916 log 8504 22688 Not Found: /api-auth/
+WARNING 2026-03-25 13:19:26,920 log 8504 22688 "GET /api-auth/ HTTP/1.1" 404 3052
+INFO 2026-03-25 13:19:39,127 log 8504 22688 "GET /api-auth/login HTTP/1.1" 301 0
+INFO 2026-03-25 13:19:39,206 log 8504 22688 "GET /api-auth/login/ HTTP/1.1" 200 2697
+WARNING 2026-03-25 13:20:02,447 log 8504 24016 Forbidden (CSRF token missing.): /api-auth/login/
+WARNING 2026-03-25 13:20:02,448 log 8504 24016 "POST /api-auth/login/ HTTP/1.1" 403 2491
+INFO 2026-03-25 13:20:40,347 log 8504 21540 "POST /api-auth/login/ HTTP/1.1" 302 0
+WARNING 2026-03-25 13:20:40,365 log 8504 21540 Not Found: /accounts/profile/
+WARNING 2026-03-25 13:20:40,366 log 8504 21540 "GET /accounts/profile/ HTTP/1.1" 404 2702
+INFO 2026-03-25 13:20:55,894 log 8504 21540 "GET /api-auth/login/ HTTP/1.1" 200 2697
+WARNING 2026-03-25 13:23:22,826 log 8504 12820 Not Found: /api/users/login/
+WARNING 2026-03-25 13:23:22,828 log 8504 12820 "POST /api/users/login/ HTTP/1.1" 404 2700
+INFO 2026-03-25 13:28:56,347 log 8504 20412 "GET /api/v1/users/ HTTP/1.1" 200 10570
+WARNING 2026-03-25 13:29:03,272 log 8504 20412 Method Not Allowed: /api/v1/users/login/
+WARNING 2026-03-25 13:29:03,274 log 8504 20412 "GET /api/v1/users/login/ HTTP/1.1" 405 6370
+WARNING 2026-03-25 13:29:22,985 log 8504 21048 Unauthorized: /api/v1/users/login/
+WARNING 2026-03-25 13:29:22,986 log 8504 21048 "POST /api/v1/users/login/ HTTP/1.1" 401 43
+INFO 2026-03-25 13:31:03,158 log 8504 20412 "GET /admin/ HTTP/1.1" 200 17199
+WARNING 2026-03-25 13:31:28,811 log 8504 20412 Not Found: /api-auth/ login/
+WARNING 2026-03-25 13:31:28,814 log 8504 20412 "GET /api-auth/%20login/ HTTP/1.1" 404 3075
+INFO 2026-03-25 13:31:41,061 log 8504 20412 "GET /api-auth/login/ HTTP/1.1" 200 2697
+WARNING 2026-03-25 13:32:09,747 log 8504 24288 Forbidden (CSRF token missing.): /api-auth/login/
+WARNING 2026-03-25 13:32:09,748 log 8504 24288 "POST /api-auth/login/ HTTP/1.1" 403 2491
+INFO 2026-03-25 13:38:31,763 autoreload 8504 17360 C:\Users\cheik\transport-plateforme\api_transport_platform\users\urls.py changed, reloading.
+INFO 2026-03-25 13:38:36,365 autoreload 9988 18012 Watching for file changes with StatReloader
+INFO 2026-03-25 13:40:32,556 autoreload 9988 18012 C:\Users\cheik\transport-plateforme\api_transport_platform\api_transport_platform\urls.py changed, reloading.
+INFO 2026-03-25 13:40:33,349 autoreload 12872 20848 Watching for file changes with StatReloader
+INFO 2026-03-25 14:30:32,548 autoreload 4072 15784 Watching for file changes with StatReloader
+WARNING 2026-03-25 14:31:24,420 log 4072 4160 Not Found: /
+WARNING 2026-03-25 14:31:24,421 log 4072 4160 "GET / HTTP/1.1" 404 3556
+WARNING 2026-03-25 14:31:24,638 log 4072 4160 Not Found: /favicon.ico
+WARNING 2026-03-25 14:31:24,639 log 4072 4160 "GET /favicon.ico HTTP/1.1" 404 3607
+WARNING 2026-03-25 14:31:27,194 log 4072 4160 Not Found: /
+WARNING 2026-03-25 14:31:27,210 log 4072 4160 "GET / HTTP/1.1" 404 3556
+WARNING 2026-03-25 14:31:29,795 log 4072 4160 Not Found: /
+WARNING 2026-03-25 14:31:29,801 log 4072 4160 "GET / HTTP/1.1" 404 3556
+WARNING 2026-03-25 14:32:29,595 log 4072 7452 Not Found: /api/users/login/
+WARNING 2026-03-25 14:32:29,596 log 4072 7452 "POST /api/users/login/ HTTP/1.1" 404 3623
+WARNING 2026-03-25 14:33:01,731 log 4072 7452 Unauthorized: /users/login/
+WARNING 2026-03-25 14:33:01,767 log 4072 7452 "POST /users/login/ HTTP/1.1" 401 43
+INFO 2026-03-25 14:36:04,158 autoreload 12576 10300 Watching for file changes with StatReloader
+WARNING 2026-03-25 14:36:28,974 log 12576 6376 Not Found: /
+WARNING 2026-03-25 14:36:28,975 log 12576 6376 "GET / HTTP/1.1" 404 3556
+INFO 2026-03-25 14:36:36,482 log 12576 6376 "GET /users/ HTTP/1.1" 200 10353
+INFO 2026-03-25 14:36:37,082 log 12576 1616 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2026-03-25 14:36:37,086 log 12576 12448 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2026-03-25 14:36:37,099 log 12576 12624 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2026-03-25 14:36:37,115 log 12576 16284 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2026-03-25 14:36:37,165 log 12576 4976 "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2026-03-25 14:36:37,171 log 12576 1616 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2026-03-25 14:36:37,173 log 12576 12624 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2026-03-25 14:36:37,195 log 12576 16284 "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2026-03-25 14:36:37,200 log 12576 4976 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2026-03-25 14:36:37,213 log 12576 6376 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2026-03-25 14:36:37,228 log 12576 6376 "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2026-03-25 14:36:37,247 log 12576 12448 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2026-03-25 14:36:37,307 log 12576 12448 "GET /static/rest_framework/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 200 18028
+INFO 2026-03-25 14:37:28,611 log 12576 12448 "GET /users/login HTTP/1.1" 301 0
+WARNING 2026-03-25 14:37:28,731 log 12576 12448 Method Not Allowed: /users/login/
+WARNING 2026-03-25 14:37:28,731 log 12576 12448 "GET /users/login/ HTTP/1.1" 405 6328
+WARNING 2026-03-25 14:37:34,666 log 12576 12448 Method Not Allowed: /users/login/
+WARNING 2026-03-25 14:37:34,698 log 12576 12448 "GET /users/login/ HTTP/1.1" 405 6328
+WARNING 2026-03-25 14:37:48,473 log 12576 11224 Unauthorized: /users/login/
+WARNING 2026-03-25 14:37:48,475 log 12576 11224 "POST /users/login/ HTTP/1.1" 401 43
+INFO 2026-03-25 14:42:34,957 autoreload 2604 1412 Watching for file changes with StatReloader
+WARNING 2026-03-25 14:42:44,118 log 2604 7724 Unauthorized: /users/login/
+WARNING 2026-03-25 14:42:44,119 log 2604 7724 "POST /users/login/ HTTP/1.1" 401 43
+INFO 2026-03-25 14:43:27,880 autoreload 2604 1412 C:\Users\cheik\transport-plateforme\api_transport_platform\users\views.py changed, reloading.
+INFO 2026-03-25 14:43:28,656 autoreload 11456 3340 Watching for file changes with StatReloader
+WARNING 2026-03-25 14:43:38,811 log 11456 7276 Unauthorized: /users/login/
+WARNING 2026-03-25 14:43:38,812 log 11456 7276 "POST /users/login/ HTTP/1.1" 401 43
+INFO 2026-03-25 14:45:53,382 autoreload 9512 1748 Watching for file changes with StatReloader
+WARNING 2026-03-25 14:46:20,428 log 9512 11304 Method Not Allowed: /users/login/
+WARNING 2026-03-25 14:46:20,429 log 9512 11304 "GET /users/login/ HTTP/1.1" 405 5747
+WARNING 2026-03-25 14:46:32,918 log 9512 9520 Unauthorized: /users/login/
+WARNING 2026-03-25 14:46:32,919 log 9512 9520 "POST /users/login/ HTTP/1.1" 401 43
+INFO 2026-03-25 14:49:53,250 autoreload 9512 1748 C:\Users\cheik\transport-plateforme\api_transport_platform\users\views.py changed, reloading.
+INFO 2026-03-25 14:49:54,138 autoreload 6616 1392 Watching for file changes with StatReloader
+WARNING 2026-03-25 14:52:25,379 log 6616 2816 Unauthorized: /users/login/
+WARNING 2026-03-25 14:52:25,379 log 6616 2816 "POST /users/login/ HTTP/1.1" 401 43
+INFO 2026-03-25 14:59:57,643 autoreload 16320 8520 Watching for file changes with StatReloader
+WARNING 2026-03-25 15:00:09,166 log 16320 4244 Forbidden: /users/
+WARNING 2026-03-25 15:00:09,167 log 16320 4244 "GET /users/ HTTP/1.1" 403 4992
+WARNING 2026-03-25 15:00:23,867 log 16320 12380 Unauthorized: /users/login/
+WARNING 2026-03-25 15:00:23,868 log 16320 12380 "POST /users/login/ HTTP/1.1" 401 43
+INFO 2026-03-25 15:01:21,046 log 16320 4244 "GET /reservations HTTP/1.1" 301 0
+WARNING 2026-03-25 15:01:21,056 log 16320 4244 Forbidden: /reservations/
+WARNING 2026-03-25 15:01:21,056 log 16320 4244 "GET /reservations/ HTTP/1.1" 403 5028
+WARNING 2026-03-25 15:02:34,988 log 16320 4244 Not Found: /
+WARNING 2026-03-25 15:02:34,991 log 16320 4244 "GET / HTTP/1.1" 404 3556
+WARNING 2026-03-25 15:03:36,038 log 16320 12416 Unauthorized: /users/login/
+WARNING 2026-03-25 15:03:36,038 log 16320 12416 "POST /users/login/ HTTP/1.1" 401 43
+WARNING 2026-03-25 15:03:43,071 log 16320 12416 Forbidden: /users/
+WARNING 2026-03-25 15:03:43,071 log 16320 12416 "POST /users/ HTTP/1.1" 403 76
+WARNING 2026-03-25 15:09:40,739 log 16320 9948 Unauthorized: /users/login/
+WARNING 2026-03-25 15:09:40,739 log 16320 9948 "POST /users/login/ HTTP/1.1" 401 43
+WARNING 2026-03-25 15:10:22,790 log 16320 9948 Unauthorized: /users/login/
+WARNING 2026-03-25 15:10:22,790 log 16320 9948 "POST /users/login/ HTTP/1.1" 401 43
+WARNING 2026-03-25 15:11:25,139 log 16320 6096 Unauthorized: /users/login/
+WARNING 2026-03-25 15:11:25,139 log 16320 6096 "POST /users/login/ HTTP/1.1" 401 43
+WARNING 2026-03-25 15:12:25,261 log 16320 1484 Not Found: /api-auth/
+WARNING 2026-03-25 15:12:25,263 log 16320 1484 "POST /api-auth/ HTTP/1.1" 404 3976
+WARNING 2026-03-25 15:12:56,598 log 16320 1484 Bad Request: /api-token-auth/
+WARNING 2026-03-25 15:12:56,602 log 16320 1484 "POST /api-token-auth/ HTTP/1.1" 400 58
+WARNING 2026-03-25 15:13:16,452 log 16320 1484 Not Found: /api-token-auth/login
+WARNING 2026-03-25 15:13:16,457 log 16320 1484 "POST /api-token-auth/login HTTP/1.1" 404 3635
+ERROR 2026-03-25 15:13:45,347 log 16320 1484 Internal Server Error: /api-auth/login
+Traceback (most recent call last):
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\utils\deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\middleware\common.py", line 109, in process_response
+    self.get_full_path_with_slash(request)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 127.0.0.1:8000/api-auth/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR 2026-03-25 15:13:45,353 log 16320 1484 "POST /api-auth/login HTTP/1.1" 500 80952
+INFO 2026-03-26 12:22:28,816 autoreload 15756 10408 Watching for file changes with StatReloader
+WARNING 2026-03-26 12:24:27,904 log 15756 1736 Not Found: /
+WARNING 2026-03-26 12:24:27,905 log 15756 1736 "GET / HTTP/1.1" 404 3556
+WARNING 2026-03-26 12:24:28,103 log 15756 1736 Not Found: /favicon.ico
+WARNING 2026-03-26 12:24:28,105 log 15756 1736 "GET /favicon.ico HTTP/1.1" 404 3607
+WARNING 2026-03-26 12:24:29,534 log 15756 1736 Not Found: /
+WARNING 2026-03-26 12:24:29,536 log 15756 1736 "GET / HTTP/1.1" 404 3556
+WARNING 2026-03-26 12:24:38,671 log 15756 1736 Not Found: /
+WARNING 2026-03-26 12:24:38,671 log 15756 1736 "GET / HTTP/1.1" 404 3556
+INFO 2026-03-26 12:24:58,863 log 15756 1736 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4082
+INFO 2026-03-26 12:24:59,299 log 15756 14912 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2026-03-26 12:24:59,333 log 15756 12056 "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2026-03-26 12:24:59,434 log 15756 11248 "GET /static/admin/css/responsive.css HTTP/1.1" 200 16273
+INFO 2026-03-26 12:24:59,479 log 15756 1736 "GET /static/admin/css/base.css HTTP/1.1" 200 23100
+INFO 2026-03-26 12:24:59,589 log 15756 20120 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 3538
+INFO 2026-03-26 12:24:59,600 log 15756 8328 "GET /static/admin/css/login.css HTTP/1.1" 200 951
+INFO 2026-03-26 12:24:59,635 log 15756 20120 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2026-03-26 12:25:10,659 log 15756 20120 "GET /admin/login HTTP/1.1" 302 0
+INFO 2026-03-26 12:25:10,693 log 15756 20120 "GET /admin/login/?next=/admin/login HTTP/1.1" 200 4092
+WARNING 2026-03-26 12:25:22,311 log 15756 20120 Forbidden: /users/
+WARNING 2026-03-26 12:25:22,312 log 15756 20120 "GET /users/ HTTP/1.1" 403 4992
+INFO 2026-03-26 12:25:22,384 log 15756 8328 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2026-03-26 12:25:22,386 log 15756 11248 "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2026-03-26 12:25:22,390 log 15756 1736 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2026-03-26 12:25:22,396 log 15756 20120 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2026-03-26 12:25:22,407 log 15756 14912 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2026-03-26 12:25:22,459 log 15756 8328 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2026-03-26 12:25:22,496 log 15756 8328 "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2026-03-26 12:25:22,513 log 15756 14912 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2026-03-26 12:25:22,524 log 15756 20120 "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2026-03-26 12:25:22,540 log 15756 12056 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2026-03-26 12:25:22,558 log 15756 11248 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2026-03-26 12:25:22,575 log 15756 1736 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+ERROR 2026-03-26 12:26:17,076 log 15756 908 Internal Server Error: /users/login
+Traceback (most recent call last):
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\utils\deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\middleware\common.py", line 109, in process_response
+    self.get_full_path_with_slash(request)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 127.0.0.1:8000/users/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR 2026-03-26 12:26:17,082 log 15756 908 "POST /users/login HTTP/1.1" 500 81016
+ERROR 2026-03-26 12:26:33,754 log 15756 6872 Internal Server Error: /users/login
+Traceback (most recent call last):
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\utils\deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\middleware\common.py", line 109, in process_response
+    self.get_full_path_with_slash(request)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 127.0.0.1:8000/users/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR 2026-03-26 12:26:33,762 log 15756 6872 "POST /users/login HTTP/1.1" 500 81016
+ERROR 2026-03-26 12:26:49,554 log 15756 13360 Internal Server Error: /users/login
+Traceback (most recent call last):
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\utils\deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\middleware\common.py", line 109, in process_response
+    self.get_full_path_with_slash(request)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 127.0.0.1:8000/users/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR 2026-03-26 12:26:49,559 log 15756 13360 "POST /users/login HTTP/1.1" 500 81016
+ERROR 2026-03-26 12:27:08,994 log 15756 17548 Internal Server Error: /users/login
+Traceback (most recent call last):
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\utils\deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\middleware\common.py", line 109, in process_response
+    self.get_full_path_with_slash(request)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 127.0.0.1:8000/users/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR 2026-03-26 12:27:08,997 log 15756 17548 "POST /users/login HTTP/1.1" 500 81016
+WARNING 2026-03-26 12:32:27,967 log 15756 15092 Unauthorized: /users/login/
+WARNING 2026-03-26 12:32:27,968 log 15756 15092 "POST /users/login/ HTTP/1.1" 401 43
+WARNING 2026-03-26 12:32:46,782 log 15756 15092 Unauthorized: /users/login/
+WARNING 2026-03-26 12:32:46,783 log 15756 15092 "POST /users/login/ HTTP/1.1" 401 43
+WARNING 2026-03-26 12:33:13,232 log 15756 15092 Not Found: /api/users/login/
+WARNING 2026-03-26 12:33:13,233 log 15756 15092 "POST /api/users/login/ HTTP/1.1" 404 3623
+WARNING 2026-03-26 12:33:26,219 log 15756 15092 Unauthorized: /users/login/
+WARNING 2026-03-26 12:33:26,219 log 15756 15092 "POST /users/login/ HTTP/1.1" 401 43
+WARNING 2026-03-26 12:37:03,569 log 15756 11340 Unauthorized: /users/login/
+WARNING 2026-03-26 12:37:03,569 log 15756 11340 "POST /users/login/ HTTP/1.1" 401 43
+INFO 2026-03-26 12:54:17,354 autoreload 19892 19600 Watching for file changes with StatReloader
+WARNING 2026-03-26 12:54:58,077 log 19892 19744 Unauthorized: /users/login/
+WARNING 2026-03-26 12:54:58,078 log 19892 19744 "POST /users/login/ HTTP/1.1" 401 43
+WARNING 2026-03-26 12:55:01,629 log 19892 19744 Unauthorized: /users/login/
+WARNING 2026-03-26 12:55:01,630 log 19892 19744 "POST /users/login/ HTTP/1.1" 401 43
+ERROR 2026-03-26 12:58:47,183 log 19892 6724 Internal Server Error: /notifications
+Traceback (most recent call last):
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\utils\deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\middleware\common.py", line 109, in process_response
+    self.get_full_path_with_slash(request)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 127.0.0.1:8000/notifications/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR 2026-03-26 12:58:47,185 log 19892 6724 "POST /notifications HTTP/1.1" 500 81048
+ERROR 2026-03-26 12:59:59,501 log 19892 5424 Internal Server Error: /notifications
+Traceback (most recent call last):
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\utils\deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\middleware\common.py", line 109, in process_response
+    self.get_full_path_with_slash(request)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\cheik\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\django\middleware\common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+    ...<9 lines>...
+    )
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 127.0.0.1:8000/notifications/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR 2026-03-26 12:59:59,503 log 19892 5424 "POST /notifications HTTP/1.1" 500 81196
+INFO 2026-03-26 13:27:28,419 autoreload 19892 19600 C:\Users\cheik\transport-plateforme\api_transport_platform\api_transport_platform\settings.py changed, reloading.
+INFO 2026-03-26 13:27:30,481 autoreload 21944 20380 Watching for file changes with StatReloader
+INFO 2026-03-26 13:28:21,507 autoreload 13536 15800 Watching for file changes with StatReloader
+WARNING 2026-03-26 13:32:07,201 log 13536 19636 Forbidden: /users/
+WARNING 2026-03-26 13:32:07,202 log 13536 19636 "GET /users/ HTTP/1.1" 403 4992
+WARNING 2026-03-26 13:32:16,557 log 13536 19636 Not Found: /
+WARNING 2026-03-26 13:32:16,559 log 13536 19636 "GET / HTTP/1.1" 404 3556
+INFO 2026-03-26 13:32:26,702 log 13536 19636 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4082
+INFO 2026-03-26 13:32:56,386 log 13536 19636 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 4270
+INFO 2026-03-26 13:33:17,434 log 13536 19636 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 4270
+INFO 2026-03-26 13:33:32,622 log 13536 19636 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 4270
+INFO 2026-03-26 13:33:42,640 basehttp 13536 19636 - Broken pipe from ('127.0.0.1', 65250)
+INFO 2026-03-26 13:33:44,274 log 13536 23304 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 4270
+INFO 2026-03-26 13:42:40,401 autoreload 18048 22532 Watching for file changes with StatReloader
+INFO 2026-03-26 13:43:28,975 log 18048 13024 "POST /admin/login/?next=/admin/ HTTP/1.1" 200 4270
+INFO 2026-03-26 13:43:29,725 log 18048 13024 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4082
+INFO 2026-03-26 13:43:54,021 log 18048 13024 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2026-03-26 13:43:54,251 log 18048 13024 "GET /admin/ HTTP/1.1" 200 17194
+INFO 2026-03-26 13:43:54,658 log 18048 13024 "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2026-03-26 13:43:54,705 log 18048 908 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 978
+INFO 2026-03-26 13:43:54,710 log 18048 13024 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 593
+WARNING 2026-03-26 13:44:59,660 log 18048 20780 Forbidden: /users/login/
+WARNING 2026-03-26 13:44:59,661 log 18048 20780 "POST /users/login/ HTTP/1.1" 403 77
+WARNING 2026-03-26 13:46:37,751 log 18048 13024 Not Found: /
+WARNING 2026-03-26 13:46:37,757 log 18048 13024 "GET / HTTP/1.1" 404 3556
+WARNING 2026-03-26 13:47:09,117 log 18048 11044 Forbidden: /api-token-auth/
+WARNING 2026-03-26 13:47:09,119 log 18048 11044 "POST /api-token-auth/ HTTP/1.1" 403 77
+WARNING 2026-03-26 13:47:40,447 log 18048 11044 Not Found: /api-auth/
+WARNING 2026-03-26 13:47:40,450 log 18048 11044 "POST /api-auth/ HTTP/1.1" 404 3976
+WARNING 2026-03-26 13:47:49,082 log 18048 11044 Not Found: /api/auth/
+WARNING 2026-03-26 13:47:49,084 log 18048 11044 "POST /api/auth/ HTTP/1.1" 404 3602
+WARNING 2026-03-26 13:50:22,861 log 18048 6668 Not Found: /api/auth/
+WARNING 2026-03-26 13:50:22,868 log 18048 6668 "POST /api/auth/ HTTP/1.1" 404 3602
+WARNING 2026-03-26 13:50:31,455 log 18048 6668 Not Found: /api-auth/
+WARNING 2026-03-26 13:50:31,456 log 18048 6668 "POST /api-auth/ HTTP/1.1" 404 3976
+WARNING 2026-03-26 13:50:46,463 log 18048 6668 Forbidden: /api-token-auth/
+WARNING 2026-03-26 13:50:46,464 log 18048 6668 "POST /api-token-auth/ HTTP/1.1" 403 77
+WARNING 2026-03-26 13:50:57,082 log 18048 6668 Not Found: /api-token-auth/login/
+WARNING 2026-03-26 13:50:57,083 log 18048 6668 "POST /api-token-auth/login/ HTTP/1.1" 404 3638
+WARNING 2026-03-26 13:51:05,490 log 18048 6668 Forbidden (CSRF token missing.): /api-auth/login/
+WARNING 2026-03-26 13:51:05,492 log 18048 6668 "POST /api-auth/login/ HTTP/1.1" 403 2491
+INFO 2026-03-26 14:34:52,144 autoreload 18048 22532 C:\Users\cheik\transport-plateforme\api_transport_platform\api_transport_platform\urls.py changed, reloading.
+INFO 2026-03-26 14:34:53,463 autoreload 21136 23020 Watching for file changes with StatReloader
+WARNING 2026-03-26 14:36:46,703 log 21136 17332 Bad Request: /api-token-auth/
+WARNING 2026-03-26 14:36:46,706 log 21136 17332 "POST /api-token-auth/ HTTP/1.1" 400 86
+WARNING 2026-03-26 14:37:14,072 log 21136 17332 Bad Request: /api-token-auth/
+WARNING 2026-03-26 14:37:14,074 log 21136 17332 "POST /api-token-auth/ HTTP/1.1" 400 86
+INFO 2026-03-26 14:39:03,350 log 21136 21552 "GET /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2026-03-26 14:39:03,502 log 21136 21552 "GET /admin/ HTTP/1.1" 200 17194
+INFO 2026-03-26 14:39:17,528 log 21136 21552 "GET /admin/login/ HTTP/1.1" 302 0
+INFO 2026-03-26 14:39:17,601 log 21136 21552 "GET /admin/ HTTP/1.1" 200 17194
+INFO 2026-03-26 14:39:22,016 log 21136 21552 "POST /admin/logout/ HTTP/1.1" 200 3480
+INFO 2026-03-26 14:39:24,774 log 21136 21552 "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-03-26 14:39:24,818 log 21136 21552 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4082
+INFO 2026-03-26 14:39:59,238 log 21136 21552 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2026-03-26 14:39:59,297 log 21136 21552 "GET /admin/ HTTP/1.1" 200 17194
+WARNING 2026-03-26 14:40:29,562 log 21136 2688 Bad Request: /api-token-auth/
+WARNING 2026-03-26 14:40:29,563 log 21136 2688 "POST /api-token-auth/ HTTP/1.1" 400 58
+WARNING 2026-03-26 14:41:58,236 log 21136 20536 Forbidden (CSRF token missing.): /admin/login/
+WARNING 2026-03-26 14:41:58,237 log 21136 20536 "POST /admin/login/ HTTP/1.1" 403 2491
+WARNING 2026-03-26 14:42:08,342 log 21136 20536 Forbidden (CSRF token missing.): /admin/
+WARNING 2026-03-26 14:42:08,344 log 21136 20536 "POST /admin/ HTTP/1.1" 403 2491
+WARNING 2026-03-26 14:42:23,208 log 21136 20536 Bad Request: /api-token-auth/
+WARNING 2026-03-26 14:42:23,209 log 21136 20536 "POST /api-token-auth/ HTTP/1.1" 400 58
+WARNING 2026-03-26 14:42:32,799 log 21136 20536 Not Found: /api-auth/
+WARNING 2026-03-26 14:42:32,800 log 21136 20536 "POST /api-auth/ HTTP/1.1" 404 3999
+INFO 2026-03-26 14:50:51,689 autoreload 19164 20580 Watching for file changes with StatReloader
+WARNING 2026-03-26 14:51:05,066 log 19164 16776 Method Not Allowed (GET): /admin/logout/
+WARNING 2026-03-26 14:51:05,069 log 19164 16776 "GET /admin/logout/ HTTP/1.1" 405 0
+WARNING 2026-03-26 14:51:08,048 log 19164 16776 Method Not Allowed (GET): /admin/logout/
+WARNING 2026-03-26 14:51:08,051 log 19164 16776 "GET /admin/logout/ HTTP/1.1" 405 0
+WARNING 2026-03-26 14:51:16,297 log 19164 16776 Not Found: /
+WARNING 2026-03-26 14:51:16,300 log 19164 16776 "GET / HTTP/1.1" 404 3579
+WARNING 2026-03-26 14:51:46,868 log 19164 16776 Not Found: /users/passager/
+WARNING 2026-03-26 14:51:46,869 log 19164 16776 "GET /users/passager/ HTTP/1.1" 404 11684
+WARNING 2026-03-26 14:52:23,636 log 19164 16776 Not Found: /users/ ^passager/
+WARNING 2026-03-26 14:52:23,638 log 19164 16776 "GET /users/%20%5Epassager/ HTTP/1.1" 404 11694
+INFO 2026-03-26 14:53:01,624 log 19164 7320 "GET /users/passagers/ HTTP/1.1" 200 13847
+INFO 2026-03-26 14:53:02,059 log 19164 7320 "GET /static/rest_framework/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 200 18028
+INFO 2026-03-26 14:55:08,870 log 19164 14012 "POST /users/passagers/ HTTP/1.1" 201 11560
+INFO 2026-03-26 14:55:33,422 log 19164 14012 "POST /users/passagers/ HTTP/1.1" 201 11515
+INFO 2026-03-26 14:55:47,825 basehttp 19164 18428 - Broken pipe from ('127.0.0.1', 51342)
+INFO 2026-03-26 14:55:47,896 log 19164 23092 "GET /users/ HTTP/1.1" 200 11674
+INFO 2026-03-26 14:56:21,072 log 19164 23092 "GET /users/ HTTP/1.1" 200 11674
+WARNING 2026-03-26 14:56:47,966 log 19164 22112 Not Found: /api-auth/
+WARNING 2026-03-26 14:56:47,973 log 19164 22112 "GET /api-auth/ HTTP/1.1" 404 3998
+WARNING 2026-03-26 14:57:00,495 log 19164 22112 Not Found: /api-auth/
+WARNING 2026-03-26 14:57:00,497 log 19164 22112 "GET /api-auth/ HTTP/1.1" 404 3998
+WARNING 2026-03-26 14:57:49,624 log 19164 22112 Forbidden: /users/
+WARNING 2026-03-26 14:57:49,626 log 19164 22112 "GET /users/ HTTP/1.1" 403 76
+WARNING 2026-03-26 15:00:53,382 log 19164 20780 Bad Request: /api-token-auth/
+WARNING 2026-03-26 15:00:53,383 log 19164 20780 "POST /api-token-auth/ HTTP/1.1" 400 58
+WARNING 2026-03-26 15:01:25,750 log 19164 20780 Bad Request: /api-token-auth/
+WARNING 2026-03-26 15:01:25,752 log 19164 20780 "POST /api-token-auth/ HTTP/1.1" 400 86
+INFO 2026-03-27 21:55:50,776 autoreload 3716 3828 Watching for file changes with StatReloader
+INFO 2026-03-27 21:58:13,885 log 3716 16560 "GET /users/ HTTP/1.1" 200 11674
+INFO 2026-03-27 21:58:14,706 log 3716 16560 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2026-03-27 21:58:14,758 log 3716 7140 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2026-03-27 21:58:14,778 log 3716 16560 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2026-03-27 21:58:14,823 log 3716 9404 "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2026-03-27 21:58:14,907 log 3716 7140 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2026-03-27 21:58:14,908 log 3716 9404 "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2026-03-27 21:58:14,916 log 3716 15556 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2026-03-27 21:58:14,960 log 3716 1032 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2026-03-27 21:58:14,969 log 3716 7140 "GET /static/rest_framework/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 200 18028
+INFO 2026-03-27 21:58:14,992 log 3716 9404 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2026-03-27 21:58:15,010 log 3716 15556 "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2026-03-27 21:58:15,042 log 3716 16560 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2026-03-27 21:58:15,150 log 3716 2148 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+WARNING 2026-03-27 21:58:15,462 log 3716 2148 Not Found: /favicon.ico
+WARNING 2026-03-27 21:58:15,463 log 3716 2148 "GET /favicon.ico HTTP/1.1" 404 3630
+WARNING 2026-03-27 21:58:28,825 log 3716 2148 Not Found: /
+WARNING 2026-03-27 21:58:28,825 log 3716 2148 "GET / HTTP/1.1" 404 3579
+INFO 2026-03-27 21:58:45,261 log 3716 2148 "GET /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2026-03-27 21:58:45,394 log 3716 2148 "GET /admin/ HTTP/1.1" 200 17194
+INFO 2026-03-27 21:58:45,441 log 3716 16560 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 3538
+INFO 2026-03-27 21:58:45,450 log 3716 1032 "GET /static/admin/css/responsive.css HTTP/1.1" 200 16273
+INFO 2026-03-27 21:58:45,455 log 3716 9404 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2026-03-27 21:58:45,456 log 3716 7140 "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2026-03-27 21:58:45,473 log 3716 15556 "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2026-03-27 21:58:45,480 log 3716 2148 "GET /static/admin/css/base.css HTTP/1.1" 200 23100
+INFO 2026-03-27 21:58:45,513 log 3716 2148 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 593
+INFO 2026-03-27 21:58:45,514 log 3716 7140 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 978
+INFO 2026-03-27 21:58:45,537 log 3716 15556 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2026-03-27 21:58:52,420 log 3716 15556 "GET /admin/users/customuser/ HTTP/1.1" 200 22314
+INFO 2026-03-27 21:58:52,508 log 3716 1032 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2026-03-27 21:58:52,510 log 3716 15556 "GET /static/admin/css/changelists.css HTTP/1.1" 200 7498
+INFO 2026-03-27 21:58:52,515 log 3716 16560 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2026-03-27 21:58:52,517 log 3716 9404 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2026-03-27 21:58:52,564 log 3716 15556 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2026-03-27 21:58:52,577 log 3716 1032 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2026-03-27 21:58:52,608 log 3716 15556 "GET /static/admin/img/search.svg HTTP/1.1" 200 607
+INFO 2026-03-27 21:58:52,619 log 3716 16560 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2026-03-27 21:58:52,628 log 3716 1032 "GET /static/admin/img/icon-no.svg HTTP/1.1" 200 645
+INFO 2026-03-27 21:58:52,630 log 3716 2148 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2026-03-27 21:58:52,673 log 3716 7140 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-27 21:58:52,705 log 3716 7140 "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+INFO 2026-03-27 21:58:52,787 log 3716 9404 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2026-03-27 21:58:52,827 log 3716 7140 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 928
+INFO 2026-03-27 21:58:52,830 log 3716 9404 "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 593
+INFO 2026-03-27 21:58:52,831 log 3716 2148 "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1761
+INFO 2026-03-27 21:59:06,139 log 3716 9404 "GET /admin/reservations/reservation/ HTTP/1.1" 200 19022
+INFO 2026-03-27 21:59:06,169 log 3716 9404 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-03-27 22:08:33,871 log 3716 2176 "GET /admin/users/customuser/ HTTP/1.1" 200 22314
+INFO 2026-03-27 22:09:09,053 log 3716 9544 "GET /admin/users/customuser/ HTTP/1.1" 302 0
+INFO 2026-03-27 22:09:09,228 log 3716 9544 "GET /admin/login/?next=/admin/users/customuser/ HTTP/1.1" 200 4116
+INFO 2026-03-27 22:09:44,731 log 3716 9544 "GET /admin/users/customuser/ HTTP/1.1" 302 0
+INFO 2026-03-27 22:09:44,794 log 3716 9544 "GET /admin/login/?next=/admin/users/customuser/ HTTP/1.1" 200 4116
+INFO 2026-03-27 22:10:55,709 log 3716 12216 "GET /admin/users/customuser/ HTTP/1.1" 302 0
+INFO 2026-03-27 22:10:55,742 log 3716 12216 "GET /admin/login/?next=/admin/users/customuser/ HTTP/1.1" 200 4116

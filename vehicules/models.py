@@ -61,6 +61,8 @@ class Vehicule(models.Model):
     
     def __str__(self):
         return f"{self.modele} - {self.immatriculation}"
+
+
     
     @property
     def est_disponible(self):

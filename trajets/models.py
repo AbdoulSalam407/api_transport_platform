@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from users.models import Transporteur
 
 
@@ -126,6 +127,22 @@ class Trajet(models.Model):
     
     def __str__(self):
         return f"{self.depart} → {self.destination} ({self.date_depart.strftime('%d/%m/%Y %H:%M')})"
+
+    def clean(self):
+        if self.places_totales <= 0:
+            raise ValidationError("Le nombre total de places doit être supérieur à 0.")
+        if self.places_disponibles < 0:
+            raise ValidationError("Le nombre de places disponibles ne peut pas être négatif.")
+        if self.places_disponibles > self.places_totales:
+            raise ValidationError("Les places disponibles ne peuvent pas dépasser les places totales.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        if self.places_disponibles == 0:
+            self.statut = 'complet'
+        elif self.statut == 'complet' and self.places_disponibles > 0:
+            self.statut = 'actif'
+        super().save(*args, **kwargs)
     
     def verifier_places(self, nombre=1):
         """Vérifier si des places sont disponibles"""
@@ -143,7 +160,7 @@ class Trajet(models.Model):
     
     def annuler_reservation(self, nombre=1):
         """Annuler une réservation"""
-        self.places_disponibles += nombre
+        self.places_disponibles = min(self.places_totales, self.places_disponibles + nombre)
         if self.statut == 'complet' and self.places_disponibles > 0:
             self.statut = 'actif'
         self.save()

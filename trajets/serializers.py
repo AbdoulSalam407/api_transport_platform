@@ -21,13 +21,17 @@ class TrajetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trajet
         fields = [
-            'id', 'transporteur', 'transporteur_detail', 'depart', 'destination',
-            'date_depart', 'date_arrivee', 'places_totales', 'places_disponibles',
-            'places_reservees', 'prix', 'statut', 'description', 'duree_estimee',
-            'latitude_depart', 'longitude_depart', 'latitude_arrivee', 'longitude_arrivee',
-            'arrets', 'etapes', 'taux_remplissage', 'date_creation', 'date_modification'
+            'id', 'transporteur', 'transporteur_detail', 'vehicule', 'chauffeur',
+            'depart', 'destination', 'date_depart', 'date_arrivee_estimee',
+            'date_arrivee_reelle', 'places_totales', 'places_disponibles',
+            'places_reservees', 'prix_base', 'distance_km', 'statut', 'description',
+            'duree_estimee', 'latitude_depart', 'longitude_depart', 'latitude_arrivee',
+            'longitude_arrivee', 'points_arret', 'arrets', 'etapes', 'taux_remplissage',
+            'date_creation', 'date_modification',
         ]
-        read_only_fields = ['date_creation', 'date_modification', 'places_reservees', 'taux_remplissage']
+        read_only_fields = [
+            'date_creation', 'date_modification', 'places_reservees', 'taux_remplissage',
+        ]
 
 
 class RechercheTrajetSerializer(serializers.Serializer):

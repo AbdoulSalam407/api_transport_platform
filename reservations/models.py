@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from users.models import Passager
 from trajets.models import Trajet
 
@@ -40,6 +41,8 @@ class Reservation(models.Model):
     def confirmer(self):
         """Confirmer la réservation"""
         if self.statut == 'en_attente' and self.trajet.verifier_places(self.nombre_places):
+            # Sécurise le calcul du prix au moment de la confirmation
+            self.prix_total = self.trajet.prix_base * self.nombre_places
             self.trajet.reserver_places(self.nombre_places)
             self.statut = 'confirmee'
             self.save()
@@ -54,6 +57,15 @@ class Reservation(models.Model):
             self.save()
             return True
         return False
+
+    def marquer_recupere(self):
+        """Marquer un passager comme récupéré par le transporteur."""
+        if self.statut != 'confirmee' or self.recupere:
+            return False
+        self.recupere = True
+        self.heure_recuperation = timezone.now()
+        self.save(update_fields=['recupere', 'heure_recuperation', 'date_modification'])
+        return True
 
 
 class Billet(models.Model):

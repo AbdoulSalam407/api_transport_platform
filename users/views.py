@@ -58,18 +58,20 @@ class RegisterView(generics.CreateAPIView):
         }, status=status.HTTP_201_CREATED)
 
 
+
 class LoginView(APIView):
-    """Connexion d'un utilisateur"""
     permission_classes = [permissions.AllowAny]
     
     def post(self, request):
-        serializer = LoginSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        email = request.data.get('email')
+        password = request.data.get('password')
         
-        email = serializer.validated_data['email']
-        password = serializer.validated_data['password']
+        if not email or not password:
+            return Response(
+                {'error': 'Email et mot de passe requis'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
-        # Vérifier si l'utilisateur existe avec cet email
         try:
             user = CustomUser.objects.get(email=email)
         except CustomUser.DoesNotExist:
@@ -78,34 +80,31 @@ class LoginView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED
             )
         
-        # Authentifier l'utilisateur
-        user = authenticate(username=user.username, password=password)
+        # Authentification avec username
+        user_auth = authenticate(username=user.username, password=password)
         
-        if not user:
+        if not user_auth:
             return Response(
                 {'error': 'Email ou mot de passe incorrect'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
         
-        if not user.is_actif:
+        if not user_auth.is_actif:
             return Response(
                 {'error': 'Votre compte est désactivé'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
         
-        # Connecter l'utilisateur
-        login(request, user)
-        user.seConnecter()
-        
-        # Récupérer ou créer le token
-        token, created = Token.objects.get_or_create(user=user)
+        token, created = Token.objects.get_or_create(user=user_auth)
         
         return Response({
-            'user': UserSerializer(user).data,
             'token': token.key,
-            'role': user.role
-        })
-
+            'user_id': user_auth.id,
+            'email': user_auth.email,
+            'nom': user_auth.nom,
+            'prenom': user_auth.prenom,
+            'role': user_auth.role
+        })    
 
 class LogoutView(APIView):
     """Déconnexion d'un utilisateur"""
