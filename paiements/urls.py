@@ -3,7 +3,7 @@ from rest_framework.routers import SimpleRouter
 from .views import PaiementViewSet
 
 router = SimpleRouter()
-router.register(r"", PaiementViewSet, basename="paiement")
+router.register(r"paiements", PaiementViewSet, basename="paiement")
 
 urlpatterns = [
     path("", include(router.urls)),
