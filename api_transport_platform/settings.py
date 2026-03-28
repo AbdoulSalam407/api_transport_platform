@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # Third-party apps
     "rest_framework",
     "rest_framework.authtoken",
+    "drf_spectacular",
     # "django_filters",  # Temporarily removed
     "corsheaders",
     
@@ -157,6 +158,14 @@ REST_FRAMEWORK = {
     },
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
     "EXCEPTION_HANDLER": "core.exceptions.custom_exception_handler",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Transport Platform API",
+    "DESCRIPTION": "API de réservation et gestion des trajets, véhicules et utilisateurs.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
 
 # CORS configuration
