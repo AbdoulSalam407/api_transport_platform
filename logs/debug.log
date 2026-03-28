@@ -537,3 +537,10 @@ WARNING 2026-03-22 17:36:44,968 log 34224 30396 "GET /api/v1/ HTTP/1.1" 404 4274
 INFO 2026-03-28 00:49:03,703 autoreload 1312 17704 Watching for file changes with StatReloader
 INFO 2026-03-28 01:09:21,864 autoreload 28896 41148 Watching for file changes with StatReloader
 INFO 2026-03-28 01:22:44,604 autoreload 7908 23812 Watching for file changes with StatReloader
+INFO 2026-03-28 01:33:41,727 log 7908 32472 "POST /api-token-auth/ HTTP/1.1" 200 52
+WARNING 2026-03-28 01:36:12,203 log 7908 53028 Not Found: /api/transports/
+WARNING 2026-03-28 01:36:12,205 log 7908 53028 "GET /api/transports/ HTTP/1.1" 404 2696
+WARNING 2026-03-28 01:38:31,286 log 7908 25624 Not Found: /api/transports/
+WARNING 2026-03-28 01:38:31,287 log 7908 25624 "GET /api/transports/ HTTP/1.1" 404 2696
+INFO 2026-03-28 01:39:16,861 log 7908 25624 "GET /api/v1/trajets/trajets/ HTTP/1.1" 200 52
+INFO 2026-03-28 01:40:27,023 log 7908 25264 "GET /api/v1/vehicules/vehicules/ HTTP/1.1" 200 52
