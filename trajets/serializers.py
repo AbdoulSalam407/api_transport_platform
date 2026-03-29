@@ -1,33 +1,43 @@
 from rest_framework import serializers
-from .models import Trajet
+from .models import Trajet, Etape
+from users.serializers import TransporteurSerializer
+
+
+class EtapeSerializer(serializers.ModelSerializer):
+    """Sérializer pour Etape"""
+    
+    class Meta:
+        model = Etape
+        fields = ['id', 'trajet', 'lieu', 'heure_prevue', 'heure_reelle', 'ordre']
 
 
 class TrajetSerializer(serializers.ModelSerializer):
-    """Serializer pour les trajets"""
-    
-    vehicule_detail = serializers.StringRelatedField(source="vehicule", read_only=True)
-    transporteur_detail = serializers.CharField(source="transporteur.get_full_name", read_only=True)
+    """Sérializer pour Trajet"""
+    transporteur_detail = TransporteurSerializer(source='transporteur', read_only=True)
+    etapes = EtapeSerializer(many=True, read_only=True)
+    places_reservees = serializers.IntegerField(read_only=True)
+    taux_remplissage = serializers.FloatField(read_only=True)
     
     class Meta:
         model = Trajet
         fields = [
-            "id",
-            "vehicule",
-            "vehicule_detail",
-            "transporteur",
-            "transporteur_detail",
-            "ville_depart",
-            "ville_arrivee",
-            "distance_km",
-            "duree_estimee",
-            "date_depart",
-            "heure_depart",
-            "prix",
-            "nombre_places_disponibles",
-            "places_totales",
-            "statut",
-            "points_arret",
-            "date_creation",
-            "date_modification",
+            'id', 'transporteur', 'transporteur_detail', 'vehicule', 'chauffeur',
+            'depart', 'destination', 'date_depart', 'date_arrivee_estimee',
+            'date_arrivee_reelle', 'places_totales', 'places_disponibles',
+            'places_reservees', 'prix_base', 'distance_km', 'statut', 'description',
+            'duree_estimee', 'latitude_depart', 'longitude_depart', 'latitude_arrivee',
+            'longitude_arrivee', 'points_arret', 'arrets', 'etapes', 'taux_remplissage',
+            'date_creation', 'date_modification',
         ]
-        read_only_fields = ["id", "date_creation", "date_modification"]
+        read_only_fields = [
+            'date_creation', 'date_modification', 'places_reservees', 'taux_remplissage',
+            'transporteur',
+        ]
+
+
+class RechercheTrajetSerializer(serializers.Serializer):
+    """Sérializer pour la recherche de trajets"""
+    depart = serializers.CharField(required=True)
+    destination = serializers.CharField(required=True)
+    date = serializers.DateField(required=False)
+    passagers = serializers.IntegerField(default=1, min_value=1)

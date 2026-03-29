@@ -1,27 +1,40 @@
 from django.contrib import admin
-from .models import Trajet
-
+from .models import Trajet, Etape
 
 @admin.register(Trajet)
 class TrajetAdmin(admin.ModelAdmin):
-    list_display = ("ville_depart", "ville_arrivee", "date_depart", "heure_depart", "statut", "nombre_places_disponibles", "prix")
-    list_filter = ("statut", "date_depart", "ville_depart", "ville_arrivee")
-    search_fields = ("ville_depart", "ville_arrivee")
-    readonly_fields = ("date_creation", "date_modification")
+    list_display = ['id', 'depart', 'destination', 'date_depart', 'statut', 'places_disponibles', 'prix_base']  # ← Correction : destination (pas arrivee), statut (pas status)
+    list_filter = ['statut', 'date_depart', 'transporteur']  # ← Correction : statut (pas status)
+    search_fields = ['depart', 'destination', 'transporteur__utilisateur__email']
+    readonly_fields = ['date_creation', 'date_modification']
+    
     fieldsets = (
-        ("Informations de localisation", {
-            "fields": ("ville_depart", "ville_arrivee", "distance_km", "duree_estimee", "points_arret")
+        ('Informations principales', {
+            'fields': ('transporteur', 'vehicule', 'chauffeur')
         }),
-        ("Dates et heures", {
-            "fields": ("date_depart", "heure_depart", "date_arrivee_estimee", "date_arrivee_reelle")
+        ('Itinéraire', {
+            'fields': ('depart', 'destination', 'points_arret', 'distance_km')
         }),
-        ("Tarification et places", {
-            "fields": ("prix", "nombre_places_disponibles", "places_totales")
+        ('Dates et heures', {
+            'fields': ('date_depart', 'date_arrivee_estimee', 'date_arrivee_reelle', 'duree_estimee')
         }),
-        ("Relations", {
-            "fields": ("vehicule", "transporteur")
+        ('Capacité et prix', {
+            'fields': ('places_totales', 'places_disponibles', 'prix_base')
         }),
-        ("Statut et informations", {
-            "fields": ("statut", "date_creation", "date_modification")
+        ('GPS', {
+            'fields': ('latitude_depart', 'longitude_depart', 'latitude_arrivee', 'longitude_arrivee')
+        }),
+        ('Statut', {
+            'fields': ('statut', 'description')
+        }),
+        ('Dates système', {
+            'fields': ('date_creation', 'date_modification')
         }),
     )
+
+
+@admin.register(Etape)
+class EtapeAdmin(admin.ModelAdmin):
+    list_display = ['id', 'trajet', 'lieu', 'heure_prevue', 'ordre']
+    list_filter = ['trajet', 'ordre']
+    search_fields = ['lieu']
