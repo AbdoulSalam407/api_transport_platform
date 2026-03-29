@@ -56,10 +56,11 @@ class IsAdminOrSelf(permissions.BasePermission):
         # Vérifier si c'est l'utilisateur lui-même
         if hasattr(obj, 'utilisateur'):
             return obj.utilisateur == request.user
+        elif hasattr(obj, 'passager') and hasattr(obj.passager, 'utilisateur'):
+            return obj.passager.utilisateur == request.user
         elif hasattr(obj, 'user'):
             return obj.user == request.user
         elif hasattr(obj, 'id') and hasattr(request.user, 'id'):
-            # Si c'est directement un objet utilisateur
             return obj == request.user
         
         return False

@@ -1,9 +1,8 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 from . import views
 
-# Router pour les ViewSets
-router = DefaultRouter()
+router = SimpleRouter()
 router.register(r'passagers', views.PassagerViewSet, basename='passager')
 router.register(r'transporteurs', views.TransporteurViewSet, basename='transporteur')
 router.register(r'administrateurs', views.AdministrateurViewSet, basename='administrateur')

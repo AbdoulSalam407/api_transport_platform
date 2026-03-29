@@ -1,8 +1,8 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 from . import views
 
-router = DefaultRouter()
+router = SimpleRouter()
 router.register(r'marques', views.MarqueViewSet)
 router.register(r'modeles', views.ModeleViewSet)
 router.register(r'vehicules', views.VehiculeViewSet)

@@ -55,7 +55,7 @@ class PaiementCreateSerializer(serializers.ModelSerializer):
                 f"Le montant doit être de {reservation.prix_total}€"
             )
         
-        if reservation.statut != 'en_attente':
+        if reservation.statut not in ('en_attente', 'confirmee'):
             raise serializers.ValidationError(
                 "Cette réservation ne peut pas être payée"
             )
