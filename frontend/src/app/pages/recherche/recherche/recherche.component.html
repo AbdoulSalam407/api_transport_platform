@@ -1,0 +1,50 @@
+<section class="py-10">
+  <div class="container-page">
+    <div class="grid gap-6 lg:grid-cols-2 items-start">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-heading font-bold text-slate-900">Rechercher un trajet</h1>
+        <p class="mt-2 text-slate-600">
+          Trouve rapidement un trajet interurbain et réserve ta place.
+        </p>
+
+        <div class="mt-6 card p-6">
+          <div class="grid gap-4 md:grid-cols-2">
+            <div>
+              <label class="label">Ville de départ</label>
+              <input class="input" placeholder="ex: Paris" disabled>
+            </div>
+            <div>
+              <label class="label">Ville d'arrivée</label>
+              <input class="input" placeholder="ex: Lyon" disabled>
+            </div>
+            <div>
+              <label class="label">Date</label>
+              <input class="input" type="date" disabled>
+            </div>
+            <div>
+              <label class="label">Passagers</label>
+              <input class="input" type="number" value="1" min="1" disabled>
+            </div>
+          </div>
+          <button class="btn-accent mt-5 w-full" type="button" disabled>Rechercher</button>
+        </div>
+      </div>
+
+      <div class="card p-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-sm text-slate-600">Résultats</div>
+            <div class="mt-1 text-lg font-heading font-bold">Aucun trajet</div>
+          </div>
+          <a class="btn-primary" routerLink="/login">Se connecter</a>
+        </div>
+
+        <div class="mt-6 grid gap-4">
+          <div class="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-600">
+            Les résultats apparaîtront ici (Sprint 2).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

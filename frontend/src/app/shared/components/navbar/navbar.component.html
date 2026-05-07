@@ -1,0 +1,43 @@
+<header class="bg-white/80 backdrop-blur border-b border-slate-200/70">
+  <div class="container-page">
+    <div class="h-16 flex items-center justify-between">
+      <a class="flex items-center gap-2" routerLink="/" (click)="close()">
+        <span class="inline-flex size-9 items-center justify-center rounded-xl bg-brand-navy text-white font-heading font-bold">
+          T+
+        </span>
+        <span class="font-heading font-bold text-lg text-slate-900">Transport<span class="text-brand-orange">+</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1">
+        <a class="btn btn-ghost" routerLink="/recherche" routerLinkActive="bg-brand-gray/60">Accueil</a>
+        <a class="btn btn-ghost" routerLink="/reservation" routerLinkActive="bg-brand-gray/60">Réserver</a>
+        <a class="btn btn-ghost" routerLink="/dashboard-passager" routerLinkActive="bg-brand-gray/60">Mes trajets</a>
+        <a class="btn btn-primary" routerLink="/login">Connexion</a>
+      </nav>
+
+      <button
+        type="button"
+        class="md:hidden btn btn-ghost"
+        (click)="toggle()"
+        [attr.aria-expanded]="isOpen()"
+        aria-label="Ouvrir le menu"
+      >
+        <span class="sr-only">Menu</span>
+        <div class="space-y-1">
+          <div class="h-0.5 w-6 bg-slate-900"></div>
+          <div class="h-0.5 w-6 bg-slate-900"></div>
+          <div class="h-0.5 w-6 bg-slate-900"></div>
+        </div>
+      </button>
+    </div>
+
+    <div class="md:hidden pb-4" [ngClass]="{ 'hidden': !isOpen() }">
+      <div class="card p-3 flex flex-col gap-2">
+        <a class="btn btn-ghost justify-start" routerLink="/recherche" (click)="close()">Accueil</a>
+        <a class="btn btn-ghost justify-start" routerLink="/reservation" (click)="close()">Réserver</a>
+        <a class="btn btn-ghost justify-start" routerLink="/dashboard-passager" (click)="close()">Mes trajets</a>
+        <a class="btn btn-primary justify-start" routerLink="/login" (click)="close()">Connexion</a>
+      </div>
+    </div>
+  </div>
+</header>
