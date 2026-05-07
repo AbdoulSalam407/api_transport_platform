@@ -77,7 +77,7 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
         nombre_places = validated_data.get('nombre_places', 1)
         
         # Calculer le prix total
-        prix_total = trajet.prix * nombre_places
+        prix_total = trajet.prix_base * nombre_places
         
         reservation = Reservation.objects.create(
             passager=passager,

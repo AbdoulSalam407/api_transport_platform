@@ -6,14 +6,22 @@ Transport Platform API - Plateforme de réservation de transports
 
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views as authtoken_views
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+from .views import api_root
+
 # API Root
 urlpatterns = [
+    path("", api_root, name="api-root"),
     # Django Admin
     path("admin/", admin.site.urls),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "api/docs/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
     
     # Authentication
     path("api-auth/", include("rest_framework.urls")),

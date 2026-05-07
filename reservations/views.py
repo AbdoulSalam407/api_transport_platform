@@ -241,11 +241,12 @@ class GenererQRCodeView(APIView):
             img = qr.make_image(fill_color="black", back_color="white")
             
             # Convertir en réponse HTTP
-            response = BytesIO()
-            img.save(response, format="PNG")
-            response.seek(0)
+            buffer = BytesIO()
+            img.save(buffer, format="PNG")
+            buffer.seek(0)
             
-            return Response(response.getvalue(), content_type="image/png")
+            from django.http import HttpResponse
+            return HttpResponse(buffer.getvalue(), content_type="image/png")
             
         except Billet.DoesNotExist:
             return Response(

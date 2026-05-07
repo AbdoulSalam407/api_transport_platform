@@ -1,4 +1,145 @@
+python -m venv transport_env
+transport_env\Scripts\activate
+
+GET    http://localhost:8000/api/v1/users/users/
+GET    http://localhost:8000/api/v1/vehicules/vehicules/
+GET    http://localhost:8000/api/v1/trajets/trajets/
+GET    http://localhost:8000/api/v1/reservations/reservations/
+GET    http://localhost:8000/api/v1/paiements/paiements/
+GET    http://localhost:8000/api/v1/notifications/notifications/
+GET    http://localhost:8000/api/v1/transports/transports/
 # 🚌 Transport Platform API
+
+
+Parfait ! Voici le TP complet de test sur Postman :
+
+## **ÉTAPE 1 : Créer le Token**
+
+1. **Créez une nouvelle requête POST** dans Postman
+2. **URL** : `http://localhost:8000/api-token-auth/`
+3. **Type d'authentification** : Aucune (le token n'existe pas encore)
+4. Allez à l'onglet **Body** → **raw** → **JSON**
+5. Collez :
+```json
+{
+  "username": "abdoulsalam",
+  "password": "asd78120916"
+}
+```
+6. Cliquez **Send**
+
+**Réponse attendue :**
+```json
+{
+  "token": "e1234567890abcdef..."
+}
+```
+
+**Copiez ce token !** ✓
+
+---
+
+## **ÉTAPE 2 : Configurer Bearer Token**
+
+1. Créez une **nouvelle requête GET**
+2. **URL** : `http://localhost:8000/api/v1/trajets/trajets/`
+3. Allez à l'onglet **Authorization**
+4. **Type** : Sélectionnez **Bearer Token** dans le dropdown
+5. Dans le champ **Token**, collez votre token copié à l'étape 1
+6. Cliquez **Send**
+
+**Réponse attendue :** Liste vide `[]` (pas de trajets encore)
+
+---
+
+## **ÉTAPE 3 : Créer un Trajet**
+
+1. **Créez une nouvelle requête POST**
+2. **URL** : `http://localhost:8000/api/v1/trajets/trajets/`
+3. **Authorization** : Bearer Token (même token)
+4. Allez à l'onglet **Body** → **raw** → **JSON**
+5. Collez :
+```json
+{
+  "vehicule": 1,
+  "transporteur": 1,
+  "ville_depart": "Paris",
+  "ville_arrivee": "Lyon",
+  "distance_km": 463,
+  "duree_estimee": "07:30:00",
+  "date_depart": "2026-03-25",
+  "heure_depart": "08:00:00",
+  "prix": "45.00",
+  "nombre_places_disponibles": 10,
+  "places_totales": 14,
+  "statut": "planifie",
+  "points_arret": ["Dijon", "Roanne"]
+}
+```
+6. Cliquez **Send**
+
+**Réponse attendue :** Le trajet créé avec ID 1
+
+---
+
+## **ÉTAPE 4 : Lister les Trajets**
+
+1. **Créez une nouvelle requête GET**
+2. **URL** : `http://localhost:8000/api/v1/trajets/trajets/`
+3. **Authorization** : Bearer Token
+4. Cliquez **Send**
+
+**Réponse attendue :** Liste avec le trajet créé
+
+---
+
+## **ÉTAPE 5 : Filtrer les Trajets**
+
+**Par ville :**
+```
+GET http://localhost:8000/api/v1/trajets/trajets/?ville_depart=Paris
+```
+
+**Par date :**
+```
+GET http://localhost:8000/api/v1/trajets/trajets/?date_depart=2026-03-25
+```
+
+**Trajets disponibles :**
+```
+GET http://localhost:8000/api/v1/trajets/trajets/disponibles/
+```
+
+---
+
+Commencez par l'**ÉTAPE 1** ! Dites-moi si vous avez des erreurs ! 🚀
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Une plateforme complète de réservation de transports construite avec **Django REST Framework**. Production-ready avec authentification, paiements intégrés et notifications.
 

@@ -4,7 +4,7 @@ from .views import TransportViewSet
 
 # Create a router and register the ViewSet
 router = SimpleRouter()
-router.register(r"", TransportViewSet, basename="transport")
+router.register(r"transports", TransportViewSet, basename="transport")
 
 # URLs will include all router routes
 urlpatterns = [
