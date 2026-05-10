@@ -1,0 +1,65 @@
+/* You can add global styles to this file, and also import other style files */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --brand-navy: #1a3d7c;
+    --brand-orange: #ff7a00;
+    --brand-light: #f5f7fb;
+    --brand-gray: #e5e7eb;
+  }
+
+  html {
+    font-family: Roboto, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: Poppins, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+  }
+
+  body {
+    @apply bg-brand-light text-slate-900;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4;
+  }
+
+  .card {
+    @apply rounded-2xl bg-white shadow-soft ring-1 ring-slate-200/60;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-navy text-white hover:bg-[#143061] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange;
+  }
+
+  .btn-accent {
+    @apply btn bg-brand-orange text-white hover:bg-[#e86f00] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-brand-navy hover:bg-brand-gray/60;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm outline-none transition focus:border-brand-navy/50 focus:ring-4 focus:ring-brand-navy/10;
+  }
+
+  .label {
+    @apply mb-1 block text-sm font-medium text-slate-700;
+  }
+}

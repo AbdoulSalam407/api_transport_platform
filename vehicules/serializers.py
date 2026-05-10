@@ -38,4 +38,4 @@ class VehiculeSerializer(serializers.ModelSerializer):
             'en_maintenance', 'est_disponible', 'climatisation', 'wifi',
             'prise_usb', 'espace_bagages', 'photo_principale', 'date_ajout'
         ]
-        read_only_fields = ['date_ajout']
+        read_only_fields = ['date_ajout', 'transporteur']

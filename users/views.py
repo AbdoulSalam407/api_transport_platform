@@ -79,14 +79,14 @@ class LoginView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED
             )
         
-        # Authentification avec username
-        user_auth = authenticate(username=user.username, password=password)
-        
-        if not user_auth:
+        # Vérification du mot de passe directement
+        if not user.check_password(password):
             return Response(
                 {'error': 'Email ou mot de passe incorrect'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
+        
+        user_auth = user
         
         if not user_auth.is_actif:
             return Response(
@@ -102,7 +102,8 @@ class LoginView(APIView):
             'email': user_auth.email,
             'nom': user_auth.nom,
             'prenom': user_auth.prenom,
-            'role': user_auth.role
+            'role': user_auth.role,
+            'user': UserSerializer(user_auth).data
         })    
 
 class LogoutView(APIView):

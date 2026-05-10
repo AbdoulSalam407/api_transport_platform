@@ -4,9 +4,46 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 
-class Migration(migrations.Migration):
+def ensure_etape_table_if_missing(apps, schema_editor):
+    """
+    Bases où une ancienne 0001_initial n'avait créé que Trajet (sans Etape) :
+    AddField sur Etape échoue si la table n'existe pas.
+    """
+    conn = schema_editor.connection
+    if "trajets_etape" in conn.introspection.table_names():
+        return
+    with conn.cursor() as cursor:
+        if conn.vendor == "sqlite":
+            cursor.execute(
+                '''
+                CREATE TABLE "trajets_etape" (
+                    "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+                    "lieu" varchar(200) NOT NULL,
+                    "heure_prevue" datetime NOT NULL,
+                    "heure_reelle" datetime NULL,
+                    "ordre" integer unsigned NOT NULL CHECK ("ordre" >= 0)
+                );
+                '''
+            )
+        elif conn.vendor == "postgresql":
+            cursor.execute(
+                '''
+                CREATE TABLE "trajets_etape" (
+                    "id" bigserial NOT NULL PRIMARY KEY,
+                    "lieu" varchar(200) NOT NULL,
+                    "heure_prevue" timestamp with time zone NOT NULL,
+                    "heure_reelle" timestamp with time zone NULL,
+                    "ordre" integer NOT NULL CHECK ("ordre" >= 0)
+                );
+                '''
+            )
 
-    initial = True
+
+def noop_reverse(apps, schema_editor):
+    pass
+
+
+class Migration(migrations.Migration):
 
     dependencies = [
         ('trajets', '0001_initial'),
@@ -15,6 +52,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunPython(ensure_etape_table_if_missing, noop_reverse),
         migrations.AddField(
             model_name='trajet',
             name='chauffeur',

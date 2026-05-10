@@ -31,6 +31,7 @@ class TrajetSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = [
             'date_creation', 'date_modification', 'places_reservees', 'taux_remplissage',
+            'transporteur',
         ]
 
 
