@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.contrib.auth import authenticate, login, logout
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth import authenticate, login, logout
@@ -69,9 +70,7 @@ class LoginView(APIView):
         if not email or not password:
             return Response(
                 {'error': 'Email et mot de passe requis'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
+                status=status.HTTP_400_BAD_REQUEST            )        
         try:
             user = CustomUser.objects.get(email=email)
         except CustomUser.DoesNotExist:

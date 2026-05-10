@@ -703,3 +703,78 @@ INFO 2026-03-27 22:09:44,731 log 3716 9544 "GET /admin/users/customuser/ HTTP/1.
 INFO 2026-03-27 22:09:44,794 log 3716 9544 "GET /admin/login/?next=/admin/users/customuser/ HTTP/1.1" 200 4116
 INFO 2026-03-27 22:10:55,709 log 3716 12216 "GET /admin/users/customuser/ HTTP/1.1" 302 0
 INFO 2026-03-27 22:10:55,742 log 3716 12216 "GET /admin/login/?next=/admin/users/customuser/ HTTP/1.1" 200 4116
+INFO 2026-03-27 22:34:03,067 autoreload 16556 8744 Watching for file changes with StatReloader
+WARNING 2026-03-27 22:34:27,304 log 16556 14608 Forbidden: /users/
+WARNING 2026-03-27 22:34:27,304 log 16556 14608 "GET /users/ HTTP/1.1" 403 76
+INFO 2026-03-27 22:34:58,400 log 16556 16280 "GET /admin/users HTTP/1.1" 301 0
+INFO 2026-03-27 22:34:58,556 log 16556 16280 "GET /admin/users/ HTTP/1.1" 200 5513
+WARNING 2026-03-27 22:35:09,573 log 16556 14608 Forbidden: /users/
+WARNING 2026-03-27 22:35:09,573 log 16556 14608 "GET /users/ HTTP/1.1" 403 76
+INFO 2026-03-28 12:03:21,560 autoreload 23240 10592 Watching for file changes with StatReloader
+WARNING 2026-03-28 12:03:40,098 log 23240 3356 Not Found: /
+WARNING 2026-03-28 12:03:40,100 log 23240 3356 "GET / HTTP/1.1" 404 3579
+INFO 2026-03-28 12:04:02,801 log 23240 3356 "GET /api-auth/login HTTP/1.1" 301 0
+INFO 2026-03-28 12:04:03,026 log 23240 3356 "GET /api-auth/login/ HTTP/1.1" 200 2697
+INFO 2026-03-28 12:04:23,491 log 23240 3356 "POST /api-auth/login/ HTTP/1.1" 302 0
+WARNING 2026-03-28 12:04:23,591 log 23240 3356 Not Found: /accounts/profile/
+WARNING 2026-03-28 12:04:23,593 log 23240 3356 "GET /accounts/profile/ HTTP/1.1" 404 3648
+WARNING 2026-03-28 12:04:41,799 log 23240 3356 Method Not Allowed: /api-token-auth/
+WARNING 2026-03-28 12:04:41,809 log 23240 3356 "GET /api-token-auth/ HTTP/1.1" 405 58
+INFO 2026-03-28 12:05:00,881 log 23240 22008 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3619
+INFO 2026-03-28 12:05:01,234 log 23240 22008 "GET /static/admin/css/login.css HTTP/1.1" 200 951
+INFO 2026-03-28 12:05:34,247 log 23240 22008 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2026-03-28 12:05:34,351 log 23240 22008 "GET /admin/ HTTP/1.1" 200 17194
+INFO 2026-03-28 12:05:55,970 log 23240 22008 "GET /reservations HTTP/1.1" 301 0
+INFO 2026-03-28 12:05:56,123 log 23240 22008 "GET /reservations/ HTTP/1.1" 200 6303
+INFO 2026-03-28 12:06:16,055 log 23240 19204 "GET /reservations/billets HTTP/1.1" 301 0
+WARNING 2026-03-28 12:06:16,240 log 23240 19204 Forbidden: /reservations/billets/
+WARNING 2026-03-28 12:06:16,254 log 23240 19204 "GET /reservations/billets/ HTTP/1.1" 403 5760
+INFO 2026-03-28 12:06:40,235 log 23240 19204 "GET /reservations/points-ramassage HTTP/1.1" 301 0
+WARNING 2026-03-28 12:06:40,269 log 23240 19204 Forbidden: /reservations/points-ramassage/
+WARNING 2026-03-28 12:06:40,271 log 23240 19204 "GET /reservations/points-ramassage/ HTTP/1.1" 403 5868
+INFO 2026-03-28 12:06:56,896 log 23240 23488 "GET /trajets HTTP/1.1" 301 0
+INFO 2026-03-28 12:06:56,935 log 23240 23488 "GET /trajets/ HTTP/1.1" 200 6048
+WARNING 2026-03-28 12:08:41,067 log 23240 23488 Method Not Allowed: /api-token-auth/
+WARNING 2026-03-28 12:08:41,068 log 23240 23488 "GET /api-token-auth/ HTTP/1.1" 405 58
+WARNING 2026-03-28 12:10:25,906 log 23240 11352 Method Not Allowed: /api-token-auth/
+WARNING 2026-03-28 12:10:25,907 log 23240 11352 "GET /api-token-auth/ HTTP/1.1" 405 58
+WARNING 2026-03-28 12:10:47,564 log 23240 11352 Unsupported Media Type: /api-token-auth/
+WARNING 2026-03-28 12:10:47,566 log 23240 11352 "POST /api-token-auth/ HTTP/1.1" 415 70
+WARNING 2026-03-28 12:11:01,617 log 23240 11352 Unsupported Media Type: /api-token-auth/
+WARNING 2026-03-28 12:11:01,618 log 23240 11352 "POST /api-token-auth/ HTTP/1.1" 415 70
+WARNING 2026-03-28 12:11:26,622 log 23240 11352 Method Not Allowed: /api-token-auth/
+WARNING 2026-03-28 12:11:26,624 log 23240 11352 "GET /api-token-auth/ HTTP/1.1" 405 58
+WARNING 2026-03-28 12:11:38,283 log 23240 11352 Unsupported Media Type: /api-token-auth/
+WARNING 2026-03-28 12:11:38,284 log 23240 11352 "POST /api-token-auth/ HTTP/1.1" 415 70
+WARNING 2026-03-28 12:14:26,025 log 23240 5388 Forbidden: /users/
+WARNING 2026-03-28 12:14:26,027 log 23240 5388 "POST /users/ HTTP/1.1" 403 77
+WARNING 2026-03-28 12:19:01,387 log 23240 22260 Not Found: /users/api-token-auth/
+WARNING 2026-03-28 12:19:01,391 log 23240 22260 "POST /users/api-token-auth/ HTTP/1.1" 404 11703
+WARNING 2026-03-28 12:22:00,710 log 23240 23748 Bad Request: /api-token-auth/
+WARNING 2026-03-28 12:22:00,711 log 23240 23748 "POST /api-token-auth/ HTTP/1.1" 400 86
+WARNING 2026-03-28 12:24:30,243 log 23240 2800 Bad Request: /api-token-auth/
+WARNING 2026-03-28 12:24:30,245 log 23240 2800 "POST /api-token-auth/ HTTP/1.1" 400 58
+INFO 2026-03-28 12:34:08,326 autoreload 10612 1912 Watching for file changes with StatReloader
+WARNING 2026-03-28 12:35:09,532 log 10612 4804 Bad Request: /api-token-auth/
+WARNING 2026-03-28 12:35:09,534 log 10612 4804 "POST /api-token-auth/ HTTP/1.1" 400 86
+INFO 2026-03-28 12:39:05,393 autoreload 10612 1912 C:\Users\cheik\transport-plateforme\api_transport_platform\api_transport_platform\settings.py changed, reloading.
+INFO 2026-03-28 12:39:09,801 autoreload 21700 24372 Watching for file changes with StatReloader
+WARNING 2026-03-28 12:39:15,650 log 21700 19356 Bad Request: /api-token-auth/
+WARNING 2026-03-28 12:39:15,651 log 21700 19356 "POST /api-token-auth/ HTTP/1.1" 400 86
+INFO 2026-03-28 12:40:38,381 autoreload 15304 24496 Watching for file changes with StatReloader
+WARNING 2026-03-28 12:40:53,814 log 15304 21056 Bad Request: /api-token-auth/
+WARNING 2026-03-28 12:40:53,815 log 15304 21056 "POST /api-token-auth/ HTTP/1.1" 400 86
+INFO 2026-03-28 12:52:08,692 autoreload 18472 20808 Watching for file changes with StatReloader
+WARNING 2026-03-28 12:52:35,954 log 18472 11928 Bad Request: /api-token-auth/
+WARNING 2026-03-28 12:52:35,957 log 18472 11928 "POST /api-token-auth/ HTTP/1.1" 400 86
+WARNING 2026-03-28 12:57:15,701 log 18472 17436 Method Not Allowed: /api-token-auth/
+WARNING 2026-03-28 12:57:15,712 log 18472 17436 "GET /api-token-auth/ HTTP/1.1" 405 58
+WARNING 2026-03-28 12:57:16,666 log 18472 17436 Method Not Allowed: /api-token-auth/
+WARNING 2026-03-28 12:57:16,671 log 18472 17436 "GET /api-token-auth/ HTTP/1.1" 405 58
+WARNING 2026-03-28 12:57:32,634 log 18472 23200 Method Not Allowed: /api-token-auth/
+WARNING 2026-03-28 12:57:32,635 log 18472 23200 "GET /api-token-auth/ HTTP/1.1" 405 58
+INFO 2026-03-28 13:16:24,979 autoreload 14780 17608 Watching for file changes with StatReloader
+INFO 2026-03-30 14:43:36,797 autoreload 14780 17608 C:\Users\cheik\transport-plateforme\api_transport_platform\trajets\models.py changed, reloading.
+INFO 2026-03-30 14:43:58,630 autoreload 7576 10360 Watching for file changes with StatReloader
+INFO 2026-03-31 22:23:30,919 autoreload 7576 10360 C:\Users\cheik\transport-plateforme\api_transport_platform\users\admin.py changed, reloading.
+INFO 2026-03-31 22:23:39,237 autoreload 9584 9336 Watching for file changes with StatReloader
