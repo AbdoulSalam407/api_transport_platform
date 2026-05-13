@@ -8,7 +8,17 @@ export const routes: Routes = [
         (m) => m.MainLayoutComponent,
       ),
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'recherche' },
+      {
+        path: '',
+        pathMatch: 'full',
+        loadComponent: () =>
+          import('./pages/home/home.component').then((m) => m.HomeComponent),
+      },
+      {
+        path: 'home',
+        redirectTo: '',
+        pathMatch: 'full',
+      },
       {
         path: 'login',
         loadComponent: () =>
@@ -60,5 +70,5 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '**', redirectTo: 'recherche' },
+  { path: '**', redirectTo: '' },
 ];

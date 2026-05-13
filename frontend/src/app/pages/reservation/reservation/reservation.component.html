@@ -1,19 +1,111 @@
-<section class="py-10">
+<section class="min-h-screen bg-slate-50 py-12">
   <div class="container-page">
-    <h1 class="text-3xl md:text-4xl font-heading font-bold">Réservation</h1>
-    <p class="mt-2 text-slate-600">Page temporaire (Sprint 1).</p>
+    <div class="grid gap-8 xl:grid-cols-[2.2fr_1fr]">
+      <div class="rounded-[2rem] bg-white p-8 shadow-xl ring-1 ring-slate-200">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <div class="text-sm uppercase tracking-[0.35em] text-blue-700">Réservation</div>
+            <h1 class="mt-4 text-4xl font-heading font-bold text-slate-900">Confirmez votre voyage</h1>
+          </div>
+          <a class="text-blue-700 hover:underline" routerLink="/recherche">← Retour à la recherche</a>
+        </div>
 
-    <div class="mt-6 card p-6">
-      <div class="text-sm text-slate-600">Étapes</div>
-      <ol class="mt-3 grid gap-2 text-sm">
-        <li class="flex items-center gap-2"><span class="inline-flex size-6 items-center justify-center rounded-full bg-brand-navy text-white">1</span> Choisir un trajet</li>
-        <li class="flex items-center gap-2"><span class="inline-flex size-6 items-center justify-center rounded-full bg-brand-navy text-white">2</span> Saisir les informations passager</li>
-        <li class="flex items-center gap-2"><span class="inline-flex size-6 items-center justify-center rounded-full bg-brand-navy text-white">3</span> Paiement sécurisé</li>
-      </ol>
+        <div class="space-y-6">
+          <div class="rounded-3xl bg-slate-50 p-6">
+            <h2 class="text-xl font-semibold text-slate-900 mb-4">📍 Détails du trajet</h2>
+            <div class="grid gap-4 md:grid-cols-3 text-sm text-slate-600">
+              <div>
+                <p class="font-semibold text-slate-900">Itinéraire</p>
+                <p>Dakar → Thiès</p>
+              </div>
+              <div>
+                <p class="font-semibold text-slate-900">Date</p>
+                <p>20 Avr 2026</p>
+              </div>
+              <div>
+                <p class="font-semibold text-slate-900">Heure</p>
+                <p>08:00 - 10:30</p>
+              </div>
+            </div>
+          </div>
 
-      <div class="mt-6">
-        <button class="btn-primary" type="button" disabled>Continuer</button>
+          <div class="rounded-3xl bg-slate-50 p-6">
+            <h2 class="text-xl font-semibold text-slate-900 mb-4">🪑 Choix des sièges</h2>
+            <div class="grid grid-cols-4 gap-3">
+              <button class="rounded-2xl bg-green-500 px-3 py-4 text-white font-bold">01</button>
+              <button class="rounded-2xl bg-green-500 px-3 py-4 text-white font-bold">02</button>
+              <button class="rounded-2xl bg-red-500 cursor-not-allowed px-3 py-4 text-white font-bold opacity-60">03</button>
+              <button class="rounded-2xl bg-green-500 px-3 py-4 text-white font-bold">04</button>
+              <button class="rounded-2xl bg-green-500 px-3 py-4 text-white font-bold">05</button>
+              <button class="rounded-2xl bg-red-500 cursor-not-allowed px-3 py-4 text-white font-bold opacity-60">06</button>
+              <button class="rounded-2xl bg-green-500 px-3 py-4 text-white font-bold">07</button>
+              <button class="rounded-2xl bg-green-500 px-3 py-4 text-white font-bold">08</button>
+            </div>
+            <div class="mt-6 flex gap-6 text-sm text-slate-600">
+              <div class="flex items-center gap-2"><span class="h-4 w-4 rounded bg-green-500"></span>Disponible</div>
+              <div class="flex items-center gap-2"><span class="h-4 w-4 rounded bg-red-500"></span>Occupé</div>
+            </div>
+          </div>
+
+          <div class="rounded-3xl bg-slate-50 p-6">
+            <h2 class="text-xl font-semibold text-slate-900 mb-4">📋 Vos informations</h2>
+            <div class="grid gap-4">
+              <div>
+                <label class="label">Nom complet</label>
+                <input class="input" type="text" placeholder="Votre nom complet" />
+              </div>
+              <div>
+                <label class="label">Email</label>
+                <input class="input" type="email" placeholder="votre.email@exemple.com" />
+              </div>
+              <div>
+                <label class="label">Téléphone</label>
+                <input class="input" type="tel" placeholder="+221 77 XX XX XX" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <aside class="space-y-6">
+        <div class="rounded-[2rem] bg-white p-8 shadow-xl ring-1 ring-slate-200 sticky top-8">
+          <h2 class="text-xl font-semibold text-slate-900 mb-6">💰 Récapitulatif</h2>
+          <div class="space-y-4 text-sm text-slate-600">
+            <div class="rounded-2xl bg-blue-50 p-4">
+              <p class="text-slate-500">Trajet sélectionné</p>
+              <p class="font-semibold text-slate-900">Dakar → Thiès</p>
+              <p class="text-xs text-slate-500">20 Avr 2026 • 08:00</p>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>Place</span>
+              <strong>#02</strong>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>Prix trajet</span>
+              <strong>5 000 FCFA</strong>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>Frais de service</span>
+              <strong>500 FCFA</strong>
+            </div>
+            <div class="flex items-center justify-between">
+              <span>Assurance</span>
+              <strong>200 FCFA</strong>
+            </div>
+          </div>
+
+          <div class="mt-6 rounded-3xl bg-blue-100 p-4">
+            <div class="flex items-center justify-between text-slate-900 font-semibold">
+              <span>Total</span>
+              <span>5 700 FCFA</span>
+            </div>
+          </div>
+
+          <button class="btn-primary w-full py-3" type="button">✓ Confirmer la réservation</button>
+          <a class="block w-full rounded-2xl bg-slate-200 py-3 text-center text-sm font-semibold text-slate-800 hover:bg-slate-300" routerLink="/recherche">✗ Retour</a>
+          <p class="mt-4 text-xs text-slate-500 text-center">Les places sont réservées pour 15 minutes.</p>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

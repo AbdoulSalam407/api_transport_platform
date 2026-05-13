@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-reservation',
+  selector: 'app-home',
   standalone: true,
   imports: [RouterLink],
-  templateUrl: './reservation.component.html',
+  templateUrl: './home.component.html',
 })
-export class ReservationComponent {}
+export class HomeComponent {}

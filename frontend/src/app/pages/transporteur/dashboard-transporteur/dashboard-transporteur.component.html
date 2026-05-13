@@ -1,16 +1,92 @@
-<section class="py-10">
+<section class="min-h-screen bg-slate-50 py-12">
   <div class="container-page">
-    <h1 class="text-3xl font-heading font-bold">Dashboard Transporteur</h1>
-    <p class="mt-1 text-slate-600">Vue temporaire (Sprint 1).</p>
-
-    <div class="mt-6 grid gap-4 md:grid-cols-2">
-      <div class="card p-5">
-        <div class="text-sm text-slate-600">Véhicules</div>
-        <div class="mt-1 text-2xl font-heading font-bold">0</div>
+    <div class="rounded-[2rem] bg-white p-8 shadow-xl ring-1 ring-slate-200">
+      <div class="flex flex-col gap-6">
+        <div>
+          <p class="text-sm uppercase tracking-[0.35em] text-orange-700">Tableau de bord transporteur</p>
+          <h1 class="mt-4 text-4xl font-heading font-bold text-slate-900">Bienvenue {{ userName }} !</h1>
+          <p class="mt-3 text-slate-600">Publiez vos trajets, suivez vos réservations et développez votre activité.</p>
+        </div>
+        <div class="flex w-full justify-start">
+          <button class="btn-primary bg-orange-700 hover:bg-orange-800">➕ Ajouter un trajet</button>
+        </div>
       </div>
-      <div class="card p-5">
-        <div class="text-sm text-slate-600">Trajets publiés</div>
-        <div class="mt-1 text-2xl font-heading font-bold">0</div>
+
+      <div class="mt-10 grid gap-6 lg:grid-cols-3">
+        <div class="rounded-3xl bg-slate-50 p-6 shadow-inner">
+          <p class="text-sm text-slate-500">Trajets publiés</p>
+          <div class="mt-4 text-4xl font-bold text-orange-700">5</div>
+        </div>
+        <div class="rounded-3xl bg-slate-50 p-6 shadow-inner">
+          <p class="text-sm text-slate-500">Réservations totales</p>
+          <div class="mt-4 text-4xl font-bold text-blue-700">12</div>
+        </div>
+        <div class="rounded-3xl bg-slate-50 p-6 shadow-inner">
+          <p class="text-sm text-slate-500">Revenus (FCFA)</p>
+          <div class="mt-4 text-4xl font-bold text-green-700">780k</div>
+        </div>
+      </div>
+
+      <div class="mt-10 rounded-[2rem] bg-slate-100 p-8 shadow-inner">
+        <h2 class="text-2xl font-semibold text-slate-900 mb-6">📋 Mes trajets</h2>
+        <div class="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-sm">
+          <table class="w-full text-left text-sm text-slate-600">
+            <thead class="bg-slate-100 text-slate-700">
+              <tr>
+                <th class="px-6 py-4">Trajet</th>
+                <th class="px-6 py-4">Date/Heure</th>
+                <th class="px-6 py-4">Places</th>
+                <th class="px-6 py-4">Réservations</th>
+                <th class="px-6 py-4">Status</th>
+                <th class="px-6 py-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr class="hover:bg-slate-50">
+                <td class="px-6 py-4">
+                  <p class="font-semibold text-slate-900">Dakar → Thiès</p>
+                  <p class="text-xs text-slate-500">Trajet direct</p>
+                </td>
+                <td class="px-6 py-4">
+                  <p class="font-semibold">20 Avr 2026</p>
+                  <p class="text-xs text-slate-500">08:00 - 10:30</p>
+                </td>
+                <td class="px-6 py-4"><span class="rounded-full bg-blue-100 px-3 py-1 text-blue-700">4 places</span></td>
+                <td class="px-6 py-4"><span class="font-semibold">3/4</span><p class="text-xs text-slate-500">75% occupé</p></td>
+                <td class="px-6 py-4"><span class="rounded-full bg-green-100 px-3 py-1 text-green-800">Actif</span></td>
+                <td class="px-6 py-4 text-sm text-blue-600"><a class="hover:underline">Voir</a> · <a class="hover:underline">Éditer</a></td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="px-6 py-4">
+                  <p class="font-semibold text-slate-900">Dakar → Kaolack</p>
+                  <p class="text-xs text-slate-500">Via Mbour</p>
+                </td>
+                <td class="px-6 py-4">
+                  <p class="font-semibold">22 Avr 2026</p>
+                  <p class="text-xs text-slate-500">14:00 - 17:30</p>
+                </td>
+                <td class="px-6 py-4"><span class="rounded-full bg-blue-100 px-3 py-1 text-blue-700">7 places</span></td>
+                <td class="px-6 py-4"><span class="font-semibold">9/7</span><p class="text-xs text-slate-500">⚠ Complet</p></td>
+                <td class="px-6 py-4"><span class="rounded-full bg-green-100 px-3 py-1 text-green-800">Actif</span></td>
+                <td class="px-6 py-4 text-sm text-blue-600"><a class="hover:underline">Voir</a> · <a class="hover:underline">Éditer</a></td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <td class="px-6 py-4">
+                  <p class="font-semibold text-slate-900">Dakar → Diourbel</p>
+                  <p class="text-xs text-slate-500">Trajet express</p>
+                </td>
+                <td class="px-6 py-4">
+                  <p class="font-semibold">25 Avr 2026</p>
+                  <p class="text-xs text-slate-500">06:00 - 09:00</p>
+                </td>
+                <td class="px-6 py-4"><span class="rounded-full bg-blue-100 px-3 py-1 text-blue-700">4 places</span></td>
+                <td class="px-6 py-4"><span class="font-semibold">2/4</span><p class="text-xs text-slate-500">50% occupé</p></td>
+                <td class="px-6 py-4"><span class="rounded-full bg-yellow-100 px-3 py-1 text-yellow-800">Attente</span></td>
+                <td class="px-6 py-4 text-sm text-blue-600"><a class="hover:underline">Voir</a> · <a class="hover:underline">Éditer</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
