@@ -1,41 +1,127 @@
-<section class="py-10">
-  <div class="container-page">
-    <div class="grid gap-6 md:grid-cols-2 items-center">
-      <div>
-        <h1 class="text-3xl md:text-4xl font-heading font-bold text-slate-900">Inscription</h1>
-        <p class="mt-2 text-slate-600">
-          Crée ton compte Transport+ et réserve en quelques minutes.
-        </p>
+<section class="min-h-screen bg-blue-50 flex items-center justify-center py-12 px-4">
+  <div class="w-full max-w-md">
+    <div class="bg-white rounded-lg shadow-md p-8">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-2xl font-bold text-slate-900 flex items-center justify-center gap-2">
+          <span class="text-2xl">🚌</span>
+          Transport+
+        </h1>
+        <p class="text-sm text-slate-500 mt-1">Plateforme de réservation de transport</p>
       </div>
 
-      <div class="card p-6">
-        <div class="text-sm text-slate-600">Sprint 1</div>
-        <div class="mt-1 text-lg font-heading font-bold">Page prête pour Sprint 2</div>
+      <!-- Tabs -->
+      <div class="flex items-center justify-center gap-8 border-b border-slate-200 pb-4 mb-6">
+        <a class="text-sm font-semibold text-slate-400 hover:text-slate-900" routerLink="/login">Connexion</a>
+        <a class="text-sm font-semibold text-blue-600 border-b-2 border-blue-600 pb-2" routerLink="/register">Créer un compte</a>
+      </div>
 
-        <div class="mt-6 grid gap-4">
+      <!-- Form -->
+      <form class="space-y-4" (ngSubmit)="register()" #registerForm="ngForm">
+        <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="label">Nom complet</label>
-            <input class="input" type="text" placeholder="ex: Abdoul Salam" disabled>
+            <label class="block text-sm font-semibold text-slate-700 mb-2" for="firstname">Prénom</label>
+            <input
+              id="firstname"
+              name="firstname"
+              type="text"
+              placeholder="Prénom"
+              [(ngModel)]="firstName"
+              required
+              class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
           </div>
-
           <div>
-            <label class="label">Email</label>
-            <input class="input" type="email" placeholder="ex: abdoul@mail.com" disabled>
+            <label class="block text-sm font-semibold text-slate-700 mb-2" for="lastname">Nom</label>
+            <input
+              id="lastname"
+              name="lastname"
+              type="text"
+              placeholder="Nom"
+              [(ngModel)]="lastName"
+              required
+              class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
           </div>
-
-          <div>
-            <label class="label">Mot de passe</label>
-            <input class="input" type="password" placeholder="••••••••" disabled>
-          </div>
-
-          <button class="btn-accent w-full" type="button" disabled>Créer un compte</button>
-
-          <p class="text-sm text-slate-600">
-            Déjà un compte ?
-            <a class="text-brand-navy font-semibold hover:underline" routerLink="/login">Se connecter</a>
-          </p>
         </div>
-      </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2" for="email">📧 Adresse e-mail</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Adresse e-mail"
+            [(ngModel)]="email"
+            required
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2" for="password">🔐 Mot de passe</label>
+          <div class="relative">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Mot de passe"
+              [(ngModel)]="password"
+              required
+              class="w-full border border-slate-300 rounded-lg px-4 py-2 pr-10 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            />
+            <button
+              type="button"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              aria-label="Afficher le mot de passe"
+            >
+              👁
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-[0.8fr_1.2fr] gap-3">
+          <select
+            name="phone"
+            class="border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          >
+            <option>+221</option>
+            <option>+1</option>
+            <option>+33</option>
+          </select>
+          <input
+            type="tel"
+            name="phone_number"
+            placeholder="(__) __ __ __"
+            [(ngModel)]="phoneNumber"
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          />
+        </div>
+
+        <div class="space-y-2">
+          <label class="flex items-center gap-2 text-sm text-slate-700">
+            <input type="radio" name="role" value="passager" [(ngModel)]="role" class="w-4 h-4" checked />
+            Passager
+          </label>
+          <label class="flex items-center gap-2 text-sm text-slate-700">
+            <input type="radio" name="role" value="transporteur" [(ngModel)]="role" class="w-4 h-4" />
+            Transporteur
+          </label>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition mt-6"
+        >
+          CRÉER UN COMPTE
+        </button>
+      </form>
+
+      <!-- Login Link -->
+      <p class="text-center text-sm text-slate-500 mt-4">
+        Vous avez un compte ?
+        <a class="font-semibold text-blue-600 hover:underline" routerLink="/login">Se connecter</a>
+      </p>
     </div>
   </div>
 </section>

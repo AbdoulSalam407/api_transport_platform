@@ -1,18 +1,27 @@
-<header class="bg-white/80 backdrop-blur border-b border-slate-200/70">
+<header class="bg-white/90 backdrop-blur border-b border-slate-200/70 shadow-sm">
   <div class="container-page">
     <div class="h-16 flex items-center justify-between">
       <a class="flex items-center gap-2" routerLink="/" (click)="close()">
-        <span class="inline-flex size-9 items-center justify-center rounded-xl bg-brand-navy text-white font-heading font-bold">
+        <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-900 text-white font-heading font-bold text-lg">
           T+
         </span>
-        <span class="font-heading font-bold text-lg text-slate-900">Transport<span class="text-brand-orange">+</span></span>
+        <div>
+          <div class="font-heading font-bold text-lg text-slate-900">Transport+</div>
+          <div class="text-xs text-slate-500">Réservation de trajets</div>
+        </div>
       </a>
 
-      <nav class="hidden md:flex items-center gap-1">
-        <a class="btn btn-ghost" routerLink="/recherche" routerLinkActive="bg-brand-gray/60">Accueil</a>
-        <a class="btn btn-ghost" routerLink="/reservation" routerLinkActive="bg-brand-gray/60">Réserver</a>
-        <a class="btn btn-ghost" routerLink="/dashboard-passager" routerLinkActive="bg-brand-gray/60">Mes trajets</a>
-        <a class="btn btn-primary" routerLink="/login">Connexion</a>
+      <nav class="hidden md:flex items-center gap-2">
+        <a class="btn btn-ghost" routerLink="/">Accueil</a>
+        <a class="btn btn-ghost" routerLink="/recherche">Recherche</a>
+        <a class="btn btn-ghost" routerLink="/reservation">Réservation</a>
+        <ng-container *ngIf="user(); else notConnected">
+          <a class="btn btn-ghost" [routerLink]="dashboardRoute()">Tableau de bord</a>
+          <button type="button" class="btn btn-outline" (click)="logout()">Déconnexion</button>
+        </ng-container>
+        <ng-template #notConnected>
+          <a class="btn btn-primary" routerLink="/login">Connexion</a>
+        </ng-template>
       </nav>
 
       <button
@@ -33,10 +42,16 @@
 
     <div class="md:hidden pb-4" [ngClass]="{ 'hidden': !isOpen() }">
       <div class="card p-3 flex flex-col gap-2">
-        <a class="btn btn-ghost justify-start" routerLink="/recherche" (click)="close()">Accueil</a>
-        <a class="btn btn-ghost justify-start" routerLink="/reservation" (click)="close()">Réserver</a>
-        <a class="btn btn-ghost justify-start" routerLink="/dashboard-passager" (click)="close()">Mes trajets</a>
-        <a class="btn btn-primary justify-start" routerLink="/login" (click)="close()">Connexion</a>
+        <a class="btn btn-ghost justify-start" routerLink="/" (click)="close()">Accueil</a>
+        <a class="btn btn-ghost justify-start" routerLink="/recherche" (click)="close()">Recherche</a>
+        <a class="btn btn-ghost justify-start" routerLink="/reservation" (click)="close()">Réservation</a>
+        <ng-container *ngIf="user(); else mobileNotConnected">
+          <a class="btn btn-ghost justify-start" [routerLink]="dashboardRoute()" (click)="close()">Tableau de bord</a>
+          <button type="button" class="btn btn-outline justify-start" (click)="logout(); close()">Déconnexion</button>
+        </ng-container>
+        <ng-template #mobileNotConnected>
+          <a class="btn btn-primary justify-start" routerLink="/login" (click)="close()">Connexion</a>
+        </ng-template>
       </div>
     </div>
   </div>
