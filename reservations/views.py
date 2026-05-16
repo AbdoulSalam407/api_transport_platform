@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
 from django.db import transaction
 from django.utils import timezone
 from .models import Reservation, Billet, PointRamassage
@@ -15,10 +16,19 @@ from io import BytesIO
 import uuid
 
 
+# ==================== PAGINATION ====================
+class StandardPagination(PageNumberPagination):
+    """Pagination standardisée pour tous les endpoints"""
+    page_size = 20
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+
 class ReservationViewSet(viewsets.ModelViewSet):
-    """CRUD pour les réservations"""
+    """CRUD pour les réservations - AVEC PAGINATION"""
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
+    pagination_class = StandardPagination
     
     def get_permissions(self):
         if self.action in ['update', 'partial_update', 'destroy']:
@@ -29,11 +39,11 @@ class ReservationViewSet(viewsets.ModelViewSet):
         user = self.request.user
         
         if user.role == 'admin':
-            return Reservation.objects.all()
+            return Reservation.objects.all().order_by('-date_reservation')
         elif user.role == 'passager':
-            return Reservation.objects.filter(passager__utilisateur=user)
+            return Reservation.objects.filter(passager__utilisateur=user).order_by('-date_reservation')
         elif user.role == 'transporteur':
-            return Reservation.objects.filter(trajet__transporteur__utilisateur=user)
+            return Reservation.objects.filter(trajet__transporteur__utilisateur=user).order_by('-date_reservation')
         
         return Reservation.objects.none()
     
@@ -152,14 +162,22 @@ class MarquerRecupereView(APIView):
 
 
 class MesReservationsView(generics.ListAPIView):
-    """Lister mes réservations (passager)"""
+    """Lister mes réservations (passager) - AVEC PAGINATION"""
     serializer_class = ReservationSerializer
     permission_classes = [IsPassager]
+    pagination_class = StandardPagination
     
     def get_queryset(self):
-        return Reservation.objects.filter(
+        queryset = Reservation.objects.filter(
             passager__utilisateur=self.request.user
         ).order_by('-date_reservation')
+        
+        # Filtrer par statut si fourni
+        statut = self.request.query_params.get('statut')
+        if statut:
+            queryset = queryset.filter(statut=statut)
+        
+        return queryset
 
 
 class BilletViewSet(viewsets.ModelViewSet):

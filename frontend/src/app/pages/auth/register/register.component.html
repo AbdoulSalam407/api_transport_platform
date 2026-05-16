@@ -1,123 +1,112 @@
 <section class="min-h-screen bg-blue-50 flex items-center justify-center py-12 px-4">
   <div class="w-full max-w-md">
     <div class="bg-white rounded-lg shadow-md p-8">
-      <!-- Header -->
+
       <div class="text-center mb-8">
         <h1 class="text-2xl font-bold text-slate-900 flex items-center justify-center gap-2">
-          <span class="text-2xl">🚌</span>
-          Transport+
+          <span class="text-2xl">🚌</span> Transport+
         </h1>
         <p class="text-sm text-slate-500 mt-1">Plateforme de réservation de transport</p>
       </div>
 
-      <!-- Tabs -->
       <div class="flex items-center justify-center gap-8 border-b border-slate-200 pb-4 mb-6">
         <a class="text-sm font-semibold text-slate-400 hover:text-slate-900" routerLink="/login">Connexion</a>
         <a class="text-sm font-semibold text-blue-600 border-b-2 border-blue-600 pb-2" routerLink="/register">Créer un compte</a>
       </div>
 
-      <!-- Form -->
       <form class="space-y-4" (ngSubmit)="register()" #registerForm="ngForm">
+
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-2" for="firstname">Prénom</label>
-            <input
-              id="firstname"
-              name="firstname"
-              type="text"
-              placeholder="Prénom"
-              [(ngModel)]="firstName"
-              required
-              class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
+            <label class="block text-sm font-semibold text-slate-700 mb-1" for="firstname">Prénom</label>
+            <input id="firstname" name="firstname" type="text" placeholder="Prénom"
+              [(ngModel)]="firstName" required
+              class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" />
           </div>
           <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-2" for="lastname">Nom</label>
-            <input
-              id="lastname"
-              name="lastname"
-              type="text"
-              placeholder="Nom"
-              [(ngModel)]="lastName"
-              required
-              class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
+            <label class="block text-sm font-semibold text-slate-700 mb-1" for="lastname">Nom</label>
+            <input id="lastname" name="lastname" type="text" placeholder="Nom"
+              [(ngModel)]="lastName" required
+              class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" />
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2" for="email">📧 Adresse e-mail</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="Adresse e-mail"
-            [(ngModel)]="email"
-            required
-            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-          />
+          <label class="block text-sm font-semibold text-slate-700 mb-1" for="email">Adresse e-mail</label>
+          <input id="email" name="email" type="email" placeholder="votre@email.com"
+            [(ngModel)]="email" required
+            [class.border-red-500]="emailTaken"
+            [class.ring-2]="emailTaken"
+            [class.ring-red-100]="emailTaken"
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" />
+          <p *ngIf="emailTaken" class="text-xs text-red-600 mt-1.5 font-medium">
+            Cette adresse e-mail est déjà utilisée. Connectez-vous ou choisissez une autre adresse.
+          </p>
         </div>
 
         <div>
-          <label class="block text-sm font-semibold text-slate-700 mb-2" for="password">🔐 Mot de passe</label>
-          <div class="relative">
-            <input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="Mot de passe"
-              [(ngModel)]="password"
-              required
-              class="w-full border border-slate-300 rounded-lg px-4 py-2 pr-10 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            />
-            <button
-              type="button"
-              class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-              aria-label="Afficher le mot de passe"
-            >
-              👁
-            </button>
-          </div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1" for="password">Mot de passe</label>
+          <input id="password" name="password" type="password" placeholder="Mot de passe"
+            [(ngModel)]="password" required
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" />
         </div>
 
-        <div class="grid grid-cols-[0.8fr_1.2fr] gap-3">
-          <select
-            name="phone"
-            class="border border-slate-300 rounded-lg px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-          >
-            <option>+221</option>
-            <option>+1</option>
-            <option>+33</option>
-          </select>
-          <input
-            type="tel"
-            name="phone_number"
-            placeholder="(__) __ __ __"
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1" for="passwordConfirm">Confirmer le mot de passe</label>
+          <input id="passwordConfirm" name="passwordConfirm" type="password" placeholder="Confirmer le mot de passe"
+            [(ngModel)]="passwordConfirm" required
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1" for="phone">Téléphone</label>
+          <input id="phone" name="phone" type="tel" placeholder="+221 77 XX XX XX"
             [(ngModel)]="phoneNumber"
-            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-          />
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" />
         </div>
 
-        <div class="space-y-2">
-          <label class="flex items-center gap-2 text-sm text-slate-700">
-            <input type="radio" name="role" value="passager" [(ngModel)]="role" class="w-4 h-4" checked />
-            Passager
-          </label>
-          <label class="flex items-center gap-2 text-sm text-slate-700">
-            <input type="radio" name="role" value="transporteur" [(ngModel)]="role" class="w-4 h-4" />
-            Transporteur
-          </label>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">Rôle</label>
+          <div class="flex gap-6">
+            <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+              <input type="radio" name="role" value="passager" [(ngModel)]="role" class="w-4 h-4" />
+              Passager
+            </label>
+            <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+              <input type="radio" name="role" value="transporteur" [(ngModel)]="role" class="w-4 h-4" />
+              Transporteur
+            </label>
+          </div>
+        </div>
+
+        <div *ngIf="role === 'transporteur'" class="space-y-4 border-t pt-4">
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Nom de l'entreprise</label>
+            <input name="nomEntreprise" type="text" placeholder="Nom de l'entreprise"
+              [(ngModel)]="nomEntreprise"
+              class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Numéro de licence</label>
+            <input name="numeroLicence" type="text" placeholder="LIC-XXXX-XXX"
+              [(ngModel)]="numeroLicence"
+              class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100" />
+          </div>
+        </div>
+
+        <div *ngIf="error" class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert" aria-live="assertive">
+          {{ error }}
         </div>
 
         <button
           type="submit"
-          class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition mt-6"
+          [disabled]="loading"
+          class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition mt-4 disabled:opacity-60"
         >
-          CRÉER UN COMPTE
+          {{ loading ? 'Création...' : 'CRÉER UN COMPTE' }}
         </button>
       </form>
 
-      <!-- Login Link -->
       <p class="text-center text-sm text-slate-500 mt-4">
         Vous avez un compte ?
         <a class="font-semibold text-blue-600 hover:underline" routerLink="/login">Se connecter</a>
