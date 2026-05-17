@@ -69,7 +69,12 @@ class Vehicule(models.Model):
     def __str__(self):
         return f"{self.modele} - {self.immatriculation}"
 
-
+    def clean(self):
+        current_year = timezone.now().year + 1
+        if self.annee < 1950 or self.annee > current_year:
+            raise ValidationError("L'année du véhicule est invalide.")
+        if self.en_maintenance and self.disponible:
+            raise ValidationError("Un véhicule en maintenance ne peut pas être disponible.")
     
     @property
     def capacite_places(self):
