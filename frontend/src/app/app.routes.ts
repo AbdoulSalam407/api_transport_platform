@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard, roleGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,7 @@ export const routes: Routes = [
       },
       {
         path: 'dashboard-passager',
+        canActivate: [roleGuard('passager')],
         loadComponent: () =>
           import('./pages/passager/dashboard-passager/dashboard-passager.component').then(
             (m) => m.DashboardPassagerComponent,
@@ -42,13 +44,31 @@ export const routes: Routes = [
       },
       {
         path: 'dashboard-transporteur',
+        canActivate: [roleGuard('transporteur')],
         loadComponent: () =>
           import('./pages/transporteur/dashboard-transporteur/dashboard-transporteur.component').then(
             (m) => m.DashboardTransporteurComponent,
           ),
       },
       {
+        path: 'transporteur/creer-trajet',
+        canActivate: [roleGuard('transporteur')],
+        loadComponent: () =>
+          import('./pages/transporteur/creer-trajet/creer-trajet.component').then(
+            (m) => m.CreerTrajetComponent,
+          ),
+      },
+      {
+        path: 'transporteur/editer-trajet/:id',
+        canActivate: [roleGuard('transporteur')],
+        loadComponent: () =>
+          import('./pages/transporteur/editer-trajet/editer-trajet.component').then(
+            (m) => m.EditerTrajetComponent,
+          ),
+      },
+      {
         path: 'dashboard-admin',
+        canActivate: [roleGuard('admin')],
         loadComponent: () =>
           import('./pages/admin/dashboard-admin/dashboard-admin.component').then(
             (m) => m.DashboardAdminComponent,
@@ -56,6 +76,7 @@ export const routes: Routes = [
       },
       {
         path: 'recherche',
+        canActivate: [authGuard],
         loadComponent: () =>
           import('./pages/recherche/recherche/recherche.component').then(
             (m) => m.RechercheComponent,
@@ -63,6 +84,7 @@ export const routes: Routes = [
       },
       {
         path: 'reservation',
+        canActivate: [authGuard, roleGuard('passager')],
         loadComponent: () =>
           import('./pages/reservation/reservation/reservation.component').then(
             (m) => m.ReservationComponent,

@@ -1,0 +1,83 @@
+<section class="min-h-screen bg-slate-50 py-12">
+  <div class="container-page max-w-2xl mx-auto">
+    <div class="rounded-[2rem] bg-white p-8 shadow-xl ring-1 ring-slate-200">
+      <div class="flex items-center justify-between border-b pb-6 mb-6">
+        <div>
+          <p class="text-sm uppercase tracking-[0.35em] text-orange-700">Transporteur</p>
+          <h1 class="mt-2 text-3xl font-bold text-slate-900">Modifier le trajet</h1>
+        </div>
+        <a routerLink="/dashboard-transporteur" class="text-sm font-semibold text-slate-600 hover:text-orange-700">
+          Retour
+        </a>
+      </div>
+
+      <div *ngIf="loadingTrajet" class="text-slate-500 py-8 text-center">Chargement...</div>
+
+      <form *ngIf="!loadingTrajet" class="space-y-5" (ngSubmit)="enregistrer()">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1" for="depart">Lieu de départ *</label>
+          <input id="depart" type="text" [(ngModel)]="depart" name="depart" required
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1" for="destination">Destination *</label>
+          <input id="destination" type="text" [(ngModel)]="destination" name="destination" required
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1" for="dateDepart">Date et heure *</label>
+          <input id="dateDepart" type="datetime-local" [(ngModel)]="dateDepart" name="dateDepart" required
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm" />
+        </div>
+
+        <div *ngIf="vehicules.length > 0">
+          <label class="block text-sm font-semibold text-slate-700 mb-1" for="vehicule">Véhicule (optionnel)</label>
+          <select id="vehicule" [(ngModel)]="vehiculeId" name="vehicule" (ngModelChange)="onVehiculeChange()"
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm">
+            <option [ngValue]="null">— Choisir un véhicule —</option>
+            <option *ngFor="let v of vehicules" [ngValue]="v.id">
+              {{ v.immatriculation }} ({{ v.capacite_places }} places)
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label for="places" class="block text-sm font-semibold text-slate-700 mb-1">
+            Places dans votre véhicule *
+          </label>
+          <input id="places" type="number" [min]="placesReservees || 1" max="99" [(ngModel)]="placesTotales"
+            name="places" required class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm" />
+          <p class="mt-1 text-xs text-slate-500">
+            Indiquez la capacité réelle de votre voiture (minibus, bus, etc.).
+            <span *ngIf="placesReservees > 0">Minimum {{ placesReservees }} (places déjà réservées).</span>
+          </p>
+        </div>
+
+        <div>
+          <label for="prix" class="block text-sm font-semibold text-slate-700 mb-1">Prix par place (FCFA) *</label>
+          <input id="prix" type="number" min="0" [(ngModel)]="prixBase" name="prix" required
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm" />
+        </div>
+
+        <div>
+          <label for="description" class="block text-sm font-semibold text-slate-700 mb-1">Description</label>
+          <textarea id="description" [(ngModel)]="description" name="description" rows="2"
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm"></textarea>
+        </div>
+
+        <div *ngIf="error" class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3">{{ error }}</div>
+        <div *ngIf="success" class="text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-4 py-3">{{ success }}</div>
+
+        <div class="flex gap-3">
+          <button type="submit" [disabled]="loading"
+            class="flex-1 bg-orange-700 text-white py-2.5 rounded-lg font-semibold disabled:opacity-60">
+            {{ loading ? 'Enregistrement...' : 'Enregistrer' }}
+          </button>
+          <a routerLink="/dashboard-transporteur" class="px-6 py-2.5 border rounded-lg font-semibold inline-flex items-center">
+            Annuler
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

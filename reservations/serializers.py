@@ -1,7 +1,35 @@
 from rest_framework import serializers
 from .models import Reservation, Billet, PointRamassage
 from users.serializers import PassagerSerializer
-from trajets.serializers import TrajetSerializer
+from trajets.serializers import TrajetSerializer, TrajetBriefSerializer
+from core.validation import VALIDATION_APPROUVE
+
+
+def _statut_affichage(statut):
+    statuts = {
+        'en_attente': 'En attente de confirmation admin',
+        'confirmee': 'Confirmée',
+        'annulee': 'Annulée',
+        'terminee': 'Terminée',
+    }
+    return statuts.get(statut, statut)
+
+
+class ReservationListSerializer(serializers.ModelSerializer):
+    """Liste légère pour mes-réservations (sans passager_detail ni trajet complet)."""
+    trajet_detail = TrajetBriefSerializer(source='trajet', read_only=True)
+    statut_affichage = serializers.SerializerMethodField()
+    sieges_affichage = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Reservation
+        fields = [
+            'id', 'trajet', 'trajet_detail', 'nombre_places', 'numero_siege',
+            'sieges_affichage', 'prix_total', 'statut', 'statut_affichage', 'date_reservation',
+        ]
+
+    def get_statut_affichage(self, obj):
+        return _statut_affichage(obj.statut)
 
 
 class ReservationSerializer(serializers.ModelSerializer):
@@ -9,26 +37,20 @@ class ReservationSerializer(serializers.ModelSerializer):
     passager_detail = PassagerSerializer(source='passager', read_only=True)
     trajet_detail = TrajetSerializer(source='trajet', read_only=True)
     statut_affichage = serializers.SerializerMethodField()
-    
+    sieges_affichage = serializers.CharField(read_only=True)
+
     class Meta:
         model = Reservation
         fields = [
             'id', 'passager', 'passager_detail', 'trajet', 'trajet_detail',
-            'nombre_places', 'numero_siege', 'prix_total', 'statut',
+            'nombre_places', 'numero_siege', 'sieges_affichage', 'prix_total', 'statut',
             'statut_affichage', 'recupere', 'heure_recuperation',
             'date_reservation', 'date_modification'
         ]
         read_only_fields = ['date_reservation', 'date_modification', 'prix_total']
     
     def get_statut_affichage(self, obj):
-        """Retourne le statut en français"""
-        statuts = {
-            'en_attente': 'En attente',
-            'confirmee': 'Confirmée',
-            'annulee': 'Annulée',
-            'terminee': 'Terminée',
-        }
-        return statuts.get(obj.statut, obj.statut)
+        return _statut_affichage(obj.statut)
     
     def validate(self, data):
         """Validation personnalisée"""
@@ -45,26 +67,29 @@ class ReservationSerializer(serializers.ModelSerializer):
 
 
 class ReservationCreateSerializer(serializers.ModelSerializer):
-    """Sérializer pour la création d'une réservation"""
-    
+    """Sérializer pour la création d'une réservation (sièges attribués automatiquement)."""
+
     class Meta:
         model = Reservation
-        fields = ['trajet', 'nombre_places', 'numero_siege']
+        fields = ['trajet', 'nombre_places']
     
     def validate(self, data):
         trajet = data.get('trajet')
         nombre_places = data.get('nombre_places', 1)
+        
+        if trajet.validation_statut != VALIDATION_APPROUVE:
+            raise serializers.ValidationError(
+                "Ce trajet n'est pas encore validé par l'administrateur."
+            )
         
         if not trajet.verifier_places(nombre_places):
             raise serializers.ValidationError(
                 f"Plus que {trajet.places_disponibles} places disponibles"
             )
         
-        # Vérifier que le trajet est actif
         if trajet.statut != 'actif':
             raise serializers.ValidationError("Ce trajet n'est pas disponible")
         
-        # Vérifier que la date n'est pas passée
         from django.utils import timezone
         if trajet.date_depart < timezone.now():
             raise serializers.ValidationError("Ce trajet est déjà passé")
@@ -72,20 +97,30 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
         return data
     
     def create(self, validated_data):
+        from .seats import attribuer_sieges_automatiquement
+
         passager = self.context['request'].user.passager_profile
         trajet = validated_data['trajet']
         nombre_places = validated_data.get('nombre_places', 1)
-        
-        # Calculer le prix total
+
+        try:
+            numero_siege = attribuer_sieges_automatiquement(
+                trajet,
+                nombre_places,
+                passager,
+            )
+        except ValueError as exc:
+            raise serializers.ValidationError({'nombre_places': str(exc)}) from exc
+
         prix_total = trajet.prix_base * nombre_places
-        
-        reservation = Reservation.objects.create(
+
+        return Reservation.objects.create(
             passager=passager,
+            trajet=trajet,
+            nombre_places=nombre_places,
+            numero_siege=numero_siege,
             prix_total=prix_total,
-            **validated_data
         )
-        
-        return reservation
 
 
 class BilletSerializer(serializers.ModelSerializer):

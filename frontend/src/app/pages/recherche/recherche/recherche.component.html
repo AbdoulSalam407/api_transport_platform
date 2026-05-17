@@ -1,130 +1,124 @@
-<section class="min-h-screen bg-slate-50 py-12">
-  <div class="container-page">
-    <div class="bg-white rounded-[2rem] p-8 shadow-xl ring-1 ring-slate-200">
-      <div class="flex flex-col gap-8 xl:flex-row xl:items-start xl:justify-between">
-        <div class="max-w-xl">
-          <div class="text-sm font-semibold uppercase tracking-[0.35em] text-blue-700">Recherche de trajets</div>
-          <h1 class="mt-4 text-4xl font-heading font-bold text-slate-900">Trouvez le trajet idéal en quelques clics</h1>
-          <p class="mt-4 text-slate-600">Comparez les offres, vérifiez les places disponibles et réservez rapidement votre voyage.</p>
-        </div>
+<section class="min-h-screen bg-slate-50 py-12 px-4">
+  <div class="max-w-5xl mx-auto">
 
-        <div class="rounded-3xl bg-blue-50 p-6 shadow-inner shadow-blue-100">
-          <div class="text-sm text-slate-500">Conseil</div>
-          <p class="mt-3 text-slate-700">Utilisez la recherche pour trouver votre trajet exact et accédez à la réservation sécurisée.</p>
+    <div class="mb-8 flex flex-wrap justify-between gap-4 items-start">
+      <div>
+        <h1 class="text-3xl font-bold text-slate-900">Trajets disponibles</h1>
+        <p class="text-slate-500 mt-1" *ngIf="peutReserver">
+          Bonjour {{ userName }}, consultez les trajets et réservez votre place.
+        </p>
+        <p class="text-slate-500 mt-1" *ngIf="estTransporteur">
+          Bonjour {{ userName }}, consultez les trajets publiés sur la plateforme (lecture seule).
+        </p>
+        <p class="text-slate-500 mt-1" *ngIf="!peutReserver && !estTransporteur">
+          Bonjour {{ userName }}, liste de tous les trajets approuvés sur la plateforme.
+        </p>
+      </div>
+      <a *ngIf="estTransporteur" routerLink="/transporteur/creer-trajet"
+        class="rounded-lg bg-orange-700 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-800">
+        + Publier un trajet
+      </a>
+    </div>
+
+    <!-- Filtres -->
+    <div class="bg-white rounded-2xl shadow p-6 mb-8">
+      <h2 class="text-sm font-semibold text-slate-700 mb-4">Filtrer la liste</h2>
+      <div class="grid gap-4 md:grid-cols-4">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">Départ</label>
+          <input type="text" placeholder="Ex: Dakar" [(ngModel)]="depart"
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">Destination</label>
+          <input type="text" placeholder="Ex: Saint-Louis" [(ngModel)]="destination"
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">Date</label>
+          <input type="date" [(ngModel)]="date"
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500" />
+        </div>
+        <div class="flex flex-col justify-end gap-2">
+          <button type="button" (click)="filtrer()" [disabled]="loading"
+            class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-60">
+            {{ loading ? 'Chargement...' : 'Appliquer les filtres' }}
+          </button>
+          <button type="button" (click)="reinitialiserFiltres()" [disabled]="loading"
+            class="w-full border border-slate-300 text-slate-700 font-semibold py-2 rounded-lg hover:bg-slate-50 text-sm">
+            Réinitialiser
+          </button>
         </div>
       </div>
+      <label class="mt-4 flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
+        <input type="checkbox" [(ngModel)]="uniquementAvecPlaces" (change)="filtrer()" class="rounded" />
+        Afficher uniquement les trajets avec places restantes
+      </label>
+    </div>
 
-      <div class="mt-10 grid gap-8 lg:grid-cols-[1.3fr_0.7fr]">
-        <div class="rounded-[2rem] bg-slate-100 p-8 shadow-md">
-          <div class="grid gap-6 md:grid-cols-5">
-            <div class="md:col-span-2">
-              <label class="label">Départ</label>
-              <input class="input" type="text" placeholder="Dakar" />
-            </div>
-            <div class="md:col-span-2">
-              <label class="label">Destination</label>
-              <input class="input" type="text" placeholder="Thiès" />
-            </div>
+    <div *ngIf="error" class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 mb-6">
+      {{ error }}
+    </div>
+
+    <div *ngIf="loading" class="text-center text-slate-500 py-12">Chargement des trajets...</div>
+
+    <!-- Liste -->
+    <div *ngIf="listeChargee && !loading">
+      <p class="text-sm text-slate-500 mb-4">{{ trajets.length }} trajet(s) affiché(s)</p>
+
+      <div *ngIf="trajets.length === 0" class="bg-white rounded-2xl shadow p-8 text-center text-slate-500">
+        Aucun trajet ne correspond à vos filtres.
+      </div>
+
+      <div class="space-y-4">
+        <div *ngFor="let trajet of trajets"
+          class="bg-white rounded-2xl shadow p-6 border-l-4 border-blue-600">
+          <div class="flex items-start justify-between gap-4">
             <div>
-              <label class="label">Date</label>
-              <input class="input" type="date" />
+              <h3 class="text-xl font-bold text-slate-900">{{ trajet.depart }} → {{ trajet.destination }}</h3>
+              <p class="text-sm text-slate-500 mt-1">{{ trajet.description || 'Trajet direct' }}</p>
             </div>
-            <div>
-              <label class="label">Passagers</label>
-              <input class="input" type="number" min="1" value="1" />
-            </div>
-            <div class="md:col-span-5">
-              <button class="btn-primary w-full py-3" type="button">🔍 Rechercher</button>
+            <div class="text-right">
+              <p class="text-2xl font-bold text-blue-700">{{ trajet.prix_base }} FCFA</p>
+              <p class="text-xs text-slate-500">par personne</p>
             </div>
           </div>
-        </div>
 
-        <div class="rounded-[2rem] bg-white p-8 shadow-xl ring-1 ring-slate-200">
-          <div class="flex items-center justify-between">
+          <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-slate-600">
             <div>
-              <div class="text-sm text-slate-500">Résultats</div>
-              <div class="mt-1 text-xl font-heading font-bold text-slate-900">5 trajets trouvés</div>
+              <p class="font-semibold text-slate-800">Départ</p>
+              <p>{{ trajet.date_depart | date:'dd/MM/yyyy HH:mm' }}</p>
             </div>
-            <a class="btn btn-ghost" routerLink="/dashboard-passager">Mon tableau de bord</a>
+            <div>
+              <p class="font-semibold text-slate-800">Places</p>
+              <p>
+                <span class="text-green-700 font-semibold">{{ trajet.places_disponibles }}</span>
+                restante(s) sur {{ trajet.places_totales }}
+              </p>
+            </div>
+            <div>
+              <p class="font-semibold text-slate-800">Distance</p>
+              <p>{{ trajet.distance_km ? trajet.distance_km + ' km' : '—' }}</p>
+            </div>
+            <div>
+              <p class="font-semibold text-slate-800">Statut</p>
+              <p>{{ trajet.places_disponibles === 0 ? 'Complet' : 'Disponible' }}</p>
+            </div>
           </div>
 
-          <div class="mt-8 space-y-4">
-            <div class="rounded-3xl border-l-4 border-blue-800 bg-slate-50 p-6">
-              <div class="flex items-start justify-between gap-4">
-                <div>
-                  <h3 class="text-xl font-bold text-slate-900">Dakar → Thiès</h3>
-                  <p class="text-sm text-slate-600">Trajet direct</p>
-                </div>
-                <div class="text-right">
-                  <p class="text-3xl font-bold text-blue-800">5 000</p>
-                  <p class="text-sm text-slate-500">FCFA/personne</p>
-                </div>
-              </div>
-
-              <div class="mt-6 grid grid-cols-2 gap-4 text-sm text-slate-600">
-                <div>
-                  <p class="font-semibold text-slate-900">Départ</p>
-                  <p>08:00</p>
-                </div>
-                <div>
-                  <p class="font-semibold text-slate-900">Arrivée</p>
-                  <p>10:30</p>
-                </div>
-                <div>
-                  <p class="font-semibold text-slate-900">Places</p>
-                  <p>3 disponibles</p>
-                </div>
-                <div>
-                  <p class="font-semibold text-slate-900">Véhicule</p>
-                  <p>Toyota Corolla</p>
-                </div>
-              </div>
-
-              <div class="mt-6 flex items-center justify-between text-sm text-slate-600">
-                <p>Conducteur: <span class="font-semibold text-slate-900">Mamadou Traore</span></p>
-                <button class="btn btn-ghost">Réserver</button>
-              </div>
-            </div>
-
-            <div class="rounded-3xl border-l-4 border-orange-500 bg-slate-50 p-6">
-              <div class="flex items-start justify-between gap-4">
-                <div>
-                  <h3 class="text-xl font-bold text-slate-900">Dakar → Kaolack</h3>
-                  <p class="text-sm text-slate-600">Via Mbour</p>
-                </div>
-                <div class="text-right">
-                  <p class="text-3xl font-bold text-orange-600">7 500</p>
-                  <p class="text-sm text-slate-500">FCFA/personne</p>
-                </div>
-              </div>
-
-              <div class="mt-6 grid grid-cols-2 gap-4 text-sm text-slate-600">
-                <div>
-                  <p class="font-semibold text-slate-900">Départ</p>
-                  <p>14:00</p>
-                </div>
-                <div>
-                  <p class="font-semibold text-slate-900">Arrivée</p>
-                  <p>17:30</p>
-                </div>
-                <div>
-                  <p class="font-semibold text-slate-900">Places</p>
-                  <p>1 disponible</p>
-                </div>
-                <div>
-                  <p class="font-semibold text-slate-900">Véhicule</p>
-                  <p>Mercedes Sprinter</p>
-                </div>
-              </div>
-
-              <div class="mt-6 flex items-center justify-between text-sm text-slate-600">
-                <p>Conducteur: <span class="font-semibold text-slate-900">Samba Ndiaye</span></p>
-                <button class="btn btn-ghost">Réserver</button>
-              </div>
-            </div>
+          <div class="mt-4 flex justify-end gap-3">
+            <span *ngIf="!peutReserver" class="text-sm text-slate-500 italic self-center">
+              Réservation réservée aux passagers
+            </span>
+            <button *ngIf="peutReserver" type="button" (click)="reserver(trajet)"
+              [disabled]="trajet.places_disponibles === 0"
+              class="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+              {{ trajet.places_disponibles === 0 ? 'Complet' : 'Réserver' }}
+            </button>
           </div>
         </div>
       </div>
     </div>
+
   </div>
 </section>

@@ -1,70 +1,114 @@
-<section class="min-h-screen bg-slate-50 py-12">
-  <div class="container-page">
-    <div class="grid gap-8 xl:grid-cols-[2.2fr_1fr]">
-      <div class="rounded-[2rem] bg-white p-8 shadow-xl ring-1 ring-slate-200">
-        <div class="flex items-center justify-between mb-8">
-          <div>
-            <div class="text-sm uppercase tracking-[0.35em] text-blue-700">Réservation</div>
-            <h1 class="mt-4 text-4xl font-heading font-bold text-slate-900">Confirmez votre voyage</h1>
-          </div>
-          <a class="text-blue-700 hover:underline" routerLink="/recherche">← Retour à la recherche</a>
-        </div>
+<section class="min-h-screen bg-slate-50 py-12 px-4">
+  <div class="max-w-4xl mx-auto">
 
+    <div *ngIf="roleNonPassager" class="rounded-2xl border border-amber-200 bg-amber-50 p-8 text-center">
+      <p class="text-amber-900 font-semibold">Seuls les comptes passager peuvent réserver un trajet.</p>
+      <a [routerLink]="dashboardRoute()" class="mt-4 inline-block text-blue-700 hover:underline">Retour au tableau de bord</a>
+    </div>
+
+    <div *ngIf="!trajet && !roleNonPassager" class="text-center text-slate-500 py-20">
+      Aucun trajet sélectionné. <a routerLink="/recherche" class="text-blue-600 underline">Retour aux trajets disponibles</a>
+    </div>
+
+    <div *ngIf="trajet && !roleNonPassager">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-3xl font-bold text-slate-900">Confirmer la réservation</h1>
+        <a routerLink="/recherche" class="text-sm text-blue-600 hover:underline">← Retour</a>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-[2fr_1fr]">
         <div class="space-y-6">
-          <div class="rounded-3xl bg-slate-50 p-6">
-            <h2 class="text-xl font-semibold text-slate-900 mb-4">📍 Détails du trajet</h2>
-            <div class="grid gap-4 md:grid-cols-3 text-sm text-slate-600">
+          <div class="bg-white rounded-2xl shadow p-6">
+            <h2 class="text-lg font-semibold text-slate-900 mb-4">Détails du trajet</h2>
+            <div class="grid grid-cols-2 gap-4 text-sm text-slate-600">
               <div>
-                <p class="font-semibold text-slate-900">Itinéraire</p>
-                <p>Dakar → Thiès</p>
+                <p class="font-semibold text-slate-800">Itinéraire</p>
+                <p>{{ trajet.depart }} → {{ trajet.destination }}</p>
               </div>
               <div>
-                <p class="font-semibold text-slate-900">Date</p>
-                <p>20 Avr 2026</p>
+                <p class="font-semibold text-slate-800">Date de départ</p>
+                <p>{{ trajet.date_depart | date:'dd/MM/yyyy HH:mm' }}</p>
               </div>
               <div>
-                <p class="font-semibold text-slate-900">Heure</p>
-                <p>08:00 - 10:30</p>
+                <p class="font-semibold text-slate-800">Places</p>
+                <p>{{ trajet.places_disponibles }} restante(s) sur {{ trajet.places_totales }} place(s)</p>
+              </div>
+              <div>
+                <p class="font-semibold text-slate-800">Prix par place</p>
+                <p class="font-bold text-blue-700">{{ trajet.prix_base }} FCFA</p>
               </div>
             </div>
           </div>
 
-          <div class="rounded-3xl bg-slate-50 p-6">
-            <h2 class="text-xl font-semibold text-slate-900 mb-4">🪑 Choix des sièges</h2>
-            <div class="grid grid-cols-4 gap-3">
-              <button class="rounded-2xl bg-green-500 px-3 py-4 text-white font-bold">01</button>
-              <button class="rounded-2xl bg-green-500 px-3 py-4 text-white font-bold">02</button>
-              <button class="rounded-2xl bg-red-500 cursor-not-allowed px-3 py-4 text-white font-bold opacity-60">03</button>
-              <button class="rounded-2xl bg-green-500 px-3 py-4 text-white font-bold">04</button>
-              <button class="rounded-2xl bg-green-500 px-3 py-4 text-white font-bold">05</button>
-              <button class="rounded-2xl bg-red-500 cursor-not-allowed px-3 py-4 text-white font-bold opacity-60">06</button>
-              <button class="rounded-2xl bg-green-500 px-3 py-4 text-white font-bold">07</button>
-              <button class="rounded-2xl bg-green-500 px-3 py-4 text-white font-bold">08</button>
+          <div class="bg-white rounded-2xl shadow p-6">
+            <h2 class="text-lg font-semibold text-slate-900 mb-4">Nombre de places</h2>
+            <div class="flex items-center gap-4">
+              <button type="button" (click)="decrementer()"
+                class="w-10 h-10 rounded-full bg-slate-200 text-slate-700 font-bold text-lg hover:bg-slate-300">−</button>
+              <span class="text-2xl font-bold text-slate-900 w-8 text-center">{{ nombrePlaces }}</span>
+              <button type="button" (click)="incrementer()"
+                class="w-10 h-10 rounded-full bg-blue-600 text-white font-bold text-lg hover:bg-blue-700">+</button>
             </div>
-            <div class="mt-6 flex gap-6 text-sm text-slate-600">
-              <div class="flex items-center gap-2"><span class="h-4 w-4 rounded bg-green-500"></span>Disponible</div>
-              <div class="flex items-center gap-2"><span class="h-4 w-4 rounded bg-red-500"></span>Occupé</div>
-            </div>
-          </div>
-
-          <div class="rounded-3xl bg-slate-50 p-6">
-            <h2 class="text-xl font-semibold text-slate-900 mb-4">📋 Vos informations</h2>
-            <div class="grid gap-4">
-              <div>
-                <label class="label">Nom complet</label>
-                <input class="input" type="text" placeholder="Votre nom complet" />
-              </div>
-              <div>
-                <label class="label">Email</label>
-                <input class="input" type="email" placeholder="votre.email@exemple.com" />
-              </div>
-              <div>
-                <label class="label">Téléphone</label>
-                <input class="input" type="tel" placeholder="+221 77 XX XX XX" />
-              </div>
+            <div class="mt-4">
+              <p class="text-sm text-slate-600">
+                Les sièges vous seront attribués automatiquement selon vos préférences (fenêtre / couloir).
+              </p>
             </div>
           </div>
         </div>
+
+        <aside>
+          <div class="bg-white rounded-2xl shadow p-6 sticky top-8">
+            <h2 class="text-lg font-semibold text-slate-900 mb-4">Récapitulatif</h2>
+            <div class="space-y-3 text-sm text-slate-600">
+              <div class="bg-blue-50 rounded-xl p-3">
+                <p class="font-semibold text-slate-800">{{ trajet.depart }} → {{ trajet.destination }}</p>
+                <p class="text-xs text-slate-500">{{ trajet.date_depart | date:'dd/MM/yyyy HH:mm' }}</p>
+              </div>
+              <div class="flex justify-between">
+                <span>{{ nombrePlaces }} place(s) × {{ trajet.prix_base }} FCFA</span>
+              </div>
+              <div class="border-t pt-3 flex justify-between font-bold text-slate-900 text-base">
+                <span>Total</span>
+                <span class="text-blue-700">{{ prixTotal }} FCFA</span>
+              </div>
+            </div>
+
+            <div *ngIf="error" class="mt-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              {{ error }}
+            </div>
+            <div *ngIf="success" class="mt-4 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+              {{ success }}
+            </div>
+
+            <div *ngIf="derniereReservation" class="mt-4 rounded-xl border border-yellow-200 bg-yellow-50 p-4 text-sm">
+              <p class="font-semibold text-yellow-900">Statut de votre demande</p>
+              <p class="mt-1 text-yellow-800">
+                Réservation #{{ derniereReservation.id }} —
+                <span class="font-semibold">{{ derniereReservation.statut_affichage || derniereReservation.statut }}</span>
+              </p>
+              <p *ngIf="derniereReservation.sieges_affichage || derniereReservation.numero_siege" class="mt-2 text-yellow-800 font-medium">
+                {{ derniereReservation.sieges_affichage || ('Sièges ' + derniereReservation.numero_siege) }}
+              </p>
+              <p class="mt-2 text-yellow-700 text-xs">
+                Vous serez notifié lorsque l'administrateur aura confirmé votre réservation.
+              </p>
+              <button type="button" (click)="allerMesReservations()"
+                class="mt-3 w-full rounded-lg bg-yellow-700 px-4 py-2 text-white font-semibold hover:bg-yellow-800">
+                Voir mes réservations
+              </button>
+            </div>
+
+            <button type="button" (click)="reserver()" [disabled]="loading || !!derniereReservation"
+              class="mt-6 w-full bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition disabled:opacity-60">
+              {{ loading ? 'Réservation...' : 'Confirmer la réservation' }}
+            </button>
+            <a routerLink="/recherche"
+              class="mt-3 block w-full text-center bg-slate-100 text-slate-700 font-semibold py-3 rounded-xl hover:bg-slate-200 transition text-sm">
+              Annuler
+            </a>
+          </div>
+        </aside>
       </div>
 
       <aside class="space-y-6">

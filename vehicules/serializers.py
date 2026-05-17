@@ -29,13 +29,23 @@ class VehiculeSerializer(serializers.ModelSerializer):
     transporteur_detail = TransporteurSerializer(source='transporteur', read_only=True)
     modele_detail = ModeleSerializer(source='modele', read_only=True)
     est_disponible = serializers.BooleanField(read_only=True)
-    
+    capacite_places = serializers.SerializerMethodField()
+
     class Meta:
         model = Vehicule
         fields = [
             'id', 'transporteur', 'transporteur_detail', 'modele', 'modele_detail',
+            'nombre_places', 'capacite_places',
             'immatriculation', 'couleur', 'annee', 'disponible',
             'en_maintenance', 'est_disponible', 'climatisation', 'wifi',
             'prise_usb', 'espace_bagages', 'photo_principale', 'date_ajout'
         ]
-        read_only_fields = ['date_ajout', 'transporteur']
+        read_only_fields = ['date_ajout', 'transporteur', 'capacite_places']
+
+    def get_capacite_places(self, obj):
+        return obj.capacite_places
+
+    def validate_nombre_places(self, value):
+        if value is not None and value < 1:
+            raise serializers.ValidationError('Le nombre de places doit être au moins 1.')
+        return value
