@@ -19,7 +19,12 @@ class Reservation(models.Model):
     
     # Détails de la réservation
     nombre_places = models.PositiveIntegerField(default=1)
-    numero_siege = models.CharField(max_length=10, blank=True)
+    numero_siege = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name='Siège(s)',
+        help_text='Numéros attribués automatiquement (ex. 3,4,5)',
+    )
     prix_total = models.DecimalField(max_digits=10, decimal_places=2)
     statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='en_attente')
     
@@ -41,18 +46,42 @@ class Reservation(models.Model):
     def confirmer(self):
         """Confirmer la réservation"""
         if self.statut == 'en_attente' and self.trajet.verifier_places(self.nombre_places):
-            # Sécurise le calcul du prix au moment de la confirmation
+            if not self.numero_siege:
+                from .seats import attribuer_sieges_automatiquement
+                self.numero_siege = attribuer_sieges_automatiquement(
+                    self.trajet,
+                    self.nombre_places,
+                    self.passager,
+                )
             self.prix_total = self.trajet.prix_base * self.nombre_places
             self.trajet.reserver_places(self.nombre_places)
             self.statut = 'confirmee'
             self.save()
             return True
         return False
+
+    @property
+    def sieges_attribues(self):
+        from .seats import parse_sieges
+        return parse_sieges(self.numero_siege)
+
+    @property
+    def sieges_affichage(self):
+        sieges = self.sieges_attribues
+        if not sieges:
+            return ''
+        if len(sieges) == 1:
+            return f'Siège {sieges[0]}'
+        return 'Sièges ' + ', '.join(sieges)
     
     def annuler(self):
         """Annuler la réservation"""
         if self.statut == 'confirmee':
             self.trajet.annuler_reservation(self.nombre_places)
+            self.statut = 'annulee'
+            self.save()
+            return True
+        if self.statut == 'en_attente':
             self.statut = 'annulee'
             self.save()
             return True

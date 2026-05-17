@@ -14,52 +14,57 @@
             Publiez vos trajets, suivez vos réservations et développez votre activité.
           </p>
         </div>
-        <div class="flex w-full justify-between items-center">
-          <button
-            (click)="allerCreerTrajet()"
-            class="btn-primary bg-orange-700 hover:bg-orange-800"
-          >
-            ➕ Ajouter un trajet
-          </button>
+        <div class="flex w-full justify-between items-center flex-wrap gap-3">
+          <div class="flex flex-wrap gap-2">
+            <a routerLink="/recherche" class="px-4 py-2 text-sm font-semibold text-blue-700 border border-blue-200 rounded-lg hover:bg-blue-50">
+              Trajets disponibles
+            </a>
+            <button
+              (click)="allerCreerTrajet()"
+              class="btn-primary bg-orange-700 hover:bg-orange-800"
+            >
+              + Ajouter un trajet
+            </button>
+          </div>
           <div class="flex gap-2">
             <button
               (click)="rafraichirDonnees()"
               class="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-slate-900 transition"
             >
-              🔄 Actualiser
+              Actualiser
             </button>
             <button
               (click)="logout()"
               class="px-4 py-2 text-sm font-semibold text-red-700 hover:text-red-900 transition"
             >
-              🚪 Déconnexion
+              Déconnexion
             </button>
           </div>
         </div>
       </div>
 
       <!-- STATISTIQUES (dynamique) -->
-      <div *ngIf="!statsLoading && !statsError && stats" class="mt-10 grid gap-6 lg:grid-cols-4">
+      <div *ngIf="!statsLoading && stats" class="mt-10 grid gap-6 lg:grid-cols-4">
         <div
           class="rounded-3xl bg-gradient-to-br from-orange-50 to-orange-100 p-6 shadow-inner border border-orange-200"
         >
           <p class="text-sm text-orange-700 font-semibold">Trajets publiés</p>
           <div class="mt-4 text-4xl font-bold text-orange-900">{{ stats.total_trajets }}</div>
-          <p class="mt-2 text-xs text-orange-600">{{ stats.trajets_actifs }} actifs</p>
+          <p class="mt-2 text-xs text-orange-600">{{ stats.trajets_actifs }} actifs · {{ stats.trajets_en_attente ?? 0 }} en attente admin</p>
         </div>
         <div
           class="rounded-3xl bg-gradient-to-br from-blue-50 to-blue-100 p-6 shadow-inner border border-blue-200"
         >
           <p class="text-sm text-blue-700 font-semibold">Réservations</p>
           <div class="mt-4 text-4xl font-bold text-blue-900">{{ stats.total_reservations }}</div>
-          <p class="mt-2 text-xs text-blue-600">Places occupées</p>
+          <p class="mt-2 text-xs text-blue-600">{{ stats.reservations_confirmees ?? 0 }} confirmées · {{ stats.reservations_en_attente ?? 0 }} en attente</p>
         </div>
         <div
           class="rounded-3xl bg-gradient-to-br from-green-50 to-green-100 p-6 shadow-inner border border-green-200"
         >
-          <p class="text-sm text-green-700 font-semibold">Places totales</p>
+          <p class="text-sm text-green-700 font-semibold">Capacité totale (vos trajets)</p>
           <div class="mt-4 text-4xl font-bold text-green-900">{{ stats.total_places }}</div>
-          <p class="mt-2 text-xs text-green-600">{{ stats.places_reservees }} réservées</p>
+          <p class="mt-2 text-xs text-green-600">{{ stats.places_reservees }} réservées · {{ stats.places_disponibles ?? (stats.total_places - stats.places_reservees) }} restantes</p>
         </div>
         <div
           class="rounded-3xl bg-gradient-to-br from-purple-50 to-purple-100 p-6 shadow-inner border border-purple-200"
@@ -68,7 +73,7 @@
           <div class="mt-4 text-4xl font-bold text-purple-900">
             {{ stats.taux_remplissage_moyen }}%
           </div>
-          <p class="mt-2 text-xs text-purple-600">En moyenne</p>
+          <p class="mt-2 text-xs text-purple-600">{{ stats.trajets_approuves ?? 0 }} trajets approuvés</p>
         </div>
       </div>
 
@@ -93,7 +98,7 @@
       <!-- MES TRAJETS SECTION -->
       <div class="mt-10 rounded-[2rem] bg-slate-100 p-8 shadow-inner">
         <div class="flex justify-between items-center mb-6">
-          <h2 class="text-2xl font-semibold text-slate-900">📋 Mes trajets</h2>
+          <h2 class="text-2xl font-semibold text-slate-900">Mes trajets</h2>
           <span class="text-sm font-semibold text-slate-600"
             >Total: {{ totalTrajets }} trajets</span
           >
@@ -127,9 +132,10 @@
               <tr>
                 <th class="px-6 py-4">Trajet</th>
                 <th class="px-6 py-4">Date/Heure</th>
-                <th class="px-6 py-4">Places</th>
+                <th class="px-6 py-4">Places restantes</th>
                 <th class="px-6 py-4">Remplissage</th>
                 <th class="px-6 py-4">Statut</th>
+                <th class="px-6 py-4">Validation admin</th>
                 <th class="px-6 py-4">Actions</th>
               </tr>
             </thead>
@@ -146,11 +152,20 @@
                   <p class="text-xs text-slate-500">{{ formatTime(trajet.date_depart) }}</p>
                 </td>
                 <td class="px-6 py-4">
-                  <span
-                    class="rounded-full bg-blue-100 px-3 py-1 text-blue-700 text-xs font-semibold"
+                  <div
+                    class="rounded-xl px-3 py-2 text-xs"
+                    [ngClass]="getCouleurPlaces(trajet)"
                   >
-                    {{ trajet.places_disponibles }}/{{ trajet.places_totales }} places
-                  </span>
+                    <p class="text-lg font-bold leading-tight">{{ getPlacesLibres(trajet) }}</p>
+                    <p class="font-medium">place(s) restante(s)</p>
+                    <p class="mt-1 opacity-90">
+                      sur {{ getCapaciteDefinie(trajet) }} définie(s) à la création
+                    </p>
+                    <p *ngIf="getPlacesReservees(trajet) > 0" class="mt-1 opacity-80">
+                      {{ getPlacesReservees(trajet) }} déjà réservée(s)
+                    </p>
+                    <p *ngIf="estComplet(trajet)" class="mt-1 font-semibold">Complet</p>
+                  </div>
                 </td>
                 <td class="px-6 py-4">
                   <div class="w-24 bg-slate-200 rounded-full h-2">
@@ -167,6 +182,14 @@
                     class="rounded-full px-3 py-1 text-xs font-semibold"
                   >
                     {{ trajet.statut }}
+                  </span>
+                </td>
+                <td class="px-6 py-4">
+                  <span
+                    [ngClass]="getCouleurValidation(trajet.validation_statut)"
+                    class="rounded-full px-3 py-1 text-xs font-semibold"
+                  >
+                    {{ trajet.validation_statut_affichage || trajet.validation_statut || '—' }}
                   </span>
                 </td>
                 <td class="px-6 py-4 text-sm">
@@ -189,7 +212,7 @@
           class="rounded-2xl bg-blue-50 p-8 text-center border border-blue-200"
         >
           <p class="text-blue-900 font-semibold mb-3">
-            📭 Vous n'avez pas encore de trajets publiés
+            Vous n'avez pas encore de trajets publiés
           </p>
           <p class="text-blue-800 text-sm mb-4">
             Commencez à publier vos trajets pour attirer des passagers
@@ -198,7 +221,7 @@
             (click)="allerCreerTrajet()"
             class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
           >
-            ➕ Créer un trajet
+            Créer un trajet
           </button>
         </div>
 

@@ -13,8 +13,9 @@
 
       <nav class="hidden md:flex items-center gap-2">
         <a class="btn btn-ghost" routerLink="/">Accueil</a>
-        <a class="btn btn-ghost" routerLink="/recherche">Recherche</a>
-        <a class="btn btn-ghost" routerLink="/reservation">Réservation</a>
+        <a class="btn btn-ghost" routerLink="/recherche">Trajets disponibles</a>
+        <a *ngIf="user()?.role === 'passager'" class="btn btn-ghost" routerLink="/dashboard-passager">Mes réservations</a>
+        <a *ngIf="user()?.role === 'transporteur'" class="btn btn-ghost" routerLink="/transporteur/creer-trajet">Publier un trajet</a>
         <ng-container *ngIf="user(); else notConnected">
           <a class="btn btn-ghost" [routerLink]="dashboardRoute()">Tableau de bord</a>
           <button type="button" class="btn btn-outline" (click)="logout()">Déconnexion</button>
@@ -43,8 +44,9 @@
     <div class="md:hidden pb-4" [ngClass]="{ 'hidden': !isOpen() }">
       <div class="card p-3 flex flex-col gap-2">
         <a class="btn btn-ghost justify-start" routerLink="/" (click)="close()">Accueil</a>
-        <a class="btn btn-ghost justify-start" routerLink="/recherche" (click)="close()">Recherche</a>
-        <a class="btn btn-ghost justify-start" routerLink="/reservation" (click)="close()">Réservation</a>
+        <a class="btn btn-ghost justify-start" routerLink="/recherche" (click)="close()">Trajets disponibles</a>
+        <a *ngIf="user()?.role === 'passager'" class="btn btn-ghost justify-start" routerLink="/dashboard-passager" (click)="close()">Mes réservations</a>
+        <a *ngIf="user()?.role === 'transporteur'" class="btn btn-ghost justify-start" routerLink="/transporteur/creer-trajet" (click)="close()">Publier un trajet</a>
         <ng-container *ngIf="user(); else mobileNotConnected">
           <a class="btn btn-ghost justify-start" [routerLink]="dashboardRoute()" (click)="close()">Tableau de bord</a>
           <button type="button" class="btn btn-outline justify-start" (click)="logout(); close()">Déconnexion</button>

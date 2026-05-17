@@ -6,10 +6,11 @@ from django.db import transaction
 from django.utils import timezone
 from .models import Reservation, Billet, PointRamassage
 from .serializers import (
-    ReservationSerializer, ReservationCreateSerializer,
+    ReservationSerializer, ReservationListSerializer, ReservationCreateSerializer,
     BilletSerializer, PointRamassageSerializer
 )
 from core.permissions import IsAdmin, IsPassager, IsTransporteur, IsAdminOrSelf
+from rest_framework.exceptions import PermissionDenied
 import qrcode
 
 from io import BytesIO
@@ -31,6 +32,8 @@ class ReservationViewSet(viewsets.ModelViewSet):
     pagination_class = StandardPagination
     
     def get_permissions(self):
+        if self.action == 'create':
+            return [IsPassager()]
         if self.action in ['update', 'partial_update', 'destroy']:
             return [IsAdminOrSelf()]
         return [permissions.IsAuthenticated()]
@@ -48,7 +51,8 @@ class ReservationViewSet(viewsets.ModelViewSet):
         return Reservation.objects.none()
     
     def perform_create(self, serializer):
-        """Créer une réservation"""
+        if self.request.user.role != 'passager':
+            raise PermissionDenied('Seuls les passagers peuvent créer une réservation.')
         passager = self.request.user.passager_profile
         serializer.save(passager=passager)
 
@@ -66,46 +70,69 @@ class CreerReservationView(APIView):
         serializer.is_valid(raise_exception=True)
         
         reservation = serializer.save()
-        
-        # Confirmer automatiquement la réservation
-        if reservation.confirmer():
-            return Response(
-                ReservationSerializer(reservation).data,
-                status=status.HTTP_201_CREATED
-            )
-        else:
-            return Response(
-                {'error': 'Erreur lors de la confirmation'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+
+        sieges = reservation.sieges_affichage
+        detail_sieges = f' {sieges}.' if sieges else ''
+        return Response(
+            {
+                'message': (
+                    f'Réservation enregistrée.{detail_sieges} '
+                    f'Validation par un administrateur requise.'
+                ),
+                'reservation': ReservationSerializer(reservation).data,
+            },
+            status=status.HTTP_201_CREATED,
+        )
 
 
 class ConfirmerReservationView(APIView):
-    """Confirmer une réservation"""
-    permission_classes = [IsPassager]
+    """Confirmer une réservation (admin uniquement)."""
+    permission_classes = [IsAdmin]
     
     def post(self, request, pk):
         try:
-            reservation = Reservation.objects.get(
-                id=pk,
-                passager__utilisateur=request.user
-            )
+            reservation = Reservation.objects.get(id=pk)
+            
+            if reservation.statut != 'en_attente':
+                return Response(
+                    {'error': 'Cette réservation ne peut plus être confirmée.'},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            
+            if reservation.trajet.validation_statut != 'approuve':
+                return Response(
+                    {'error': 'Le trajet associé doit être approuvé par l\'admin.'},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
             
             if reservation.confirmer():
+                from notifications.services import notifier_reservation_confirmee
+                notifier_reservation_confirmee(reservation)
                 return Response({
-                    'message': 'Réservation confirmée',
-                    'reservation': ReservationSerializer(reservation).data
+                    'message': 'Réservation confirmée par l\'administrateur.',
+                    'reservation': ReservationSerializer(reservation).data,
                 })
-            else:
-                return Response(
-                    {'error': 'Impossible de confirmer - plus de places disponibles'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
+            return Response(
+                {'error': 'Impossible de confirmer - plus de places disponibles'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         except Reservation.DoesNotExist:
             return Response(
                 {'error': 'Réservation non trouvée'},
-                status=status.HTTP_404_NOT_FOUND
+                status=status.HTTP_404_NOT_FOUND,
             )
+
+
+class ReservationsEnAttenteAdminView(generics.ListAPIView):
+    """Réservations en attente de validation admin."""
+    serializer_class = ReservationSerializer
+    permission_classes = [IsAdmin]
+    pagination_class = StandardPagination
+
+    def get_queryset(self):
+        return Reservation.objects.filter(statut='en_attente').select_related(
+            'passager', 'passager__utilisateur', 'trajet'
+        ).order_by('-date_reservation')
 
 
 class AnnulerReservationView(APIView):
@@ -163,14 +190,14 @@ class MarquerRecupereView(APIView):
 
 class MesReservationsView(generics.ListAPIView):
     """Lister mes réservations (passager) - AVEC PAGINATION"""
-    serializer_class = ReservationSerializer
+    serializer_class = ReservationListSerializer
     permission_classes = [IsPassager]
     pagination_class = StandardPagination
     
     def get_queryset(self):
         queryset = Reservation.objects.filter(
             passager__utilisateur=self.request.user
-        ).order_by('-date_reservation')
+        ).select_related('trajet', 'passager').order_by('-date_reservation')
         
         # Filtrer par statut si fourni
         statut = self.request.query_params.get('statut')

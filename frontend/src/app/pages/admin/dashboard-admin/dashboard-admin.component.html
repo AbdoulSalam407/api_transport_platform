@@ -5,7 +5,7 @@
     <div class="mb-8 overflow-hidden rounded-[2rem] bg-red-900 px-6 py-5 text-white shadow-xl">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div class="flex items-center gap-3">
-          <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-xl">🚌</span>
+          <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-xl font-bold">T+</span>
           <div>
             <div class="text-xl font-semibold">Transport+</div>
             <div class="text-sm text-red-200">Tableau de bord Admin</div>
@@ -47,10 +47,65 @@
       <div *ngIf="error" class="mt-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
         {{ error }}
       </div>
+      <div *ngIf="adminMessage" class="mt-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+        {{ adminMessage }}
+      </div>
+
+      <div class="mt-10 rounded-[2rem] bg-amber-50 p-8 border border-amber-200">
+        <h2 class="text-2xl font-semibold text-amber-900 mb-4">Trajets à valider</h2>
+        <p class="text-sm text-amber-800 mb-4">Invisible pour les passagers tant qu'ils ne sont pas approuvés.</p>
+        <div *ngIf="loadingTrajets">Chargement...</div>
+        <p *ngIf="!loadingTrajets && trajetsEnAttente.length === 0" class="text-slate-600">Aucun trajet en attente.</p>
+        <div class="space-y-3" *ngIf="!loadingTrajets && trajetsEnAttente.length > 0">
+          <div *ngFor="let t of trajetsEnAttente" class="flex flex-wrap justify-between gap-3 rounded-xl bg-white p-4 border">
+            <div>
+              <p class="font-semibold">{{ t.depart }} → {{ t.destination }}</p>
+              <p class="text-xs text-slate-500">{{ t.date_depart | date:'dd/MM/yyyy HH:mm' }}</p>
+            </div>
+            <div class="flex gap-2">
+              <button type="button" (click)="approuverTrajet(t.id)" class="px-4 py-2 bg-green-600 text-white text-sm rounded-lg">Approuver</button>
+              <button type="button" (click)="rejeterTrajet(t.id)" class="px-4 py-2 bg-red-600 text-white text-sm rounded-lg">Rejeter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 rounded-[2rem] bg-blue-50 p-8 border border-blue-200">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h2 class="text-2xl font-semibold text-blue-900">Réservations à confirmer</h2>
+          <span *ngIf="!loadingReservations && reservationsEnAttente.length > 0"
+            class="rounded-full bg-blue-700 px-3 py-1 text-sm font-semibold text-white">
+            {{ reservationsEnAttente.length }} en attente
+          </span>
+        </div>
+        <p class="text-sm text-blue-800 mb-4">
+          Chaque nouvelle réservation passager apparaît ici. Confirmez-la pour valider la place et notifier le passager.
+        </p>
+        <div *ngIf="reservationsError" class="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {{ reservationsError }}
+        </div>
+        <div *ngIf="loadingReservations">Chargement...</div>
+        <p *ngIf="!loadingReservations && !reservationsError && reservationsEnAttente.length === 0">Aucune réservation en attente.</p>
+        <div class="space-y-3" *ngIf="!loadingReservations && reservationsEnAttente.length > 0">
+          <div *ngFor="let r of reservationsEnAttente" class="flex flex-wrap justify-between gap-3 rounded-xl bg-white p-4 border">
+            <div>
+              <p class="font-semibold">#{{ r.id }} — {{ r.trajet_detail?.depart }} → {{ r.trajet_detail?.destination }}</p>
+              <p class="text-xs text-slate-500">
+                Passager : {{ r.passager_detail?.nom_complet || '—' }}
+                · {{ r.nombre_places }} place(s) · {{ r.prix_total }} FCFA
+                <span *ngIf="r.sieges_affichage || r.numero_siege">
+                  · {{ r.sieges_affichage || ('Sièges ' + r.numero_siege) }}
+                </span>
+              </p>
+            </div>
+            <button type="button" (click)="confirmerReservation(r.id)" class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg">Confirmer</button>
+          </div>
+        </div>
+      </div>
 
       <!-- Gestion utilisateurs -->
       <div class="mt-10 rounded-[2rem] bg-slate-100 p-8 shadow-inner">
-        <h2 class="text-2xl font-semibold text-slate-900 mb-6">📋 Gestion des utilisateurs</h2>
+        <h2 class="text-2xl font-semibold text-slate-900 mb-6">Gestion des utilisateurs</h2>
 
         <!-- Filtres -->
         <div class="flex flex-col gap-4 lg:flex-row lg:items-center mb-6">
@@ -104,6 +159,10 @@
                 </td>
                 <td class="px-6 py-4 text-slate-500">{{ user.date_inscription | date:'dd/MM/yyyy' }}</td>
                 <td class="px-6 py-4">
+                  <button *ngIf="!user.is_verified" (click)="validerUtilisateur(user)"
+                    class="text-sm font-semibold text-green-700 hover:underline mr-2">
+                    Valider
+                  </button>
                   <button (click)="toggleActif(user)"
                     class="text-sm font-semibold hover:underline"
                     [ngClass]="user.is_actif ? 'text-red-600' : 'text-green-600'">

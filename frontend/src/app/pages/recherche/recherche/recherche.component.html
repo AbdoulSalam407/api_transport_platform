@@ -1,13 +1,28 @@
 <section class="min-h-screen bg-slate-50 py-12 px-4">
   <div class="max-w-5xl mx-auto">
 
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-slate-900">Recherche de trajets</h1>
-      <p class="text-slate-500 mt-1">Bonjour {{ userName }}, trouvez votre prochain voyage</p>
+    <div class="mb-8 flex flex-wrap justify-between gap-4 items-start">
+      <div>
+        <h1 class="text-3xl font-bold text-slate-900">Trajets disponibles</h1>
+        <p class="text-slate-500 mt-1" *ngIf="peutReserver">
+          Bonjour {{ userName }}, consultez les trajets et réservez votre place.
+        </p>
+        <p class="text-slate-500 mt-1" *ngIf="estTransporteur">
+          Bonjour {{ userName }}, consultez les trajets publiés sur la plateforme (lecture seule).
+        </p>
+        <p class="text-slate-500 mt-1" *ngIf="!peutReserver && !estTransporteur">
+          Bonjour {{ userName }}, liste de tous les trajets approuvés sur la plateforme.
+        </p>
+      </div>
+      <a *ngIf="estTransporteur" routerLink="/transporteur/creer-trajet"
+        class="rounded-lg bg-orange-700 px-4 py-2 text-sm font-semibold text-white hover:bg-orange-800">
+        + Publier un trajet
+      </a>
     </div>
 
-    <!-- Formulaire de recherche -->
+    <!-- Filtres -->
     <div class="bg-white rounded-2xl shadow p-6 mb-8">
+      <h2 class="text-sm font-semibold text-slate-700 mb-4">Filtrer la liste</h2>
       <div class="grid gap-4 md:grid-cols-4">
         <div>
           <label class="block text-sm font-semibold text-slate-700 mb-1">Départ</label>
@@ -16,7 +31,7 @@
         </div>
         <div>
           <label class="block text-sm font-semibold text-slate-700 mb-1">Destination</label>
-          <input type="text" placeholder="Ex: Thiès" [(ngModel)]="destination"
+          <input type="text" placeholder="Ex: Saint-Louis" [(ngModel)]="destination"
             class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500" />
         </div>
         <div>
@@ -24,26 +39,35 @@
           <input type="date" [(ngModel)]="date"
             class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm outline-none focus:border-blue-500" />
         </div>
-        <div class="flex items-end">
-          <button (click)="rechercher()" [disabled]="loading"
+        <div class="flex flex-col justify-end gap-2">
+          <button type="button" (click)="filtrer()" [disabled]="loading"
             class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-60">
-            {{ loading ? 'Recherche...' : '🔍 Rechercher' }}
+            {{ loading ? 'Chargement...' : 'Appliquer les filtres' }}
+          </button>
+          <button type="button" (click)="reinitialiserFiltres()" [disabled]="loading"
+            class="w-full border border-slate-300 text-slate-700 font-semibold py-2 rounded-lg hover:bg-slate-50 text-sm">
+            Réinitialiser
           </button>
         </div>
       </div>
+      <label class="mt-4 flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
+        <input type="checkbox" [(ngModel)]="uniquementAvecPlaces" (change)="filtrer()" class="rounded" />
+        Afficher uniquement les trajets avec places restantes
+      </label>
     </div>
 
-    <!-- Erreur -->
     <div *ngIf="error" class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 mb-6">
       {{ error }}
     </div>
 
-    <!-- Résultats -->
-    <div *ngIf="searched && !loading">
-      <p class="text-sm text-slate-500 mb-4">{{ trajets.length }} trajet(s) trouvé(s)</p>
+    <div *ngIf="loading" class="text-center text-slate-500 py-12">Chargement des trajets...</div>
+
+    <!-- Liste -->
+    <div *ngIf="listeChargee && !loading">
+      <p class="text-sm text-slate-500 mb-4">{{ trajets.length }} trajet(s) affiché(s)</p>
 
       <div *ngIf="trajets.length === 0" class="bg-white rounded-2xl shadow p-8 text-center text-slate-500">
-        Aucun trajet disponible pour cette recherche.
+        Aucun trajet ne correspond à vos filtres.
       </div>
 
       <div class="space-y-4">
@@ -52,7 +76,7 @@
           <div class="flex items-start justify-between gap-4">
             <div>
               <h3 class="text-xl font-bold text-slate-900">{{ trajet.depart }} → {{ trajet.destination }}</h3>
-              <p class="text-sm text-slate-500 mt-1">{{ trajet.description }}</p>
+              <p class="text-sm text-slate-500 mt-1">{{ trajet.description || 'Trajet direct' }}</p>
             </div>
             <div class="text-right">
               <p class="text-2xl font-bold text-blue-700">{{ trajet.prix_base }} FCFA</p>
@@ -66,21 +90,27 @@
               <p>{{ trajet.date_depart | date:'dd/MM/yyyy HH:mm' }}</p>
             </div>
             <div>
-              <p class="font-semibold text-slate-800">Arrivée estimée</p>
-              <p>{{ trajet.date_arrivee_estimee ? (trajet.date_arrivee_estimee | date:'HH:mm') : '-' }}</p>
-            </div>
-            <div>
-              <p class="font-semibold text-slate-800">Places disponibles</p>
-              <p>{{ trajet.places_disponibles }} / {{ trajet.places_totales }}</p>
+              <p class="font-semibold text-slate-800">Places</p>
+              <p>
+                <span class="text-green-700 font-semibold">{{ trajet.places_disponibles }}</span>
+                restante(s) sur {{ trajet.places_totales }}
+              </p>
             </div>
             <div>
               <p class="font-semibold text-slate-800">Distance</p>
-              <p>{{ trajet.distance_km ? trajet.distance_km + ' km' : '-' }}</p>
+              <p>{{ trajet.distance_km ? trajet.distance_km + ' km' : '—' }}</p>
+            </div>
+            <div>
+              <p class="font-semibold text-slate-800">Statut</p>
+              <p>{{ trajet.places_disponibles === 0 ? 'Complet' : 'Disponible' }}</p>
             </div>
           </div>
 
-          <div class="mt-4 flex justify-end">
-            <button (click)="reserver(trajet)"
+          <div class="mt-4 flex justify-end gap-3">
+            <span *ngIf="!peutReserver" class="text-sm text-slate-500 italic self-center">
+              Réservation réservée aux passagers
+            </span>
+            <button *ngIf="peutReserver" type="button" (click)="reserver(trajet)"
               [disabled]="trajet.places_disponibles === 0"
               class="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
               {{ trajet.places_disponibles === 0 ? 'Complet' : 'Réserver' }}

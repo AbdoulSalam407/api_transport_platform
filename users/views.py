@@ -27,6 +27,8 @@ class RegisterView(generics.CreateAPIView):
         
         with transaction.atomic():
             # Créer l'utilisateur
+            role = serializer.validated_data['role']
+            compte_actif = role == 'admin'
             user = CustomUser.objects.create_user(
                 username=serializer.validated_data['username'],
                 email=serializer.validated_data['email'],
@@ -34,7 +36,9 @@ class RegisterView(generics.CreateAPIView):
                 nom=serializer.validated_data['nom'],
                 prenom=serializer.validated_data['prenom'],
                 telephone=serializer.validated_data.get('telephone', ''),
-                role=serializer.validated_data['role']
+                role=role,
+                is_actif=compte_actif,
+                is_verified=compte_actif,
             )
             
             # Créer le profil selon le rôle
@@ -52,9 +56,15 @@ class RegisterView(generics.CreateAPIView):
         # Créer un token pour l'utilisateur
         token, created = Token.objects.get_or_create(user=user)
         
+        message = (
+            'Compte créé. Un administrateur doit valider votre compte avant connexion.'
+            if user.role != 'admin'
+            else 'Compte administrateur créé.'
+        )
         return Response({
+            'message': message,
             'user': UserSerializer(user).data,
-            'token': token.key
+            'token': token.key,
         }, status=status.HTTP_201_CREATED)
 
 
@@ -93,6 +103,16 @@ class LoginView(APIView):
             return Response(
                 {'error': 'Votre compte est désactivé'},
                 status=status.HTTP_401_UNAUTHORIZED
+            )
+        
+        if user_auth.role != 'admin' and not user_auth.is_verified:
+            return Response(
+                {
+                    'error': (
+                        'Votre compte est en attente de validation par un administrateur.'
+                    )
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
             )
         
         token, created = Token.objects.get_or_create(user=user_auth)
@@ -185,8 +205,9 @@ class ActivateUserView(APIView):
         try:
             user = CustomUser.objects.get(id=pk)
             user.is_actif = True
+            user.is_verified = True
             user.save()
-            return Response({'message': 'Utilisateur activé avec succès'})
+            return Response({'message': 'Utilisateur activé et validé avec succès'})
         except CustomUser.DoesNotExist:
             return Response(
                 {'error': 'Utilisateur non trouvé'},
@@ -224,8 +245,9 @@ class VerifyUserView(APIView):
         try:
             user = CustomUser.objects.get(id=pk)
             user.is_verified = True
+            user.is_actif = True
             user.save()
-            return Response({'message': 'Utilisateur vérifié avec succès'})
+            return Response({'message': 'Utilisateur vérifié et activé avec succès'})
         except CustomUser.DoesNotExist:
             return Response(
                 {'error': 'Utilisateur non trouvé'},

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Reservation, ReservationCreateRequest } from '../models/reservation.model';
 
@@ -9,6 +9,11 @@ export interface PaginatedResponse<T> {
   next?: string;
   previous?: string;
   results?: T[];
+}
+
+export interface ReservationCreateResponse {
+  message: string;
+  reservation: Reservation;
 }
 
 /**
@@ -26,9 +31,9 @@ export class ReservationService {
   /**
    * Créer une réservation
    */
-  creer(data: ReservationCreateRequest): Observable<Reservation> {
+  creer(data: ReservationCreateRequest): Observable<ReservationCreateResponse> {
     this.clearCache();
-    return this.http.post<Reservation>(`${this.API}/reservations/creer/`, data).pipe(
+    return this.http.post<ReservationCreateResponse>(`${this.API}/reservations/creer/`, data).pipe(
       tap(() => {
         this.clearCache();
       }),
@@ -76,7 +81,7 @@ export class ReservationService {
         }),
         catchError((error) => {
           console.error('Erreur lors du chargement des réservations', error);
-          return of({ results: [] });
+          return throwError(() => error);
         }),
       );
   }

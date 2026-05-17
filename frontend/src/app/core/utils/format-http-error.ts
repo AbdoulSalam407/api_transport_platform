@@ -89,15 +89,21 @@ function formatErrorBody(body: unknown): { text: string; fieldKeys: string[] } {
     return { text: o['error'] as string, fieldKeys: [] };
   }
 
+  // Format renvoyé par core.exceptions.custom_exception_handler
+  if (typeof o['message'] === 'string' && o['message'].trim()) {
+    return { text: o['message'].trim(), fieldKeys: [] };
+  }
+
   if (o['detail'] != null) {
     const parts = messagesFromFieldValue(o['detail']);
     if (parts.length) return { text: [...new Set(parts)].join(' '), fieldKeys: [] };
   }
 
+  const skipKeys = new Set(['detail', 'status', 'status_code', 'errors']);
   const parts: string[] = [];
   const fieldKeys: string[] = [];
   for (const key of Object.keys(o)) {
-    if (key === 'detail') continue;
+    if (skipKeys.has(key)) continue;
     fieldKeys.push(key);
     parts.push(...messagesFromFieldValue(o[key]));
   }
@@ -130,6 +136,9 @@ export function formatHttpErrorMessage(err: unknown): string {
     return '';
   }
 
-  const { text } = formatErrorBody(body);
+  let { text } = formatErrorBody(body);
+  if (/invalid token/i.test(text)) {
+    text = 'Session expirée ou jeton invalide. Réessayez de vous connecter.';
+  }
   return text;
 }

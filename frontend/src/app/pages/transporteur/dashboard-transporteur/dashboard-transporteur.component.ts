@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TrajetService, PaginatedResponse } from '../../../core/services/trajet.service';
 import {
@@ -9,12 +9,12 @@ import {
 import { AuthService } from '../../../core/services/auth.service';
 import { Trajet } from '../../../core/models/trajet.model';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard-transporteur',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './dashboard-transporteur.component.html',
 })
 export class DashboardTransporteurComponent implements OnInit, OnDestroy {
@@ -34,6 +34,7 @@ export class DashboardTransporteurComponent implements OnInit, OnDestroy {
   stats: StatistiquesTransporteur | null = null;
   statsLoading = false;
   statsError: string | null = null;
+  private statsFromApi = false;
 
   // Math référence pour le template
   Math = Math;
@@ -45,6 +46,7 @@ export class DashboardTransporteurComponent implements OnInit, OnDestroy {
     private trajetService: TrajetService,
     private statistiquesService: StatistiquesService,
     private authService: AuthService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -93,16 +95,25 @@ export class DashboardTransporteurComponent implements OnInit, OnDestroy {
 
     this.statistiquesService
       .getStatistiquesTransporteur()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => {
+          this.statsLoading = false;
+          this.cdr.markForCheck();
+        }),
+      )
       .subscribe({
         next: (response) => {
-          this.stats = response.data;
-          this.statsLoading = false;
+          const body = response as { data?: StatistiquesTransporteur };
+          if (body.data) {
+            this.stats = body.data;
+          }
+          this.statsFromApi = true;
         },
         error: (err) => {
           console.error('Erreur lors du chargement des statistiques:', err);
-          this.statsError = 'Impossible de charger les statistiques';
-          this.statsLoading = false;
+          this.statsFromApi = false;
+          this.statsError = null;
         },
       });
   }
@@ -116,17 +127,24 @@ export class DashboardTransporteurComponent implements OnInit, OnDestroy {
 
     this.trajetService
       .getMesTrajets(this.currentPage, this.pageSize)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => {
+          this.trajetLoading = false;
+          this.cdr.markForCheck();
+        }),
+      )
       .subscribe({
         next: (response: PaginatedResponse<Trajet>) => {
           this.trajets = response.results || [];
-          this.totalTrajets = response.count || 0;
-          this.trajetLoading = false;
+          this.totalTrajets = response.count ?? this.trajets.length;
+          if (!this.statsFromApi) {
+            this.calculerStatsDepuisTrajets();
+          }
         },
         error: (err) => {
           console.error('Erreur lors du chargement des trajets:', err);
           this.trajetError = 'Impossible de charger vos trajets';
-          this.trajetLoading = false;
         },
       });
   }
@@ -207,18 +225,110 @@ export class DashboardTransporteurComponent implements OnInit, OnDestroy {
     });
   }
 
+  /** Recalcule / complète les stats à partir des trajets chargés (secours si API en échec). */
+  private calculerStatsDepuisTrajets(): void {
+    if (!this.trajets.length && !this.totalTrajets) {
+      if (!this.stats) {
+        this.stats = {
+          total_trajets: 0,
+          trajets_actifs: 0,
+          trajets_termines: 0,
+          total_places: 0,
+          places_reservees: 0,
+          taux_remplissage_moyen: 0,
+          total_reservations: 0,
+        };
+      }
+      return;
+    }
+
+    const total = this.totalTrajets || this.trajets.length;
+    let totalPlaces = 0;
+    let placesReservees = 0;
+    let actifs = 0;
+    let enAttente = 0;
+    let approuves = 0;
+
+    for (const t of this.trajets) {
+      totalPlaces += t.places_totales ?? 0;
+      placesReservees += (t.places_totales ?? 0) - (t.places_disponibles ?? 0);
+      if (t.statut === 'actif') actifs++;
+      if (t.validation_statut === 'en_attente') enAttente++;
+      if (t.validation_statut === 'approuve') approuves++;
+    }
+
+    const taux = totalPlaces > 0 ? Math.round((placesReservees / totalPlaces) * 1000) / 10 : 0;
+
+    this.stats = {
+      total_trajets: total,
+      trajets_actifs: actifs,
+      trajets_termines: this.trajets.filter((t) => t.statut === 'termine').length,
+      trajets_en_attente: enAttente,
+      trajets_approuves: approuves,
+      total_places: totalPlaces,
+      places_reservees: placesReservees,
+      places_disponibles: totalPlaces - placesReservees,
+      taux_remplissage_moyen: taux,
+      total_reservations: 0,
+      reservations_confirmees: 0,
+      reservations_en_attente: 0,
+    };
+    this.cdr.markForCheck();
+  }
+
   /**
    * Calculer le taux de remplissage
    */
+  getPlacesReservees(trajet: Trajet): number {
+    if (trajet.places_reservees != null) {
+      return trajet.places_reservees;
+    }
+    return Math.max(0, (trajet.places_totales ?? 0) - (trajet.places_disponibles ?? 0));
+  }
+
+  /** Places encore disponibles à la réservation. */
+  getPlacesLibres(trajet: Trajet): number {
+    return trajet.places_disponibles ?? 0;
+  }
+
+  /** Capacité définie par le transporteur à la création du trajet. */
+  getCapaciteDefinie(trajet: Trajet): number {
+    return trajet.places_totales ?? 0;
+  }
+
+  estComplet(trajet: Trajet): boolean {
+    return this.getPlacesLibres(trajet) === 0 && (trajet.places_totales ?? 0) > 0;
+  }
+
+  getCouleurPlaces(trajet: Trajet): string {
+    if (this.estComplet(trajet)) {
+      return 'bg-red-100 text-red-800';
+    }
+    if (this.getPlacesReservees(trajet) > 0) {
+      return 'bg-amber-100 text-amber-800';
+    }
+    return 'bg-green-100 text-green-800';
+  }
+
   getTauxRemplissage(trajet: Trajet): number {
-    return Math.round(
-      ((trajet.places_totales - trajet.places_disponibles) / trajet.places_totales) * 100,
-    );
+    if (!trajet.places_totales) {
+      return 0;
+    }
+    return Math.round((this.getPlacesReservees(trajet) / trajet.places_totales) * 100);
   }
 
   /**
    * Obtenir la couleur du statut
    */
+  getCouleurValidation(statut?: string): string {
+    const map: Record<string, string> = {
+      en_attente: 'bg-amber-100 text-amber-800',
+      approuve: 'bg-green-100 text-green-800',
+      rejete: 'bg-red-100 text-red-800',
+    };
+    return map[statut ?? ''] ?? 'bg-slate-100 text-slate-800';
+  }
+
   getCouleurStatut(statut: string): string {
     switch (statut) {
       case 'actif':

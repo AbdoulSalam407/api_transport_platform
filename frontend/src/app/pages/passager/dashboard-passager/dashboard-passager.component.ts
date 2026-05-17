@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { finalize } from 'rxjs/operators';
 import { AuthService } from '../../../core/services/auth.service';
 import { ReservationService } from '../../../core/services/reservation.service';
 import { Reservation } from '../../../core/models/reservation.model';
@@ -16,11 +17,16 @@ export class DashboardPassagerComponent implements OnInit {
   reservations: Reservation[] = [];
   loading = true;
   error = '';
+  /** ID de la réservation dont le panneau détail est ouvert (null = aucun). */
+  detailReservationId: number | null = null;
+  detailLoading = false;
+  detailReservation: Reservation | null = null;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private reservationService: ReservationService
+    private reservationService: ReservationService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -32,16 +38,22 @@ export class DashboardPassagerComponent implements OnInit {
     const user = this.authService.getUser();
     this.userName = user ? `${user.prenom} ${user.nom}` : '';
 
-    this.reservationService.getMesReservations().subscribe({
-      next: (res) => {
-        this.reservations = Array.isArray(res) ? res : (res.results ?? []);
-        this.loading = false;
-      },
-      error: () => {
-        this.error = 'Impossible de charger les réservations.';
-        this.loading = false;
-      }
-    });
+    this.reservationService
+      .getMesReservations()
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+          this.cdr.markForCheck();
+        }),
+      )
+      .subscribe({
+        next: (res) => {
+          this.reservations = Array.isArray(res) ? res : (res.results ?? []);
+        },
+        error: () => {
+          this.error = 'Impossible de charger les réservations.';
+        },
+      });
   }
 
   get totalReservations(): number {
@@ -59,7 +71,77 @@ export class DashboardPassagerComponent implements OnInit {
   get prochainsTrajetsList(): Reservation[] {
     return this.reservations
       .filter(r => r.statut === 'confirmee' || r.statut === 'en_attente')
-      .slice(0, 5);
+      .sort((a, b) => {
+        const da = a.trajet_detail?.date_depart ?? a.date_reservation ?? '';
+        const db = b.trajet_detail?.date_depart ?? b.date_reservation ?? '';
+        return new Date(da).getTime() - new Date(db).getTime();
+      });
+  }
+
+  toggleDetails(reservation: Reservation): void {
+    if (this.detailReservationId === reservation.id) {
+      this.fermerDetails();
+      return;
+    }
+    this.detailReservationId = reservation.id;
+    this.detailReservation = reservation;
+    this.detailLoading = true;
+    this.reservationService.getReservation(reservation.id).subscribe({
+      next: (full) => {
+        this.detailReservation = full;
+        this.detailLoading = false;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.detailReservation = reservation;
+        this.detailLoading = false;
+        this.cdr.markForCheck();
+      },
+    });
+  }
+
+  fermerDetails(): void {
+    this.detailReservationId = null;
+    this.detailReservation = null;
+    this.detailLoading = false;
+  }
+
+  isDetailOpen(id: number): boolean {
+    return this.detailReservationId === id;
+  }
+
+  getSiegesNumeros(reservation: Reservation): string[] {
+    const raw = reservation.numero_siege ?? '';
+    if (!raw.trim()) {
+      return [];
+    }
+    return raw.split(',').map(s => s.trim()).filter(Boolean);
+  }
+
+  getSiegesTexte(reservation: Reservation): string {
+    if (reservation.sieges_affichage) {
+      return reservation.sieges_affichage;
+    }
+    const sieges = this.getSiegesNumeros(reservation);
+    if (sieges.length === 0) {
+      return 'Attribués après confirmation';
+    }
+    if (sieges.length === 1) {
+      return `Siège ${sieges[0]}`;
+    }
+    return `Sièges ${sieges.join(', ')}`;
+  }
+
+  getPrixUnitaire(reservation: Reservation): string {
+    const trajet = reservation.trajet_detail;
+    if (!trajet?.prix_base || !reservation.nombre_places) {
+      return '—';
+    }
+    const unit = Number(trajet.prix_base);
+    if (Number.isNaN(unit)) {
+      return '—';
+    }
+    return `${unit} FCFA`;
   }
 
   annuler(id: number): void {
@@ -67,6 +149,9 @@ export class DashboardPassagerComponent implements OnInit {
       next: () => {
         const r = this.reservations.find(r => r.id === id);
         if (r) r.statut = 'annulee';
+        if (this.detailReservationId === id) {
+          this.fermerDetails();
+        }
       },
       error: () => alert('Impossible d\'annuler cette réservation.')
     });
@@ -90,6 +175,19 @@ export class DashboardPassagerComponent implements OnInit {
       terminee: 'bg-slate-100 text-slate-600',
     };
     return classes[statut] ?? 'bg-slate-100 text-slate-600';
+  }
+
+  getStatutLabel(reservation: Reservation): string {
+    if (reservation.statut_affichage) {
+      return reservation.statut_affichage;
+    }
+    const labels: Record<string, string> = {
+      en_attente: 'En attente de confirmation admin',
+      confirmee: 'Confirmée',
+      annulee: 'Annulée',
+      terminee: 'Terminée',
+    };
+    return labels[reservation.statut] ?? reservation.statut;
   }
 
   getBorderClass(statut: string): string {

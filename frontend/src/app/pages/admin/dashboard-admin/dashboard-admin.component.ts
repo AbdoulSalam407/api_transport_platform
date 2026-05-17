@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -23,10 +24,18 @@ export class DashboardAdminComponent implements OnInit {
   page = 1;
   pageSize = 10;
 
+  trajetsEnAttente: any[] = [];
+  reservationsEnAttente: any[] = [];
+  loadingTrajets = false;
+  loadingReservations = false;
+  reservationsError = '';
+  adminMessage = '';
+
   constructor(
     private router: Router,
     private authService: AuthService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -37,21 +46,29 @@ export class DashboardAdminComponent implements OnInit {
     const user = this.authService.getUser();
     this.userName = user ? `${user.prenom} ${user.nom}` : 'Admin';
     this.chargerUtilisateurs();
+    this.chargerTrajetsEnAttente();
+    this.chargerReservationsEnAttente();
   }
 
   chargerUtilisateurs(): void {
     this.loading = true;
-    this.adminService.getUsers().subscribe({
-      next: (res) => {
-        this.users = Array.isArray(res) ? res : (res.results ?? []);
-        this.appliquerFiltres();
-        this.loading = false;
-      },
-      error: () => {
-        this.error = 'Impossible de charger les utilisateurs.';
-        this.loading = false;
-      }
-    });
+    this.adminService
+      .getUsers()
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+          this.cdr.markForCheck();
+        }),
+      )
+      .subscribe({
+        next: (res) => {
+          this.users = Array.isArray(res) ? res : (res.results ?? []);
+          this.appliquerFiltres();
+        },
+        error: () => {
+          this.error = 'Impossible de charger les utilisateurs.';
+        },
+      });
   }
 
   appliquerFiltres(): void {
@@ -89,6 +106,83 @@ export class DashboardAdminComponent implements OnInit {
   get totalUtilisateurs(): number { return this.users.length; }
   get totalPassagers(): number { return this.users.filter(u => u.role === 'passager').length; }
   get totalTransporteurs(): number { return this.users.filter(u => u.role === 'transporteur').length; }
+
+  chargerTrajetsEnAttente(): void {
+    this.loadingTrajets = true;
+    this.adminService.getTrajetsEnAttente().subscribe({
+      next: (res) => {
+        this.trajetsEnAttente = Array.isArray(res) ? res : (res.results ?? []);
+        this.loadingTrajets = false;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.loadingTrajets = false;
+        this.cdr.markForCheck();
+      },
+    });
+  }
+
+  chargerReservationsEnAttente(): void {
+    this.loadingReservations = true;
+    this.reservationsError = '';
+    this.adminService.getReservationsEnAttente().subscribe({
+      next: (res) => {
+        this.reservationsEnAttente = Array.isArray(res) ? res : (res.results ?? []);
+        this.loadingReservations = false;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.reservationsError =
+          'Impossible de charger les réservations en attente. Vérifiez que vous êtes connecté en tant qu\'administrateur.';
+        this.loadingReservations = false;
+        this.cdr.markForCheck();
+      },
+    });
+  }
+
+  approuverTrajet(id: number): void {
+    this.adminService.approuverTrajet(id).subscribe({
+      next: (res) => {
+        this.adminMessage = res.message || 'Trajet approuvé.';
+        this.chargerTrajetsEnAttente();
+      },
+      error: () => alert('Impossible d\'approuver ce trajet.'),
+    });
+  }
+
+  rejeterTrajet(id: number): void {
+    const motif = prompt('Motif du rejet (optionnel) :') ?? '';
+    this.adminService.rejeterTrajet(id, motif).subscribe({
+      next: (res) => {
+        this.adminMessage = res.message || 'Trajet rejeté.';
+        this.chargerTrajetsEnAttente();
+      },
+      error: () => alert('Impossible de rejeter ce trajet.'),
+    });
+  }
+
+  confirmerReservation(id: number): void {
+    this.adminService.confirmerReservation(id).subscribe({
+      next: (res) => {
+        this.adminMessage = res.message || 'Réservation confirmée.';
+        this.chargerReservationsEnAttente();
+      },
+      error: () => alert('Impossible de confirmer cette réservation.'),
+    });
+  }
+
+  validerUtilisateur(user: User): void {
+    this.adminService.verifierUser(user.id).subscribe({
+      next: () => {
+        user.is_verified = true;
+        user.is_actif = true;
+        this.adminMessage = 'Utilisateur validé.';
+        this.appliquerFiltres();
+        this.cdr.markForCheck();
+      },
+      error: () => alert('Validation impossible.'),
+    });
+  }
 
   toggleActif(user: User): void {
     const action = user.is_actif

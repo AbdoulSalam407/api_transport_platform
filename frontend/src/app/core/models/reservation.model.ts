@@ -6,6 +6,7 @@ export interface Reservation {
   trajet_detail?: any;
   nombre_places: number;
   numero_siege?: string;
+  sieges_affichage?: string;
   prix_total: string;
   statut: 'en_attente' | 'confirmee' | 'annulee' | 'terminee';
   statut_affichage?: string;
@@ -16,5 +17,4 @@ export interface Reservation {
 export interface ReservationCreateRequest {
   trajet: number;
   nombre_places: number;
-  numero_siege?: string;
 }

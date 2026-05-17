@@ -26,6 +26,26 @@ export class AdminService {
     return this.http.post(`${this.API}/users/verify/${id}/`, {});
   }
 
+  getTrajetsEnAttente(): Observable<any> {
+    return this.http.get(`${this.API}/trajets/admin/en-attente/`);
+  }
+
+  approuverTrajet(id: number): Observable<any> {
+    return this.http.post(`${this.API}/trajets/admin/${id}/approuver/`, {});
+  }
+
+  rejeterTrajet(id: number, motif = ''): Observable<any> {
+    return this.http.post(`${this.API}/trajets/admin/${id}/rejeter/`, { motif });
+  }
+
+  getReservationsEnAttente(): Observable<any> {
+    return this.http.get(`${this.API}/reservations/admin/en-attente/`);
+  }
+
+  confirmerReservation(id: number): Observable<any> {
+    return this.http.post(`${this.API}/reservations/reservations/${id}/confirmer/`, {});
+  }
+
   getAllReservations(): Observable<any> {
     return this.http.get(`${this.API}/reservations/reservations/`);
   }

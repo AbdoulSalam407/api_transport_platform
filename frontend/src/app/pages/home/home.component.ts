@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
@@ -6,7 +6,7 @@ import {
   StatistiquesGlobales,
 } from '../../core/services/statistiques.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -15,14 +15,16 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  // Statistiques
   stats: StatistiquesGlobales | null = null;
   loading = true;
   error: string | null = null;
 
   private destroy$ = new Subject<void>();
 
-  constructor(private statistiquesService: StatistiquesService) {}
+  constructor(
+    private statistiquesService: StatistiquesService,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     this.chargerStatistiques();
@@ -33,34 +35,31 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  /**
-   * Charger les statistiques globales
-   */
   private chargerStatistiques(): void {
     this.loading = true;
     this.error = null;
 
     this.statistiquesService
       .getStatistiquesGlobales()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => {
+          this.loading = false;
+          this.cdr.markForCheck();
+        }),
+      )
       .subscribe({
         next: (response) => {
           this.stats = response.data;
-          this.loading = false;
         },
-        error: (err) => {
-          console.error('Erreur lors du chargement des statistiques:', err);
-          this.error = 'Impossible de charger les statistiques. Veuillez réessayer.';
-          this.loading = false;
+        error: () => {
+          this.error = 'Impossible de charger les statistiques. Vérifiez que l\'API Django tourne (port 8000).';
+          this.stats = null;
         },
       });
   }
 
-  /**
-   * Rafraîchir les statistiques
-   */
   rafraichirStatistiques(): void {
-    this.statistiquesService.refreshStatistiques();
     this.chargerStatistiques();
   }
 }

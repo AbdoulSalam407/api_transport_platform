@@ -51,6 +51,22 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'transporteur/creer-trajet',
+        canActivate: [roleGuard('transporteur')],
+        loadComponent: () =>
+          import('./pages/transporteur/creer-trajet/creer-trajet.component').then(
+            (m) => m.CreerTrajetComponent,
+          ),
+      },
+      {
+        path: 'transporteur/editer-trajet/:id',
+        canActivate: [roleGuard('transporteur')],
+        loadComponent: () =>
+          import('./pages/transporteur/editer-trajet/editer-trajet.component').then(
+            (m) => m.EditerTrajetComponent,
+          ),
+      },
+      {
         path: 'dashboard-admin',
         canActivate: [roleGuard('admin')],
         loadComponent: () =>
@@ -68,7 +84,7 @@ export const routes: Routes = [
       },
       {
         path: 'reservation',
-        canActivate: [authGuard],
+        canActivate: [authGuard, roleGuard('passager')],
         loadComponent: () =>
           import('./pages/reservation/reservation/reservation.component').then(
             (m) => m.ReservationComponent,

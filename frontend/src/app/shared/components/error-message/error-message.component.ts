@@ -17,7 +17,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
           (click)="emitRetry()"
           class="mt-4 inline-block px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
         >
-          🔄 Réessayer
+          Réessayer
         </button>
       }
     </div>

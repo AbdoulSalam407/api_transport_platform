@@ -39,6 +39,13 @@ class Vehicule(models.Model):
     )
     modele = models.ForeignKey(Modele, on_delete=models.PROTECT)
     
+    nombre_places = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name='Nombre de places passagers',
+        help_text='Capacité réelle du véhicule (si différente du modèle).',
+    )
+
     # Informations du véhicule
     immatriculation = models.CharField(max_length=20, unique=True, verbose_name="Immatriculation")
     couleur = models.CharField(max_length=50, blank=True)
@@ -64,6 +71,13 @@ class Vehicule(models.Model):
 
 
     
+    @property
+    def capacite_places(self):
+        """Places passagers : valeur saisie par le transporteur ou capacité du modèle."""
+        if self.nombre_places and self.nombre_places > 0:
+            return self.nombre_places
+        return self.modele.nombre_places
+
     @property
     def est_disponible(self):
         return self.disponible and not self.en_maintenance

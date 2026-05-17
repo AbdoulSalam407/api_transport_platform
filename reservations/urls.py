@@ -14,6 +14,7 @@ urlpatterns = [
     path('creer/', views.CreerReservationView.as_view(), name='creer-reservation'),
     path('mes-reservations/', views.MesReservationsView.as_view(), name='mes-reservations'),
     path('reservations/<int:pk>/confirmer/', views.ConfirmerReservationView.as_view(), name='confirmer-reservation'),
+    path('admin/en-attente/', views.ReservationsEnAttenteAdminView.as_view(), name='reservations-admin-en-attente'),
     path('reservations/<int:pk>/annuler/', views.AnnulerReservationView.as_view(), name='annuler-reservation'),
     path('reservations/<int:pk>/recupere/', views.MarquerRecupereView.as_view(), name='marquer-recupere'),
     path('reservations/<int:reservation_id>/generer-billet/', views.GenererBilletView.as_view(), name='generer-billet'),

@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { ReservationService } from '../../../core/services/reservation.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Trajet } from '../../../core/models/trajet.model';
+import { Reservation } from '../../../core/models/reservation.model';
+import { formatHttpErrorMessage } from '../../../core/utils/format-http-error';
 
 @Component({
   selector: 'app-reservation',
@@ -15,15 +17,16 @@ import { Trajet } from '../../../core/models/trajet.model';
 export class ReservationComponent implements OnInit {
   trajet: Trajet | null = null;
   nombrePlaces = 1;
-  numeroSiege = '';
   loading = false;
   error = '';
   success = '';
+  derniereReservation: Reservation | null = null;
+  roleNonPassager = false;
 
   constructor(
     private router: Router,
     private reservationService: ReservationService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -31,13 +34,19 @@ export class ReservationComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
+    if (this.authService.getRole() !== 'passager') {
+      this.roleNonPassager = true;
+      return;
+    }
     const nav = this.router.getCurrentNavigation();
-    this.trajet = nav?.extras?.state?.['trajet'] ?? null;
-    if (!this.trajet) this.router.navigate(['/recherche']);
+    this.trajet = nav?.extras?.state?.['trajet'] ?? history.state?.['trajet'] ?? null;
+    if (!this.trajet) {
+      this.router.navigate(['/recherche']);
+    }
   }
 
   get prixTotal(): number {
-    return this.trajet ? parseFloat(this.trajet.prix_base) * this.nombrePlaces : 0;
+    return this.trajet ? parseFloat(String(this.trajet.prix_base)) * this.nombrePlaces : 0;
   }
 
   decrementer(): void {
@@ -48,25 +57,41 @@ export class ReservationComponent implements OnInit {
     if (this.trajet && this.nombrePlaces < this.trajet.places_disponibles) this.nombrePlaces++;
   }
 
+  dashboardRoute(): string {
+    const role = this.authService.getRole();
+    if (role === 'transporteur') return '/dashboard-transporteur';
+    if (role === 'admin') return '/dashboard-admin';
+    return '/';
+  }
+
+  allerMesReservations(): void {
+    this.router.navigate(['/dashboard-passager']);
+  }
+
   reserver(): void {
     if (!this.trajet) return;
     this.loading = true;
     this.error = '';
+    this.success = '';
+    this.derniereReservation = null;
 
-    this.reservationService.creer({
-      trajet: this.trajet.id,
-      nombre_places: this.nombrePlaces,
-      numero_siege: this.numeroSiege
-    }).subscribe({
-      next: () => {
-        this.loading = false;
-        this.success = 'Réservation effectuée avec succès !';
-        setTimeout(() => this.router.navigate(['/dashboard-passager']), 2000);
-      },
-      error: (err) => {
-        this.loading = false;
-        this.error = err.error?.non_field_errors?.[0] ?? 'Erreur lors de la réservation.';
-      }
-    });
+    this.reservationService
+      .creer({
+        trajet: this.trajet.id,
+        nombre_places: this.nombrePlaces,
+      })
+      .subscribe({
+        next: (res) => {
+          this.loading = false;
+          this.derniereReservation = res.reservation;
+          this.success =
+            res.message ||
+            'Demande enregistrée. Un administrateur doit confirmer votre réservation.';
+        },
+        error: (err) => {
+          this.loading = false;
+          this.error = formatHttpErrorMessage(err) || 'Erreur lors de la réservation.';
+        },
+      });
   }
 }

@@ -1,0 +1,67 @@
+<section class="min-h-screen bg-slate-50 py-12">
+  <div class="container-page max-w-2xl mx-auto">
+    <div class="rounded-[2rem] bg-white p-8 shadow-xl ring-1 ring-slate-200">
+      <div class="flex items-center justify-between border-b pb-6 mb-6">
+        <div>
+          <p class="text-sm uppercase tracking-[0.35em] text-orange-700">Transporteur</p>
+          <h1 class="mt-2 text-3xl font-bold text-slate-900">Publier un trajet</h1>
+        </div>
+        <a routerLink="/dashboard-transporteur" class="text-sm font-semibold text-slate-600 hover:text-orange-700">
+          Retour au tableau de bord
+        </a>
+      </div>
+
+      <form class="space-y-5" (ngSubmit)="publier()">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1" for="depart">Lieu de depart *</label>
+          <input id="depart" name="depart" type="text" [(ngModel)]="depart" required
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1" for="destination">Destination *</label>
+          <input id="destination" name="destination" type="text" [(ngModel)]="destination" required
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1" for="dateDepart">Date et heure *</label>
+          <input id="dateDepart" name="dateDepart" type="datetime-local" [(ngModel)]="dateDepart" required
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm" />
+        </div>
+        <div *ngIf="vehicules.length > 0">
+          <label for="vehicule" class="block text-sm font-semibold text-slate-700 mb-1">Véhicule (optionnel)</label>
+          <select id="vehicule" name="vehicule" [(ngModel)]="vehiculeId" (ngModelChange)="onVehiculeChange()"
+            class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm">
+            <option [ngValue]="null">— Sélectionner —</option>
+            <option *ngFor="let v of vehicules" [ngValue]="v.id">
+              {{ v.immatriculation }} — {{ v.capacite_places }} places
+            </option>
+          </select>
+          <p class="mt-1 text-xs text-slate-500">La capacité du véhicule remplit le champ places automatiquement.</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="places" class="block text-sm font-semibold text-slate-700 mb-1">Places dans votre véhicule *</label>
+            <input id="places" name="places" type="number" min="1" max="99" [(ngModel)]="placesTotales" required
+              placeholder="Ex: 7, 15, 30..."
+              class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm" />
+            <p class="mt-1 text-xs text-slate-500">Capacité réelle (voiture, minibus, bus…).</p>
+          </div>
+          <div>
+            <label for="prix" class="block text-sm font-semibold text-slate-700 mb-1">Prix par place (FCFA) *</label>
+            <input id="prix" name="prix" type="number" min="0" [(ngModel)]="prixBase" required
+              class="w-full border border-slate-300 rounded-lg px-4 py-2 text-sm" />
+          </div>
+        </div>
+        <div *ngIf="error" class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3">{{ error }}</div>
+        <div *ngIf="success" class="text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-4 py-3">{{ success }}</div>
+        <div class="flex gap-3">
+          <button type="submit" [disabled]="loading" class="flex-1 bg-orange-700 text-white py-2.5 rounded-lg font-semibold disabled:opacity-60">
+            {{ loading ? 'Publication...' : 'Publier le trajet' }}
+          </button>
+          <button type="button" (click)="retourDashboard()" class="px-6 py-2.5 border rounded-lg font-semibold">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

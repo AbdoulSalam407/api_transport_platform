@@ -26,7 +26,7 @@ export class NavbarComponent {
       return 'Tableau de bord';
     }
     if (url.includes('recherche')) {
-      return 'Recherche de trajets';
+      return 'Trajets disponibles';
     }
     if (url.includes('reservation')) {
       return 'Réservation';

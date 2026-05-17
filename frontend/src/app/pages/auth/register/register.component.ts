@@ -23,6 +23,7 @@ export class RegisterComponent {
   nomEntreprise = '';
   numeroLicence = '';
   error = '';
+  success = '';
   loading = false;
   /** Surligne le champ e-mail si le serveur signale un doublon. */
   emailTaken = false;
@@ -35,6 +36,7 @@ export class RegisterComponent {
 
   register(): void {
     this.error = '';
+    this.success = '';
     this.emailTaken = false;
 
     if (this.password !== this.passwordConfirm) {
@@ -64,18 +66,22 @@ export class RegisterComponent {
       next: (res) => {
         setTimeout(() => {
           this.loading = false;
-          const token = res?.token;
           const user = res?.user;
-          if (!token || !user?.id) {
+          if (!user?.id) {
             this.error =
               'Réponse du serveur incomplète après inscription. Réessayez ou connectez-vous si le compte existe déjà.';
             this.cdr.markForCheck();
             return;
           }
-          const role = user.role;
-          if (role === 'passager') this.router.navigate(['/dashboard-passager']);
-          else if (role === 'transporteur') this.router.navigate(['/dashboard-transporteur']);
-          else this.router.navigate(['/']);
+          if (user.role === 'admin') {
+            this.router.navigate(['/dashboard-admin']);
+            return;
+          }
+          this.authService.clearSession();
+          this.success =
+            res.message ||
+            'Compte créé. Un administrateur doit valider votre compte avant la connexion.';
+          this.cdr.markForCheck();
         });
       },
       error: (err) => {

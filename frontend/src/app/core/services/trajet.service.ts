@@ -45,6 +45,37 @@ export class TrajetService {
   }
 
   /**
+   * Lister les trajets disponibles sur la plateforme (tous ou filtrés).
+   */
+  listerTrajetsDisponibles(
+    params: TrajetSearchParams = {},
+    page = 1,
+    pageSize = 50,
+    reservableOnly = false,
+  ): Observable<PaginatedResponse<Trajet>> {
+    let httpParams = new HttpParams()
+      .set('page', page.toString())
+      .set('page_size', pageSize.toString());
+
+    if (params.depart) {
+      httpParams = httpParams.set('depart', params.depart);
+    }
+    if (params.destination) {
+      httpParams = httpParams.set('destination', params.destination);
+    }
+    if (params.date) {
+      httpParams = httpParams.set('date', params.date);
+    }
+    if (reservableOnly) {
+      httpParams = httpParams.set('reservable_only', 'true');
+    }
+
+    return this.http.get<PaginatedResponse<Trajet>>(`${this.API}/trajets/rechercher/`, {
+      params: httpParams,
+    });
+  }
+
+  /**
    * Rechercher des trajets (avec cache)
    */
   rechercher(
@@ -137,11 +168,16 @@ export class TrajetService {
   /**
    * Récupérer les trajets d'un transporteur (avec pagination)
    */
-  getMesTrajets(page = 1, pageSize = 20, statut?: string): Observable<PaginatedResponse<Trajet>> {
+  getMesTrajets(
+    page = 1,
+    pageSize = 20,
+    statut?: string,
+    futureOnly = false,
+  ): Observable<PaginatedResponse<Trajet>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('page_size', pageSize.toString())
-      .set('future_only', 'true');
+      .set('future_only', futureOnly ? 'true' : 'false');
 
     if (statut) {
       params = params.set('statut', statut);

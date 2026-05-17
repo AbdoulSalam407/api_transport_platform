@@ -36,13 +36,13 @@
           <div class="rounded-3xl bg-slate-50 p-6 text-center">
             <div class="text-4xl">👤</div>
             <h3 class="mt-4 text-lg font-semibold text-slate-900">Passager</h3>
-            <p class="mt-2 text-sm text-slate-600">Rechercher, réserver et suivre vos trajets.</p>
+            <p class="mt-2 text-sm text-slate-600">Consulter les trajets, réserver et suivre vos réservations.</p>
           </div>
           <div class="rounded-3xl bg-slate-50 p-6 text-center">
             <div class="text-4xl">🚗</div>
             <h3 class="mt-4 text-lg font-semibold text-slate-900">Transporteur</h3>
             <p class="mt-2 text-sm text-slate-600">
-              Publier des trajets et gérer vos réservations.
+              Consulter les trajets de la plateforme et publier les vôtres.
             </p>
           </div>
           <div class="rounded-3xl bg-slate-50 p-6 text-center">
@@ -65,7 +65,7 @@
           (click)="rafraichirStatistiques()"
           class="px-4 py-2 text-sm font-semibold text-blue-700 hover:text-blue-900 transition"
         >
-          🔄 Actualiser
+          Actualiser
         </button>
       </div>
 
@@ -150,7 +150,7 @@
               <div>
                 <p class="text-slate-600">Places</p>
                 <p class="font-semibold text-slate-900">
-                  {{ trajet.places_disponibles }}/{{ trajet.places_totales }}
+                  {{ trajet.places_disponibles }} restante(s) sur {{ trajet.places_totales }}
                 </p>
               </div>
             </div>

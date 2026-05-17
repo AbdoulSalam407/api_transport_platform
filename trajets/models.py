@@ -1,6 +1,13 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.conf import settings
+from django.utils import timezone
 from users.models import Transporteur
+from core.validation import (
+    VALIDATION_APPROUVE,
+    VALIDATION_EN_ATTENTE,
+    VALIDATION_STATUT_CHOICES,
+)
 
 
 class Trajet(models.Model):
@@ -68,6 +75,23 @@ class Trajet(models.Model):
     
     # Statut
     statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='actif')
+
+    # Validation administrative (visible passagers uniquement si approuvé)
+    validation_statut = models.CharField(
+        max_length=20,
+        choices=VALIDATION_STATUT_CHOICES,
+        default=VALIDATION_EN_ATTENTE,
+        verbose_name='Validation admin',
+    )
+    motif_rejet = models.TextField(blank=True, verbose_name='Motif de rejet')
+    date_validation = models.DateTimeField(null=True, blank=True)
+    valide_par = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='trajets_valides',
+    )
     
     # Informations supplémentaires
     description = models.TextField(blank=True)
@@ -123,6 +147,7 @@ class Trajet(models.Model):
         indexes = [
             models.Index(fields=['statut']),
             models.Index(fields=['date_depart']),
+            models.Index(fields=['validation_statut']),
         ]
     
     def __str__(self):
@@ -137,6 +162,8 @@ class Trajet(models.Model):
             raise ValidationError("Les places disponibles ne peuvent pas dépasser les places totales.")
 
     def save(self, *args, **kwargs):
+        if self.pk is None and self.places_disponibles == 0 and self.places_totales > 0:
+            self.places_disponibles = self.places_totales
         self.full_clean()
         if self.places_disponibles == 0:
             self.statut = 'complet'
@@ -175,6 +202,35 @@ class Trajet(models.Model):
         if self.places_totales == 0:
             return 0
         return (self.places_reservees / self.places_totales) * 100
+
+    @property
+    def est_visible_passager(self):
+        """Trajet visible dans la recherche passager."""
+        return (
+            self.validation_statut == VALIDATION_APPROUVE
+            and self.statut == 'actif'
+            and self.date_depart >= timezone.now()
+            and self.places_disponibles > 0
+        )
+
+    def approuver(self, admin_user):
+        self.validation_statut = VALIDATION_APPROUVE
+        self.motif_rejet = ''
+        self.valide_par = admin_user
+        self.date_validation = timezone.now()
+        self.save(
+            update_fields=['validation_statut', 'motif_rejet', 'valide_par', 'date_validation']
+        )
+
+    def rejeter(self, admin_user, motif=''):
+        from core.validation import VALIDATION_REJETE
+        self.validation_statut = VALIDATION_REJETE
+        self.motif_rejet = motif
+        self.valide_par = admin_user
+        self.date_validation = timezone.now()
+        self.save(
+            update_fields=['validation_statut', 'motif_rejet', 'valide_par', 'date_validation']
+        )
 
 
 class Etape(models.Model):
